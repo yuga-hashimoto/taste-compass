@@ -4,7 +4,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Taste Compass E2E Diagnosis Flow', () => {
   test('should complete the entire diagnosis flow on Web', async ({ page }) => {
     // 1. ホーム画面へのアクセス
-    await page.goto('/');
+    await page.goto('/?mock=true');
 
     // タイトルの確認
     await expect(page.locator('text=世間とズレてる？')).toBeVisible();
@@ -35,19 +35,32 @@ test.describe('Taste Compass E2E Diagnosis Flow', () => {
     const likeBtn = page.getByLabel('この画像が好き');
     const skipBtn = page.getByLabel('この画像をスキップ');
 
-    await expect(likeBtn).toBeVisible();
-    await expect(skipBtn).toBeVisible();
-
     // 30回分の投票を実行
     for (let i = 0; i < 30; i++) {
-      // 奇数番目はLike、偶数番目はSkipをクリックしてテストの多様性を持たせる
-      if (i % 2 === 0) {
-        await likeBtn.click();
+      // 最初の3回はマウスドラッグによるスワイプ操作をシミュレート
+      if (i < 3) {
+        const card = page.locator('[data-testid="swipe-card"]').first();
+        await expect(card).toBeVisible();
+        const box = await card.boundingBox();
+        if (box) {
+          const startX = box.x + box.width / 2;
+          const startY = box.y + box.height / 2;
+          const endX = i % 2 === 0 ? startX + 180 : startX - 180;
+          await page.mouse.move(startX, startY);
+          await page.mouse.down();
+          await page.mouse.move(endX, startY, { steps: 5 });
+          await page.mouse.up();
+          await page.waitForTimeout(600); // アニメーションが完全に終わるのを待つ
+        }
       } else {
-        await skipBtn.click();
+        // 残りの27回はボタンクリックで高速進行
+        if (i % 2 === 0) {
+          await likeBtn.click();
+        } else {
+          await skipBtn.click();
+        }
+        await page.waitForTimeout(200); // 状態保存とカード再生成のバッファ
       }
-      // 進行状況が適切に上がっているか確認
-      await page.waitForTimeout(100); // アニメーションとDB保存のバッファ
     }
 
     // 4. 結果画面の確認

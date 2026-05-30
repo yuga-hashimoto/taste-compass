@@ -16,6 +16,9 @@ import { THEME } from '../src/theme/theme';
 import { AdSlot } from '../src/components/ad/AdSlot';
 import { getDiagnosisHistory } from '../src/services/resultService';
 import { translateInternalTag } from '../src/services/scoringService';
+import { useI18n } from '../src/i18n';
+import { Feather } from '@expo/vector-icons';
+import { ThemeIcon } from '../src/components/ui/ThemeIcon';
 
 interface StyleStats {
   style_group: string;
@@ -58,31 +61,15 @@ const FALLBACK_STATS = {
   ],
 };
 
-const translateStyleGroup = (style: string): string => {
-  const map: Record<string, string> = {
-    natural: 'ナチュラル',
-    clean: '清楚クリーン',
-    cool: 'クール都会派',
-    mode: '個性派モード',
-    casual: 'カジュアル',
-    feminine: '柔らかフェミニン',
-    korean: '韓国トレンド',
-    office: 'オフィス上品',
-    mature: '大人っぽい',
-    simple: 'シンプルミニマル',
-    travel: 'トラベル雰囲気',
-    cafe: 'カフェリラックス',
-  };
-  return map[style] || style;
-};
-
 export default function StatsScreen() {
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((state) => state.anonymousUserId);
+  const { t } = useI18n();
 
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<any>(null);
   const [myTopStyle, setMyTopStyle] = useState<string>('未計測');
+  const [myTopStyleIcon, setMyTopStyleIcon] = useState<string>('');
   const [myAvgScore, setMyAvgScore] = useState<number | null>(null);
 
   useEffect(() => {
@@ -113,12 +100,17 @@ export default function StatsScreen() {
 
           // 最多の好みタイプ
           const counts: Record<string, number> = {};
+          const iconMap: Record<string, string> = {};
           history.forEach((h) => {
             counts[h.preference_type] = (counts[h.preference_type] || 0) + 1;
+            if (h.preference_type_emoji) {
+              iconMap[h.preference_type] = h.preference_type_emoji;
+            }
           });
           const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
           if (sorted[0]) {
             setMyTopStyle(sorted[0][0]);
+            setMyTopStyleIcon(iconMap[sorted[0][0]] || '');
           }
         }
       }
@@ -133,7 +125,7 @@ export default function StatsScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={THEME.colors.primary} />
-        <Text style={styles.loadingText}>統計データを集計中...</Text>
+        <Text style={styles.loadingText}>{t.stats.loading}</Text>
       </View>
     );
   }
@@ -146,35 +138,50 @@ export default function StatsScreen() {
     <ScrollView contentContainerStyle={styles.container}>
       {/* 自己分析との比較セクション */}
       <View style={styles.card}>
-        <Text style={styles.cardTitle}>👤 あなたの好み傾向（平均）</Text>
+        <View style={styles.cardTitleRow}>
+          <Feather name="user" size={14} color={THEME.colors.text} />
+          <Text style={styles.cardTitle}>{t.stats.compareTitle}</Text>
+        </View>
         <View style={styles.compareRow}>
           <View style={styles.compareItem}>
-            <Text style={styles.compareVal}>{myTopStyle}</Text>
-            <Text style={styles.compareLbl}>最多タイプ</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
+              {myTopStyle !== '未計測' && myTopStyleIcon ? (
+                <ThemeIcon themeId={myTopStyleIcon} size={18} color={THEME.colors.primary} />
+              ) : null}
+              <Text style={[styles.compareVal, { marginBottom: 0 }]}>
+                {myTopStyle === '未計測' ? t.stats.notMeasured : myTopStyle}
+              </Text>
+            </View>
+            <Text style={styles.compareLbl}>{t.stats.mostType}</Text>
           </View>
           <View style={styles.compareDivider} />
           <View style={styles.compareItem}>
             <Text style={styles.compareVal}>
-              {myAvgScore !== null ? `${myAvgScore}%` : '未診断'}
+              {myAvgScore !== null ? `${myAvgScore}%` : t.stats.notDiagnosed}
             </Text>
-            <Text style={styles.compareLbl}>平均世間一致度</Text>
+            <Text style={styles.compareLbl}>{t.stats.averageCompatibility}</Text>
           </View>
         </View>
         {myAvgScore === null && (
           <Pressable style={styles.startBtn} onPress={() => router.push('/setup')}>
-            <Text style={styles.startBtnTxt}>診断して統計を比較する</Text>
+            <Text style={styles.startBtnTxt}>{t.stats.compareStatsBtn}</Text>
           </Pressable>
         )}
       </View>
 
       {/* 人気スタイルグループ */}
-      <Text style={styles.sectionTitle}>✨ 全体人気スタイルグループ (Like率順)</Text>
+      <View style={styles.sectionTitleRow}>
+        <Feather name="award" size={14} color={THEME.colors.text} />
+        <Text style={styles.sectionTitle}>{t.stats.overallStyleTitle}</Text>
+      </View>
       <View style={styles.listCard}>
         {styleGroups.slice(0, 5).map((item, idx) => (
           <View key={idx} style={styles.statRow}>
             <View style={styles.statLeft}>
               <Text style={styles.rankNum}>{idx + 1}</Text>
-              <Text style={styles.statLabel}>{translateStyleGroup(item.style_group)}</Text>
+              <Text style={styles.statLabel}>
+                {t.stats.styles[item.style_group as keyof typeof t.stats.styles] || item.style_group}
+              </Text>
             </View>
             <View style={styles.statRight}>
               <Text style={styles.rateVal}>{item.avg_like_rate}%</Text>
@@ -187,7 +194,10 @@ export default function StatsScreen() {
       </View>
 
       {/* 人気ビジュアルテイスト */}
-      <Text style={styles.sectionTitle}>🌐 全体人気ビジュアルテイスト (Like率順)</Text>
+      <View style={styles.sectionTitleRow}>
+        <Feather name="globe" size={14} color={THEME.colors.text} />
+        <Text style={styles.sectionTitle}>{t.stats.overallTasteTitle}</Text>
+      </View>
       <View style={styles.listCard}>
         {regionalStyles.slice(0, 5).map((item, idx) => (
           <View key={idx} style={styles.statRow}>
@@ -208,7 +218,10 @@ export default function StatsScreen() {
       </View>
 
       {/* 注目キーワード */}
-      <Text style={styles.sectionTitle}>🏷️ 注目タグランキング</Text>
+      <View style={styles.sectionTitleRow}>
+        <Feather name="tag" size={14} color={THEME.colors.text} />
+        <Text style={styles.sectionTitle}>{t.stats.popularTagsTitle}</Text>
+      </View>
       <View style={styles.listCard}>
         {popularTags.slice(0, 5).map((item, idx) => (
           <View key={idx} style={styles.statRow}>
@@ -260,6 +273,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: THEME.colors.text,
+  },
+  cardTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     marginBottom: 16,
   },
   compareRow: {
@@ -309,6 +327,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: THEME.colors.text,
+  },
+  sectionTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     marginBottom: 12,
     marginTop: 8,
   },

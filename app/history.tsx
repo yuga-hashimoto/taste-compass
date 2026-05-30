@@ -15,10 +15,14 @@ import { THEME } from '../src/theme/theme';
 import { getDiagnosisHistory, DiagnosisResultItem } from '../src/services/resultService';
 import { AdSlot } from '../src/components/ad/AdSlot';
 import { trackEvent } from '../src/services/eventService';
+import { useI18n } from '../src/i18n';
+import { Feather } from '@expo/vector-icons';
+import { ThemeIcon } from '../src/components/ui/ThemeIcon';
 
 export default function HistoryScreen() {
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((state) => state.anonymousUserId);
+  const { t, i } = useI18n();
 
   const [loading, setLoading] = useState(true);
   const [history, setHistory] = useState<DiagnosisResultItem[]>([]);
@@ -55,21 +59,28 @@ export default function HistoryScreen() {
       <Pressable
         style={({ pressed }) => [styles.historyCard, pressed && styles.pressed]}
         onPress={() => router.push(`/result/${item.session_id}`)}
-        accessibilityLabel={`診断結果: 一致度${item.compatibility_score}%、タイプ${item.preference_type}`}
+        accessibilityLabel={`Result: Match ${item.compatibility_score}%, Type ${item.preference_type}`}
         accessibilityRole="button"
       >
         <View style={styles.cardHeader}>
           <Text style={styles.dateText}>{formatDate(item.created_at)}</Text>
           <View style={styles.scoreBadge}>
-            <Text style={styles.scoreBadgeText}>{item.compatibility_score}% 一致</Text>
+            <Text style={styles.scoreBadgeText}>
+              {i(t.history.matchBadge, { score: item.compatibility_score })}
+            </Text>
           </View>
         </View>
-        <Text style={styles.prefTypeText}>{item.preference_type}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+          {item.preference_type_emoji ? (
+            <ThemeIcon themeId={item.preference_type_emoji} size={18} color={THEME.colors.primary} />
+          ) : null}
+          <Text style={[styles.prefTypeText, { marginBottom: 0 }]}>{item.preference_type}</Text>
+        </View>
         <Text style={styles.summaryText} numberOfLines={2}>
           {item.summary_json?.style_analysis}
         </Text>
         <View style={styles.cardFooter}>
-          <Text style={styles.detailLinkText}>詳細を見る →</Text>
+          <Text style={styles.detailLinkText}>{t.history.detailLink}</Text>
         </View>
       </Pressable>
     );
@@ -79,7 +90,7 @@ export default function HistoryScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color={THEME.colors.primary} />
-        <Text style={styles.loadingText}>履歴を読み込み中...</Text>
+        <Text style={styles.loadingText}>{t.history.loading}</Text>
       </View>
     );
   }
@@ -93,11 +104,11 @@ export default function HistoryScreen() {
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Text style={styles.emptyEmoji}>📊</Text>
-            <Text style={styles.emptyText}>診断履歴がありません</Text>
-            <Text style={styles.emptySub}>診断を行うと、ここに好みの履歴が保存されます</Text>
+            <Feather name="bar-chart-2" size={48} color={THEME.colors.textMuted} style={styles.emptyIcon} />
+            <Text style={styles.emptyText}>{t.history.emptyTitle}</Text>
+            <Text style={styles.emptySub}>{t.history.emptySub}</Text>
             <Pressable style={styles.startButton} onPress={() => router.push('/setup')}>
-              <Text style={styles.startButtonText}>診断を始める</Text>
+              <Text style={styles.startButtonText}>{t.history.startButton}</Text>
             </Pressable>
           </View>
         }
@@ -194,8 +205,7 @@ const styles = StyleSheet.create({
     paddingVertical: 80,
     paddingHorizontal: 24,
   },
-  emptyEmoji: {
-    fontSize: 48,
+  emptyIcon: {
     marginBottom: 16,
   },
   emptyText: {

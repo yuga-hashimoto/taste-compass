@@ -7,6 +7,8 @@ import { THEME } from '../src/theme/theme';
 import { deleteUserHistory } from '../src/services/resultService';
 import { trackEvent } from '../src/services/eventService';
 import { useI18n } from '../src/i18n';
+import { Feather } from '@expo/vector-icons';
+import { CountryFlag } from '../src/components/ui/CountryFlag';
 
 export default function SettingsScreen() {
   const router = useRouter();
@@ -56,9 +58,10 @@ export default function SettingsScreen() {
 
       {/* ─── 言語選択セクション ─── */}
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>
-          🌐  {t.settings.language}
-        </Text>
+        <View style={styles.headerWithIcon}>
+          <Feather name="globe" size={14} color={THEME.colors.textMuted} />
+          <Text style={styles.sectionHeader}>{t.settings.language}</Text>
+        </View>
         <Text style={styles.langDesc}>{t.settings.languageDesc}</Text>
         <View style={styles.langGrid}>
           {allLangs.map((l) => {
@@ -75,7 +78,7 @@ export default function SettingsScreen() {
                 accessibilityRole="radio"
                 accessibilityState={{ checked: active }}
               >
-                <Text style={styles.langFlag}>{l.flag}</Text>
+                <CountryFlag code={l.code} size={16} />
                 <Text style={[styles.langName, active && styles.langNameActive]}>
                   {l.name}
                 </Text>
@@ -86,77 +89,88 @@ export default function SettingsScreen() {
         </View>
       </View>
 
+      {/* ─── 匿名ユーザー情報 ─── */}
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>匿名ユーザー情報</Text>
+        <View style={styles.headerWithIcon}>
+          <Feather name="user" size={14} color={THEME.colors.textMuted} />
+          <Text style={styles.sectionHeader}>{t.settings.anonymousInfo}</Text>
+        </View>
         <View style={styles.idBox}>
-          <Text style={styles.idLabel}>あなたの匿名ID</Text>
+          <Text style={styles.idLabel}>{t.settings.yourAnonymousId}</Text>
           <Text style={styles.idValue} selectable={true}>
-            {anonymousUserId || '読み込み中...'}
+            {anonymousUserId || t.settings.anonymousIdLoading}
           </Text>
-          <Text style={styles.idSub}>
-            ※個人情報は一切紐づいていません。端末ローカルに安全に暗号・保存されています。
-          </Text>
+          <Text style={styles.idSub}>{t.settings.anonymousSub}</Text>
         </View>
       </View>
 
-      {/* サービスポリシー説明 */}
+      {/* ─── サービスについて ─── */}
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>サービスについて</Text>
-
-        <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>🖼️ 診断画像について</Text>
-          <Text style={styles.infoText}>
-            本サービスで用いられるビジュアルは、すべてAIにより生成された架空の成人女性であり、実在のモデルや人物は存在しません。未成年に見える画像の排除、および過度な露出や身体の強調などのセンシティブ表現の防止を徹底しています。
-          </Text>
+        <View style={styles.headerWithIcon}>
+          <Feather name="info" size={14} color={THEME.colors.textMuted} />
+          <Text style={styles.sectionHeader}>{t.settings.aboutService}</Text>
         </View>
 
         <View style={styles.infoBox}>
-          <Text style={styles.infoTitle}>📢 広告とプライバシー</Text>
-          <Text style={styles.infoText}>
-            本サービスは広告配信を通じて低コストで持続的に運営されています。診断中には誤操作を防止するため一切広告を表示しません。また、個人を特定できるトラッキングは行っていません。
-          </Text>
+          <View style={styles.infoTitleRow}>
+            <Feather name="image" size={14} color={THEME.colors.text} />
+            <Text style={styles.infoTitle}> {t.settings.aboutImagesTitle}</Text>
+          </View>
+          <Text style={styles.infoText}>{t.settings.aboutImagesText}</Text>
+        </View>
+
+        <View style={styles.infoBox}>
+          <View style={styles.infoTitleRow}>
+            <Feather name="shield" size={14} color={THEME.colors.text} />
+            <Text style={styles.infoTitle}> {t.settings.adsPrivacyTitle}</Text>
+          </View>
+          <Text style={styles.infoText}>{t.settings.adsPrivacyText}</Text>
         </View>
       </View>
 
-      {/* 規約・問い合わせリンク */}
+      {/* ─── ドキュメント & お問い合わせ ─── */}
       <View style={styles.section}>
-        <Text style={styles.sectionHeader}>ドキュメント & お問い合わせ</Text>
+        <View style={styles.headerWithIcon}>
+          <Feather name="file-text" size={14} color={THEME.colors.textMuted} />
+          <Text style={styles.sectionHeader}>{t.settings.docsContact}</Text>
+        </View>
 
         <Pressable style={styles.rowItem} onPress={() => router.push('/terms')}>
-          <Text style={styles.rowText}>利用規約</Text>
-          <Text style={styles.rowArrow}>&gt;</Text>
+          <Text style={styles.rowText}>{t.settings.termsOfService}</Text>
+          <Feather name="chevron-right" size={16} color={THEME.colors.textMuted} />
         </Pressable>
 
         <Pressable style={styles.rowItem} onPress={() => router.push('/privacy')}>
-          <Text style={styles.rowText}>プライバシーポリシー</Text>
-          <Text style={styles.rowArrow}>&gt;</Text>
+          <Text style={styles.rowText}>{t.settings.privacyPolicy}</Text>
+          <Feather name="chevron-right" size={16} color={THEME.colors.textMuted} />
         </Pressable>
 
         <Pressable style={styles.rowItem} onPress={() => router.push('/contact')}>
-          <Text style={styles.rowText}>不適切画像の報告 / お問い合わせ</Text>
-          <Text style={styles.rowArrow}>&gt;</Text>
+          <Text style={styles.rowText}>{t.settings.reportLink}</Text>
+          <Feather name="chevron-right" size={16} color={THEME.colors.textMuted} />
         </Pressable>
       </View>
 
-      {/* データ削除・管理 (危険区域) */}
+      {/* ─── データ削除・管理 (危険区域) ─── */}
       <View style={styles.section}>
-        <Text style={[styles.sectionHeader, styles.dangerHeader]}>データ削除・再生成</Text>
+        <View style={styles.headerWithIcon}>
+          <Feather name="trash-2" size={14} color={THEME.colors.skip} />
+          <Text style={[styles.sectionHeader, styles.dangerHeader]}>{t.settings.dataDeleteSection}</Text>
+        </View>
 
         <Pressable style={styles.dangerRowItem} onPress={() => setResetModalVisible(true)}>
-          <Text style={styles.dangerRowText}>匿名IDの再生成</Text>
-          <Text style={styles.dangerRowSub}>診断履歴を引き継がず、完全に新規IDを発行します。</Text>
+          <Text style={styles.dangerRowText}>{t.settings.regenerateId}</Text>
+          <Text style={styles.dangerRowSub}>{t.settings.regenerateIdDesc}</Text>
         </Pressable>
 
         <Pressable style={styles.dangerRowItem} onPress={() => setDeleteModalVisible(true)}>
-          <Text style={[styles.dangerRowText, styles.alertText]}>履歴とデータの完全削除</Text>
-          <Text style={styles.dangerRowSub}>
-            このデバイスに保存されている履歴と、データベース上の全投票データを永久に削除します。
-          </Text>
+          <Text style={[styles.dangerRowText, styles.alertText]}>{t.settings.deleteAllData}</Text>
+          <Text style={styles.dangerRowSub}>{t.settings.deleteAllDataDesc}</Text>
         </Pressable>
       </View>
 
       <View style={styles.footer}>
-        <Text style={styles.versionText}>Version 1.0.0 (Expo Web)</Text>
+        <Text style={styles.versionText}>{t.settings.version} 1.0.0 (Expo Web)</Text>
       </View>
 
       {/* 匿名ID再生成モーダル */}
@@ -168,24 +182,22 @@ export default function SettingsScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>匿名IDを再生成しますか？</Text>
-            <Text style={styles.modalDesc}>
-              新しいIDに切り替わると、これまでの履歴データが読み込めなくなります。この操作は取り消せません。
-            </Text>
+            <Text style={styles.modalTitle}>{t.settings.regenerateModalTitle}</Text>
+            <Text style={styles.modalDesc}>{t.settings.regenerateModalDesc}</Text>
             <View style={styles.modalButtons}>
               <Pressable
                 style={[styles.modalButton, styles.modalCancel]}
                 onPress={() => setResetModalVisible(false)}
                 disabled={isProcessing}
               >
-                <Text style={styles.modalCancelText}>キャンセル</Text>
+                <Text style={styles.modalCancelText}>{t.common.cancel}</Text>
               </Pressable>
               <Pressable
                 style={[styles.modalButton, styles.modalConfirm]}
                 onPress={handleRegenerateId}
                 disabled={isProcessing}
               >
-                <Text style={styles.modalConfirmText}>再生成する</Text>
+                <Text style={styles.modalConfirmText}>{t.settings.regenerateConfirm}</Text>
               </Pressable>
             </View>
           </View>
@@ -201,24 +213,22 @@ export default function SettingsScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
-            <Text style={[styles.modalTitle, styles.alertText]}>データを完全削除しますか？</Text>
-            <Text style={styles.modalDesc}>
-              このデバイスおよびクラウドデータベースに保存されているすべての履歴、セッション、投票データが完全に消去されます。
-            </Text>
+            <Text style={[styles.modalTitle, styles.alertText]}>{t.settings.deleteModalTitle}</Text>
+            <Text style={styles.modalDesc}>{t.settings.deleteModalDesc}</Text>
             <View style={styles.modalButtons}>
               <Pressable
                 style={[styles.modalButton, styles.modalCancel]}
                 onPress={() => setDeleteModalVisible(false)}
                 disabled={isProcessing}
               >
-                <Text style={styles.modalCancelText}>キャンセル</Text>
+                <Text style={styles.modalCancelText}>{t.common.cancel}</Text>
               </Pressable>
               <Pressable
                 style={[styles.modalButton, styles.modalConfirm, styles.modalDangerBtn]}
                 onPress={handleDeleteData}
                 disabled={isProcessing}
               >
-                <Text style={styles.modalConfirmText}>完全に削除</Text>
+                <Text style={styles.modalConfirmText}>{t.settings.deleteConfirm}</Text>
               </Pressable>
             </View>
           </View>
@@ -244,8 +254,19 @@ const styles = StyleSheet.create({
     color: THEME.colors.textMuted,
     textTransform: 'uppercase',
     letterSpacing: 2,
+  },
+  headerWithIcon: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
     marginBottom: 10,
     paddingLeft: 4,
+  },
+  infoTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    marginBottom: 6,
   },
 
   // ─── 言語選択 ───
@@ -278,7 +299,7 @@ const styles = StyleSheet.create({
     ...Platform.select({ web: { boxShadow: '0 0 0 1px rgba(255,77,109,0.3)' } }),
   },
   langChipPressed: { opacity: 0.75 },
-  langFlag: { fontSize: 16 },
+  langFlag: { display: 'none' },
   langName: {
     fontSize: 12,
     fontWeight: '600',

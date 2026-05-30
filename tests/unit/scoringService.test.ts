@@ -6,6 +6,10 @@ import {
   VoteData,
 } from '../../src/services/scoringService';
 
+jest.mock('../../src/i18n', () => ({
+  getCurrentLang: jest.fn(() => 'ja'),
+}));
+
 describe('Scoring Service tests', () => {
   // テスト用モック画像データ
   const mockImages: ImageMetadata[] = [

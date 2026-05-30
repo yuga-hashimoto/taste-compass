@@ -15,30 +15,15 @@ import { useDiagnosisStore } from '../src/stores/useDiagnosisStore';
 import { THEME } from '../src/theme/theme';
 import { submitReport } from '../src/services/reportService';
 import { trackEvent } from '../src/services/eventService';
+import { useI18n } from '../src/i18n';
+import { Feather } from '@expo/vector-icons';
 
 type ReportType = 'inappropriate' | 'resemblance' | 'other';
-
-const REPORT_TYPES: { id: ReportType; label: string; desc: string }[] = [
-  {
-    id: 'inappropriate',
-    label: '不適切な画像の報告',
-    desc: '露出度が高い、または健全ではないビジュアルが含まれる場合',
-  },
-  {
-    id: 'resemblance',
-    label: '実在人物への酷似報告',
-    desc: '実在の特定個人や有名人に酷似しており、削除・差替を求める場合',
-  },
-  {
-    id: 'other',
-    label: 'その他のお問い合わせ',
-    desc: 'ご意見、バグ報告、その他の運営へのお問い合わせ',
-  },
-];
 
 export default function ContactScreen() {
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((state) => state.anonymousUserId);
+  const { t } = useI18n();
 
   const [selectedType, setSelectedType] = useState<ReportType>('inappropriate');
   const [message, setMessage] = useState('');
@@ -48,9 +33,27 @@ export default function ContactScreen() {
   const [success, setSuccess] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const reportTypes = [
+    {
+      id: 'inappropriate' as const,
+      label: t.contact.types.inappropriate,
+      desc: t.contact.types.inappropriateDesc,
+    },
+    {
+      id: 'resemblance' as const,
+      label: t.contact.types.resemblance,
+      desc: t.contact.types.resemblanceDesc,
+    },
+    {
+      id: 'other' as const,
+      label: t.contact.types.other,
+      desc: t.contact.types.otherDesc,
+    },
+  ];
+
   const handleSubmit = async () => {
     if (!message.trim()) {
-      setErrorMsg('メッセージ本文を入力してください。');
+      setErrorMsg(t.contact.errorRequired);
       return;
     }
 
@@ -76,20 +79,18 @@ export default function ContactScreen() {
       setMessage('');
       setImageId('');
     } else {
-      setErrorMsg(res.error || '送信に失敗しました。時間をおいて再度お試しください。');
+      setErrorMsg(res.error || t.contact.errorSubmit);
     }
   };
 
   if (success) {
     return (
       <View style={styles.successContainer}>
-        <Text style={styles.successEmoji}>📬</Text>
-        <Text style={styles.successTitle}>送信が完了しました</Text>
-        <Text style={styles.successDesc}>
-          ご報告・お問い合わせありがとうございました。頂いた内容を運営で確認し、必要に応じて迅速に対応（画像の削除や非表示措置等）を行います。
-        </Text>
+        <Feather name="check-circle" size={64} color="#34D399" style={styles.successIcon} />
+        <Text style={styles.successTitle}>{t.contact.successTitle}</Text>
+        <Text style={styles.successDesc}>{t.contact.successDesc}</Text>
         <Pressable style={styles.backButton} onPress={() => router.replace('/')}>
-          <Text style={styles.backButtonText}>ホームに戻る</Text>
+          <Text style={styles.backButtonText}>{t.common.backHome}</Text>
         </Pressable>
       </View>
     );
@@ -97,15 +98,13 @@ export default function ContactScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-      <Text style={styles.title}>不適切報告 / お問い合わせ</Text>
-      <Text style={styles.subtitle}>
-        本サービスの画像に関して、実在人物への酷似や不適切な表現がある場合はこちらからご報告ください。
-      </Text>
+      <Text style={styles.title}>{t.contact.title}</Text>
+      <Text style={styles.subtitle}>{t.contact.subtitle}</Text>
 
       {/* 報告タイプセレクト */}
-      <Text style={styles.label}>お問い合わせの種類</Text>
+      <Text style={styles.label}>{t.contact.labelType}</Text>
       <View style={styles.typeList}>
-        {REPORT_TYPES.map((type) => {
+        {reportTypes.map((type) => {
           const isActive = selectedType === type.id;
           return (
             <Pressable
@@ -130,10 +129,10 @@ export default function ContactScreen() {
       </View>
 
       {/* 画像IDの入力 (オプション) */}
-      <Text style={styles.label}>対象の画像ID (分かる場合のみ・任意)</Text>
+      <Text style={styles.label}>{t.contact.labelImageId}</Text>
       <TextInput
         style={styles.textInput}
-        placeholder="例: 00000000-0000-0000-0000-000000000001"
+        placeholder={t.contact.placeholderImageId}
         placeholderTextColor={THEME.colors.textMuted}
         value={imageId}
         onChangeText={setImageId}
@@ -142,10 +141,10 @@ export default function ContactScreen() {
       />
 
       {/* メッセージ入力 */}
-      <Text style={styles.label}>メッセージ内容 (必須)</Text>
+      <Text style={styles.label}>{t.contact.labelMessage}</Text>
       <TextInput
         style={[styles.textInput, styles.textArea]}
-        placeholder="具体的な不適切箇所や、削除を要請する理由を詳しくご記入ください。"
+        placeholder={t.contact.placeholderMessage}
         placeholderTextColor={THEME.colors.textMuted}
         value={message}
         onChangeText={setMessage}
@@ -175,7 +174,7 @@ export default function ContactScreen() {
           {submitting ? (
             <ActivityIndicator color="#FFF" />
           ) : (
-            <Text style={styles.submitButtonText}>送信する</Text>
+            <Text style={styles.submitButtonText}>{t.contact.submit}</Text>
           )}
         </Pressable>
       </View>
@@ -336,8 +335,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 24,
   },
-  successEmoji: {
-    fontSize: 64,
+  successIcon: {
     marginBottom: 20,
   },
   successTitle: {

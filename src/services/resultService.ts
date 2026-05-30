@@ -12,6 +12,7 @@ export interface DiagnosisResultItem {
   session_id: string;
   compatibility_score: number;
   preference_type: string;
+  preference_type_emoji?: string; // 診断タイプアイコンキー
   mainstream_score: number;
   uniqueness_score: number;
   summary_json: any;
@@ -31,6 +32,7 @@ export const saveDiagnosisResult = async (
     session_id: sessionId,
     compatibility_score: scoringResult.compatibility_score,
     preference_type: scoringResult.preference_type,
+    preference_type_emoji: scoringResult.preference_type_emoji,
     mainstream_score: scoringResult.mainstream_score,
     uniqueness_score: scoringResult.uniqueness_score,
     summary_json: scoringResult.summary_json,

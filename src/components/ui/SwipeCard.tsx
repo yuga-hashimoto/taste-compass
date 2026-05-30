@@ -15,7 +15,7 @@ import { THEME } from '../../theme/theme';
 import { ImageMetadata } from '../../services/scoringService';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
-const SWIPE_THRESHOLD = SCREEN_WIDTH * 0.25; // この距離以上ドラッグしたらスワイプ判定
+const SWIPE_THRESHOLD = Math.min(SCREEN_WIDTH * 0.25, 100); // 最大100pxのドラッグでスワイプ判定
 
 interface SwipeCardProps {
   image: ImageMetadata;
@@ -73,6 +73,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => active,
+        onMoveShouldSetPanResponder: () => active,
         onPanResponderMove: (evt, gestureState) => {
           if (!active) return;
           position.setValue({ x: gestureState.dx, y: gestureState.dy });
@@ -137,6 +138,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({
             style={styles.image as any}
             contentFit="cover"
             transition={200}
+            pointerEvents="none"
           />
         </View>
       </View>
@@ -144,7 +146,11 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({
   }
 
   return (
-    <Animated.View style={[styles.cardContainer, getCardStyle()]} {...panResponder.panHandlers}>
+    <Animated.View
+      style={[styles.cardContainer, getCardStyle()]}
+      {...panResponder.panHandlers}
+      testID="swipe-card"
+    >
       <View style={styles.card}>
         <Image
           source={{ uri: image.image_url }}
@@ -160,6 +166,7 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({
             setLoadError(true);
           }}
           transition={200}
+          pointerEvents="none"
         />
 
         {loading && (
@@ -210,6 +217,7 @@ const styles = StyleSheet.create({
       web: {
         cursor: 'grab',
         userSelect: 'none',
+        touchAction: 'none',
       } as any,
       default: {},
     }),

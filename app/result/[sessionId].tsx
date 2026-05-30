@@ -11,6 +11,10 @@ import { THEME } from '../../src/theme/theme';
 import { getDiagnosisResultBySession } from '../../src/services/resultService';
 import { AdSlot } from '../../src/components/ad/AdSlot';
 import { trackEvent } from '../../src/services/eventService';
+import { useI18n } from '../../src/i18n';
+import { Feather, Ionicons } from '@expo/vector-icons';
+import { ThemeIcon } from '../../src/components/ui/ThemeIcon';
+import { CountryFlag } from '../../src/components/ui/CountryFlag';
 
 // ── メーターコンポーネント ──────────────────────────────
 function Meter({ label, value, color }: { label: string; value: number; color: string }) {
@@ -140,7 +144,7 @@ const circleStyles = StyleSheet.create({
 });
 
 // ── 国別バー ────────────────────────────────────────────
-function CountryBar({ flag, label, score, isTop }: { flag: string; label: string; score: number; isTop: boolean }) {
+function CountryBar({ code, label, score, isTop }: { code: string; label: string; score: number; isTop: boolean }) {
   const anim = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     Animated.timing(anim, { toValue: score / 100, duration: 900, useNativeDriver: false }).start();
@@ -148,7 +152,7 @@ function CountryBar({ flag, label, score, isTop }: { flag: string; label: string
 
   return (
     <View style={countryStyles.row}>
-      <Text style={countryStyles.flag}>{flag}</Text>
+      <CountryFlag code={code} size={16} />
       <Text style={countryStyles.label}>{label}</Text>
       <View style={countryStyles.track}>
         <Animated.View
@@ -181,6 +185,7 @@ export default function ResultScreen() {
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((s) => s.anonymousUserId);
+  const { t, i } = useI18n();
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<any>(null);
@@ -204,12 +209,12 @@ export default function ResultScreen() {
   const handleShare = async () => {
     if (!result) return;
     trackEvent(anonymousUserId, 'result_share_click', { session_id: sessionId });
-    const { preference_type, preference_type_emoji, compatibility_score,
+    const { preference_type, compatibility_score,
       country_affinity, rarity, summary_json } = result;
     const text = [
-      `【好みズレ診断】${preference_type_emoji || ''} ${preference_type}`,
+      `【好みズレ診断】${preference_type}`,
       `世間との一致度: ${compatibility_score}%`,
-      `好みが近い国: ${country_affinity?.top_country_flag || ''}${country_affinity?.top_country_label || ''}`,
+      `好みが近い国: ${country_affinity?.top_country_label || ''}`,
       `レア度: ${rarity?.label || ''}`,
       ``,
       summary_json?.style_analysis || '',
@@ -229,7 +234,7 @@ export default function ResultScreen() {
     return (
       <View style={styles.fullCenter}>
         <View style={styles.loadingSpinner} />
-        <Text style={styles.loadingText}>結果を分析中...</Text>
+        <Text style={styles.loadingText}>{t.result.loading}</Text>
       </View>
     );
   }
@@ -237,9 +242,9 @@ export default function ResultScreen() {
   if (!result) {
     return (
       <View style={styles.fullCenter}>
-        <Text style={styles.errorText}>診断結果が見つかりませんでした</Text>
+        <Text style={styles.errorText}>{t.common.resultNotFound}</Text>
         <Pressable style={styles.ghostBtn} onPress={() => router.replace('/')}>
-          <Text style={styles.ghostBtnText}>ホームへ戻る</Text>
+          <Text style={styles.ghostBtnText}>{t.common.backHome}</Text>
         </Pressable>
       </View>
     );
@@ -264,19 +269,19 @@ export default function ResultScreen() {
       {/* ─── ヒーロー：タイプ名 + スコア ─── */}
       <Animated.View style={[styles.heroCard, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
         <View style={styles.typeRow}>
-          <Text style={styles.typeEmoji}>{preference_type_emoji || '✦'}</Text>
+          <ThemeIcon themeId={preference_type_emoji} size={36} color={THEME.colors.primary} />
           <View>
-            <Text style={styles.typeCaption}>あなたの好みタイプ</Text>
+            <Text style={styles.typeCaption}>{t.result.yourType}</Text>
             <Text style={styles.typeName}>{preference_type}</Text>
           </View>
         </View>
 
-        <ScoreCircle score={compatibility_score} label="世間との一致度" />
+        <ScoreCircle score={compatibility_score} label={t.result.compatibilityLabel} />
 
         {/* 王道 vs 個性バー */}
         <View style={styles.dualBar}>
           <View style={styles.dualBarLeft}>
-            <Text style={styles.dualBarLabel}>王道派</Text>
+            <Text style={styles.dualBarLabel}>{t.result.mainstream}</Text>
             <Text style={[styles.dualBarValue, { color: THEME.colors.accentBlue }]}>{mainstream_score}%</Text>
           </View>
           <View style={styles.dualBarTrack}>
@@ -284,32 +289,42 @@ export default function ResultScreen() {
           </View>
           <View style={styles.dualBarRight}>
             <Text style={[styles.dualBarValue, { color: THEME.colors.accent }]}>{uniqueness_score}%</Text>
-            <Text style={styles.dualBarLabel}>個性派</Text>
+            <Text style={styles.dualBarLabel}>{t.result.unique}</Text>
           </View>
         </View>
       </Animated.View>
 
       {/* ─── レアリティバッジ ─── */}
       <Animated.View style={[styles.rarityCard, { opacity: fadeAnim }]}>
-        <Text style={styles.rarityLabel}>{rarity?.label || '—'}</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+          {rarity?.icon && (
+            <Feather name={rarity.icon as any} size={16} color={THEME.colors.primary} />
+          )}
+          <Text style={styles.rarityLabel}>{rarity?.label || '—'}</Text>
+        </View>
         <Text style={styles.rarityDesc}>{rarity?.description || ''}</Text>
       </Animated.View>
 
       {/* ─── 国別一致度 ─── */}
       <Animated.View style={[styles.sectionCard, { opacity: fadeAnim }]}>
-        <Text style={styles.sectionTitle}>🌍 好みが近い国ランキング</Text>
+        <View style={styles.titleRow}>
+          <Feather name="globe" size={14} color={THEME.colors.text} />
+          <Text style={styles.sectionTitle}>{t.result.countryRanking}</Text>
+        </View>
         <View style={styles.topCountryBanner}>
-          <Text style={styles.topCountryFlag}>{country_affinity?.top_country_flag}</Text>
+          <CountryFlag code={country_affinity?.top_country} size={32} />
           <View>
-            <Text style={styles.topCountryCaption}>あなたの好みは</Text>
-            <Text style={styles.topCountryName}>{country_affinity?.top_country_label}系</Text>
-            <Text style={styles.topCountryScore}>一致度 {country_affinity?.top_country_score}%</Text>
+            <Text style={styles.topCountryCaption}>{t.result.countryAffinity}</Text>
+            <Text style={styles.topCountryName}>{country_affinity?.top_country_label}{t.result.countrySuffix}</Text>
+            <Text style={styles.topCountryScore}>
+              {i(t.result.countryMatch, { score: country_affinity?.top_country_score })}
+            </Text>
           </View>
         </View>
         {top3Countries.map((c: any, i: number) => (
           <CountryBar
             key={c.country}
-            flag={c.flag}
+            code={c.country}
             label={c.label}
             score={c.score}
             isTop={i === 0}
@@ -323,29 +338,35 @@ export default function ResultScreen() {
       {/* ─── 各種メーター ─── */}
       {meters && (
         <Animated.View style={[styles.sectionCard, { opacity: fadeAnim }]}>
-          <Text style={styles.sectionTitle}>📊 好みの傾向メーター</Text>
-          <Meter label="ギャル度"   value={meters.gyaru_level}        color="#FB923C" />
-          <Meter label="清楚度"     value={meters.pure_level}         color="#34D399" />
-          <Meter label="セクシー度" value={meters.sexy_level}         color="#F87171" />
-          <Meter label="大人度"     value={meters.mature_level}       color="#C084FC" />
-          <Meter label="知的度"     value={meters.intellectual_level} color="#60A5FA" />
-          <Meter label="グローバル" value={meters.global_level}       color="#FBBF24" />
+          <View style={styles.titleRow}>
+            <Feather name="bar-chart-2" size={14} color={THEME.colors.text} />
+            <Text style={styles.sectionTitle}>{t.result.meterSection}</Text>
+          </View>
+          <Meter label={t.result.meters.gyaru}   value={meters.gyaru_level}        color="#FB923C" />
+          <Meter label={t.result.meters.pure}     value={meters.pure_level}         color="#34D399" />
+          <Meter label={t.result.meters.sexy} value={meters.sexy_level}         color="#F87171" />
+          <Meter label={t.result.meters.mature}     value={meters.mature_level}       color="#C084FC" />
+          <Meter label={t.result.meters.intellectual} value={meters.intellectual_level} color="#60A5FA" />
+          <Meter label={t.result.meters.global} value={meters.global_level}       color="#FBBF24" />
         </Animated.View>
       )}
 
       {/* ─── 年齢・体型傾向 ─── */}
       <Animated.View style={[styles.sectionCard, { opacity: fadeAnim }]}>
-        <Text style={styles.sectionTitle}>💡 詳細傾向</Text>
+        <View style={styles.titleRow}>
+          <Feather name="info" size={14} color={THEME.colors.text} />
+          <Text style={styles.sectionTitle}>{t.result.detailSection}</Text>
+        </View>
 
         <View style={styles.detailRow}>
           <View style={styles.detailChip}>
-            <Text style={styles.detailChipIcon}>🎂</Text>
-            <Text style={styles.detailChipLabel}>好みの年齢感</Text>
+            <Feather name="calendar" size={18} color={THEME.colors.textSub} />
+            <Text style={styles.detailChipLabel}>{t.result.ageLabel}</Text>
             <Text style={styles.detailChipValue}>{age_preference?.label || '—'}</Text>
           </View>
           <View style={styles.detailChip}>
-            <Text style={styles.detailChipIcon}>✨</Text>
-            <Text style={styles.detailChipLabel}>雰囲気タイプ</Text>
+            <Ionicons name="sparkles" size={18} color={THEME.colors.textSub} />
+            <Text style={styles.detailChipLabel}>{t.result.vibeLabel}</Text>
             <Text style={styles.detailChipValue}>{vibe_preference?.label || '—'}</Text>
           </View>
         </View>
@@ -368,7 +389,10 @@ export default function ResultScreen() {
       {/* ─── タグ ─── */}
       {summary_json?.top_tags?.length > 0 && (
         <Animated.View style={[styles.sectionCard, { opacity: fadeAnim }]}>
-          <Text style={styles.sectionTitle}>🏷 反応したタグ</Text>
+          <View style={styles.titleRow}>
+            <Feather name="tag" size={14} color={THEME.colors.text} />
+            <Text style={styles.sectionTitle}>{t.result.tagSection}</Text>
+          </View>
           <View style={styles.tagRow}>
             {summary_json.top_tags.map((tag: string, i: number) => (
               <View key={i} style={styles.tag}>
@@ -384,21 +408,21 @@ export default function ResultScreen() {
         <Pressable
           style={({ pressed }) => [styles.shareBtn, pressed && styles.pressed]}
           onPress={handleShare}
-          accessibilityLabel="診断結果をXでシェアする"
+          accessibilityLabel={t.result.shareX}
         >
-          <Text style={styles.shareBtnText}>𝕏 でシェアする</Text>
+          <Text style={styles.shareBtnText}>{t.result.shareX}</Text>
         </Pressable>
 
         <Pressable
           style={({ pressed }) => [styles.retryBtn, pressed && styles.pressed]}
           onPress={() => router.replace('/setup')}
-          accessibilityLabel="もう一度診断する"
+          accessibilityLabel={t.result.retryBtn}
         >
-          <Text style={styles.retryBtnText}>もう一度診断する</Text>
+          <Text style={styles.retryBtnText}>{t.result.retryBtn}</Text>
         </Pressable>
 
         <Pressable style={styles.homeLink} onPress={() => router.replace('/')}>
-          <Text style={styles.homeLinkText}>← ホームに戻る</Text>
+          <Text style={styles.homeLinkText}>{t.common.backHome}</Text>
         </Pressable>
       </Animated.View>
 
@@ -543,6 +567,11 @@ const styles = StyleSheet.create({
     borderColor: THEME.colors.border,
     padding: 20,
     gap: 14,
+  },
+  titleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   sectionTitle: {
     fontSize: 13,

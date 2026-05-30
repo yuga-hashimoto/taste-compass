@@ -1,6 +1,7 @@
 // scoringService.ts - 拡張診断スコアリングロジック
 // 世界・国別比較、体型傾向、年齢傾向、レアリティ、メーター分析を含む
 
+import { getCurrentLang } from '../i18n';
 import { ImageMetadata } from '../types/image';
 import { ImageStatsMap } from './imageStatsService';
 
@@ -27,7 +28,7 @@ interface CountryProfile {
 const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   japan: {
     label: '日本',
-    flag: '🇯🇵',
+    flag: 'jp',
     style_weights: { natural: 30, korean: 25, cute: 20, feminine: 15, cool: 10 },
     regional_weights: { japanese_style: 40, korean_style: 35, global_mixed: 15, western_style: 10 },
     bust_weights: { subtle: 30, average: 45, full: 20, very_full: 5 },
@@ -36,7 +37,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   korea: {
     label: '韓国',
-    flag: '🇰🇷',
+    flag: 'kr',
     style_weights: { korean: 40, cool: 25, elegant: 20, natural: 10, cute: 5 },
     regional_weights: { korean_style: 60, western_style: 20, global_mixed: 15, japanese_style: 5 },
     bust_weights: { subtle: 40, average: 45, full: 12, very_full: 3 },
@@ -45,7 +46,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   usa: {
     label: 'アメリカ',
-    flag: '🇺🇸',
+    flag: 'us',
     style_weights: { casual: 30, sexy: 25, sporty: 20, cool: 15, feminine: 10 },
     regional_weights: { western_style: 50, latina_style: 20, black_style: 15, global_mixed: 15 },
     bust_weights: { very_full: 25, full: 35, average: 30, subtle: 10 },
@@ -54,7 +55,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   europe: {
     label: 'ヨーロッパ',
-    flag: '🇪🇺',
+    flag: 'eu',
     style_weights: { elegant: 30, cool: 25, mode: 20, mature: 15, simple: 10 },
     regional_weights: { western_style: 60, global_mixed: 20, global_elegant: 15, latina_style: 5 },
     bust_weights: { average: 40, subtle: 30, full: 25, very_full: 5 },
@@ -63,7 +64,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   china: {
     label: '中国',
-    flag: '🇨🇳',
+    flag: 'cn',
     style_weights: { elegant: 30, natural: 25, mature: 20, cute: 15, korean: 10 },
     regional_weights: { chinese_style: 45, korean_style: 25, japanese_style: 20, western_style: 10 },
     bust_weights: { subtle: 35, average: 45, full: 15, very_full: 5 },
@@ -72,7 +73,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   brazil: {
     label: 'ブラジル',
-    flag: '🇧🇷',
+    flag: 'br',
     style_weights: { sexy: 40, casual: 25, sporty: 20, feminine: 10, gyaru: 5 },
     regional_weights: { latina_style: 60, western_style: 25, global_mixed: 15 },
     bust_weights: { very_full: 35, full: 40, average: 20, subtle: 5 },
@@ -81,7 +82,7 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
   },
   middle_east: {
     label: '中東',
-    flag: '🌙',
+    flag: 'me',
     style_weights: { elegant: 40, mature: 25, feminine: 20, natural: 10, cool: 5 },
     regional_weights: { middle_eastern_style: 50, western_style: 30, global_mixed: 20 },
     bust_weights: { average: 40, full: 30, subtle: 20, very_full: 10 },
@@ -94,7 +95,10 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
 export const translateInternalTag = (key: string, value: string | null): string => {
   if (!value) return '';
 
-  const maps: Record<string, Record<string, string>> = {
+  const lang = getCurrentLang();
+  const isJa = lang === 'ja';
+
+  const mapsJa: Record<string, Record<string, string>> = {
     bust_impression: {
       very_full: 'とても豊かなシルエット',
       full: '柔らかいシルエット',
@@ -150,6 +154,63 @@ export const translateInternalTag = (key: string, value: string | null): string 
     },
   };
 
+  const mapsEn: Record<string, Record<string, string>> = {
+    bust_impression: {
+      very_full: 'very full silhouette',
+      full: 'soft silhouette',
+      average: 'well-balanced silhouette',
+      subtle: 'slim silhouette',
+    },
+    butt_impression: {
+      full: 'voluminous silhouette',
+      round: 'curved silhouette',
+      average: 'natural silhouette',
+      flat: 'slim silhouette',
+    },
+    body_silhouette: {
+      curvy: 'mature silhouette',
+      slim: 'slim silhouette',
+      healthy: 'healthy silhouette',
+      balanced: 'well-balanced figure',
+      soft: 'feminine lines',
+      petite: 'petite & cute figure',
+      tall: 'tall & slender figure',
+    },
+    regional_style: {
+      western_style: 'Western sophistication',
+      korean_style: 'Korean trend style',
+      japanese_style: 'Japanese natural look',
+      chinese_style: 'Glamorous & mature vibe',
+      southeast_asian_style: 'Fresh Asian vibe',
+      south_asian_style: 'Exotic & deep taste',
+      latina_style: 'Healthy & active glow',
+      middle_eastern_style: 'Elegant & exotic appeal',
+      black_style: 'Strong & energetic presence',
+      global_mixed: 'Global diversity',
+    },
+    age_impression: {
+      teens: 'late teens',
+      early20s: 'early 20s',
+      mid20s: 'mid 20s',
+      late20s: 'late 20s to early 30s',
+      thirties: '30s',
+      forties: '40s',
+    },
+    vibe_type: {
+      cute: 'Cute',
+      cool: 'Cool',
+      sexy: 'Sexy',
+      pure: 'Pure & Clean',
+      sporty: 'Sporty',
+      intellectual: 'Intellectual',
+      gyaru: 'Gyaru',
+      elegant: 'Elegant',
+      natural: 'Natural',
+      charismatic: 'Charismatic',
+    },
+  };
+
+  const maps = isJa ? mapsJa : mapsEn;
   return maps[key]?.[value] ?? value;
 };
 
@@ -229,6 +290,7 @@ export interface ScoringResult {
   // --- レアリティ ---
   rarity: {
     label: string;
+    icon: string;
     description: string;
     score: number;           // 好みのレア度 0-100（高いほどレア）
   };
@@ -344,25 +406,25 @@ export const calculateDiagnosisResult = (
   const topSilhouette = topEntries(silhouetteCounts, 1)[0] || 'balanced';
   const topRegional = topEntries(regionalCounts, 1)[0] || 'japanese_style';
 
-  type PreferenceEntry = { label: string; emoji: string };
+  type PreferenceEntry = { label: string; icon: string };
   const preferenceMap: Record<string, PreferenceEntry> = {
-    natural:       { label: 'ナチュラル・清楚派',   emoji: '🌸' },
-    korean:        { label: '韓国風トレンド派',     emoji: '✨' },
-    cool:          { label: 'クール・都会派',       emoji: '🖤' },
-    casual:        { label: 'カジュアル親しみ派',   emoji: '😊' },
-    feminine:      { label: '柔らかフェミニン派',   emoji: '🎀' },
-    mature:        { label: '大人っぽい知的派',     emoji: '💎' },
-    office:        { label: '知的オフィス派',       emoji: '👓' },
-    simple:        { label: 'シンプル洗練派',       emoji: '⚪' },
-    gyaru:         { label: 'ギャル・個性派',       emoji: '💅' },
-    cute:          { label: '可愛い・アイドル派',   emoji: '🌟' },
-    sexy:          { label: 'セクシー・グラマー派', emoji: '🔥' },
-    sporty:        { label: 'スポーティ・ヘルシー派', emoji: '💪' },
-    elegant:       { label: 'エレガント・上品派',   emoji: '👑' },
-    mode:          { label: 'モード・アーティスト派', emoji: '🎨' },
-    global_elegant:{ label: 'グローバル洗練派',    emoji: '🌍' },
+    natural:       { label: 'ナチュラル・清楚派',   icon: 'natural' },
+    korean:        { label: '韓国風トレンド派',     icon: 'korean' },
+    cool:          { label: 'クール・都会派',       icon: 'cool' },
+    casual:        { label: 'カジュアル親しみ派',   icon: 'casual' },
+    feminine:      { label: '柔らかフェミニン派',   icon: 'feminine' },
+    mature:        { label: '大人っぽい知的派',     icon: 'mature' },
+    office:        { label: '知的オフィス派',       icon: 'office' },
+    simple:        { label: 'シンプル洗練派',       icon: 'simple' },
+    gyaru:         { label: 'ギャル・個性派',       icon: 'gyaru' },
+    cute:          { label: '可愛い・アイドル派',   icon: 'cute' },
+    sexy:          { label: 'セクシー・グラマー派', icon: 'sexy' },
+    sporty:        { label: 'スポーティ・ヘルシー派', icon: 'sporty' },
+    elegant:       { label: 'エレガント・上品派',   icon: 'elegant' },
+    mode:          { label: 'モード・アーティスト派', icon: 'mode' },
+    global_elegant:{ label: 'グローバル洗練派',    icon: 'global_elegant' },
   };
-  const prefEntry = preferenceMap[topStyle] ?? { label: 'ナチュラル・清楚派', emoji: '🌸' };
+  const prefEntry = preferenceMap[topStyle] ?? { label: 'ナチュラル・清楚派', icon: 'natural' };
 
   // ==============================
   // 4. 国別類似度計算
@@ -451,14 +513,14 @@ export const calculateDiagnosisResult = (
     (topCountry.score < 50 ? (50 - topCountry.score) : 0) * 0.4
   );
 
-  type RarityEntry = { label: string; description: string };
+  type RarityEntry = { label: string; icon: string; description: string };
   const getRarity = (score: number): RarityEntry => {
-    if (score >= 80) return { label: '超希少派 👁️', description: '上位5%以内の独自の審美眼を持つレアな好みです' };
-    if (score >= 65) return { label: '希少派 ⭐', description: '世間とはかなり違う、個性的な好みを持っています' };
-    if (score >= 50) return { label: 'やや個性派 🌙', description: '世間とは少しズレた、自分だけの感性があります' };
-    if (score >= 35) return { label: 'バランス派 ⚖️', description: '世間の好みと自分の好みがほどよく一致しています' };
-    if (score >= 20) return { label: '大衆派 😊', description: 'みんなが好きなものを好む、共感力の高い好みです' };
-    return { label: '王道派 👑', description: '世間の好みとほぼ完全に一致する、トレンドに敏感な好みです' };
+    if (score >= 80) return { label: '超希少派', icon: 'eye', description: '上位5%以内の独自の審美眼を持つレアな好みです' };
+    if (score >= 65) return { label: '希少派', icon: 'star', description: '世間とはかなり違う、個性的な好みを持っています' };
+    if (score >= 50) return { label: 'やや個性派', icon: 'moon', description: '世間とは少しズレた、自分だけの感性があります' };
+    if (score >= 35) return { label: 'バランス派', icon: 'sliders', description: '世間の好みと自分の好みがほどよく一致しています' };
+    if (score >= 20) return { label: '大衆派', icon: 'users', description: 'みんなが好きなものを好む、共感力の高い好みです' };
+    return { label: '王道派', icon: 'award', description: '世間の好みとほぼ完全に一致する、トレンドに敏感な好みです' };
   };
   const rarityEntry = getRarity(rarityScore);
 
@@ -486,7 +548,7 @@ export const calculateDiagnosisResult = (
     atmosphere: '写真全体の空気感や、まとっている雰囲気を重視するタイプ',
   };
   const styleAnalysis = `あなたは「${prefEntry.label}」${regText}です。${focusTexts[focusType]}。`;
-  const countryAnalysis = `あなたの好みは${topCountry.flag}${topCountry.label}の感性に最も近く（一致度${topCountry.score}%）、${countryScores[1].flag}${countryScores[1].label}（${countryScores[1].score}%）が続きます。`;
+  const countryAnalysis = `あなたの好みは${topCountry.label}の感性に最も近く（一致度${topCountry.score}%）、${countryScores[1].label}（${countryScores[1].score}%）が続きます。`;
   const bodyAnalysis = `体型的には${bodyOverall}。${bustLabel ? `胸の印象は「${bustLabel}」` : ''}${buttLabel ? `、お尻は「${buttLabel}」` : ''}に惹かれやすい傾向があります。`;
   const ageAnalysis = ageDescriptions[topAge] || '';
   const rarityAnalysis = `あなたの好みは世間の中で「${rarityEntry.label}」に分類されます。${rarityEntry.description}`;
@@ -494,7 +556,7 @@ export const calculateDiagnosisResult = (
   return {
     compatibility_score: compatibilityScore,
     preference_type: prefEntry.label,
-    preference_type_emoji: prefEntry.emoji,
+    preference_type_emoji: prefEntry.icon, // 旧互換キーにアイコンIDを格納
     mainstream_score: mainstreamScore,
     uniqueness_score: uniquenessScore,
 
@@ -528,6 +590,7 @@ export const calculateDiagnosisResult = (
 
     rarity: {
       label: rarityEntry.label,
+      icon: rarityEntry.icon,
       description: rarityEntry.description,
       score: rarityScore,
     },

@@ -11,7 +11,7 @@ import { ScoringResult } from '../../src/services/scoringService';
 const makeMockScoringResult = (): ScoringResult => ({
   compatibility_score: 80,
   preference_type: 'ナチュラル派',
-  preference_type_emoji: '🌸',
+  preference_type_emoji: 'natural',
   mainstream_score: 80,
   uniqueness_score: 20,
   country_affinity: {
@@ -46,7 +46,8 @@ const makeMockScoringResult = (): ScoringResult => ({
     score: 100,
   },
   rarity: {
-    label: '大衆派 😊',
+    label: '大衆派',
+    icon: 'users',
     description: 'みんなが好きなものを好む、共感力の高い好みです',
     score: 20,
   },
@@ -84,6 +85,7 @@ jest.mock('../../src/lib/supabase', () => {
             session_id: 'sess-abc',
             compatibility_score: 80,
             preference_type: 'ナチュラル派',
+            preference_type_emoji: 'natural',
             mainstream_score: 80,
             uniqueness_score: 20,
             summary_json: {},
@@ -103,6 +105,7 @@ jest.mock('../../src/lib/supabase', () => {
               session_id: 'sess-xyz',
               compatibility_score: 70,
               preference_type: 'クール派',
+              preference_type_emoji: 'cool',
               mainstream_score: 70,
               uniqueness_score: 30,
               summary_json: {},

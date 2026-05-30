@@ -14,6 +14,7 @@ import { useRouter } from 'expo-router';
 import { THEME } from '../src/theme/theme';
 import { AdSlot } from '../src/components/ad/AdSlot';
 import { useI18n } from '../src/i18n';
+import { Feather } from '@expo/vector-icons';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -95,12 +96,12 @@ export default function HomeScreen() {
       {/* ─── 特徴リスト ─── */}
       <Animated.View style={[styles.featuresRow, { opacity: fadeAnim }]}>
         {[
-          { icon: '✦', label: t.home.feature1Label, desc: t.home.feature1Desc },
-          { icon: '◈', label: t.home.feature2Label, desc: t.home.feature2Desc },
-          { icon: '⬡', label: t.home.feature3Label, desc: t.home.feature3Desc },
+          { icon: <Feather name="sliders" size={20} color={THEME.colors.primary} />, label: t.home.feature1Label, desc: t.home.feature1Desc },
+          { icon: <Feather name="pie-chart" size={20} color={THEME.colors.primary} />, label: t.home.feature2Label, desc: t.home.feature2Desc },
+          { icon: <Feather name="users" size={20} color={THEME.colors.primary} />, label: t.home.feature3Label, desc: t.home.feature3Desc },
         ].map((f, i) => (
           <View key={i} style={styles.featureCard}>
-            <Text style={styles.featureIcon}>{f.icon}</Text>
+            <View style={styles.featureIcon}>{f.icon}</View>
             <Text style={styles.featureLabel}>{f.label}</Text>
             <Text style={styles.featureDesc}>{f.desc}</Text>
           </View>
@@ -109,7 +110,7 @@ export default function HomeScreen() {
 
       {/* ─── 免責カード ─── */}
       <Animated.View style={[styles.disclaimerCard, { opacity: fadeAnim }]}>
-        <Text style={styles.disclaimerIcon}>⚠</Text>
+        <Feather name="alert-triangle" size={14} color={THEME.colors.skip} style={styles.disclaimerIcon} />
         <Text style={styles.disclaimerText}>{t.home.disclaimer}</Text>
       </Animated.View>
 
@@ -119,7 +120,7 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/history')}
         >
-          <Text style={styles.subBtnIcon}>📊</Text>
+          <Feather name="bar-chart-2" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
           <Text style={styles.subBtnText}>{t.home.navHistory}</Text>
         </Pressable>
         <View style={styles.subDivider} />
@@ -127,7 +128,7 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/stats')}
         >
-          <Text style={styles.subBtnIcon}>📈</Text>
+          <Feather name="trending-up" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
           <Text style={styles.subBtnText}>{t.home.navStats}</Text>
         </Pressable>
         <View style={styles.subDivider} />
@@ -135,7 +136,7 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/settings')}
         >
-          <Text style={styles.subBtnIcon}>⚙️</Text>
+          <Feather name="settings" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
           <Text style={styles.subBtnText}>{t.home.navSettings}</Text>
         </Pressable>
       </Animated.View>
@@ -294,7 +295,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 6,
   },
-  featureIcon: { fontSize: 20, color: THEME.colors.primary },
+  featureIcon: {
+    height: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   featureLabel: {
     fontSize: 11,
     fontWeight: '700',

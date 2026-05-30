@@ -8,6 +8,7 @@ import { useDiagnosisStore } from '../src/stores/useDiagnosisStore';
 import { THEME } from '../src/theme/theme';
 import { trackEvent } from '../src/services/eventService';
 import { useI18n } from '../src/i18n';
+import { ThemeIcon } from '../src/components/ui/ThemeIcon';
 
 const CARD_COUNTS = [
   { value: 30, label: '30', recommended: true },
@@ -123,7 +124,11 @@ export default function SetupScreen() {
                 accessibilityRole="radio"
                 accessibilityState={{ checked: active }}
               >
-                <Text style={styles.themeEmoji}>{th.emoji}</Text>
+                <ThemeIcon
+                  themeId={th.id}
+                  size={16}
+                  color={active ? THEME.colors.primary : THEME.colors.textSub}
+                />
                 <Text style={[styles.themeLabel, active && styles.themeLabelActive]}>
                   {th.label}
                 </Text>
@@ -297,7 +302,7 @@ const styles = StyleSheet.create({
       web: { boxShadow: '0 0 0 1px rgba(255,77,109,0.3)' },
     }),
   },
-  themeEmoji: { fontSize: 14 },
+  themeEmoji: { display: 'none' },
   themeLabel: {
     fontSize: 13,
     fontWeight: '600',
