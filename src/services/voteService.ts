@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { getPlatform } from '../lib/platform';
 import { ENV } from '../lib/env';
 import { incrementImageStat } from './imageStatsService';
+import { getCurrentLang } from '../i18n';
 
 export interface VotePayload {
   anonymous_user_id: string;
@@ -23,17 +24,15 @@ export const saveVote = async (payload: VotePayload): Promise<boolean> => {
   // 2. Supabase に永続化（接続がある場合のみ）
   try {
     if (!ENV.IS_MOCK) {
-      const { error } = await supabase.from('votes').insert({
-        anonymous_user_id: payload.anonymous_user_id,
-        session_id: payload.session_id,
-        image_id: payload.image_id,
-        vote_type: payload.vote_type,
-        platform: getPlatform(),
+      const countryCode = getCurrentLang();
+      const { error } = await supabase.rpc('increment_image_vote', {
+        p_image_id: payload.image_id,
+        p_country_code: countryCode,
+        p_vote_type: payload.vote_type,
       });
 
       if (error) {
-        console.error('Supabase saveVote error:', error.message);
-        // Supabase失敗でもlocalStorageには記録済みなのでtrueを返す
+        console.error('Supabase increment_image_vote RPC error:', error.message);
       }
     }
     return true;

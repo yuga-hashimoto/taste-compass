@@ -22,24 +22,8 @@ export const trackEvent = async (
   eventName: AppEventName,
   payload?: Record<string, any>,
 ): Promise<void> => {
-  try {
-    if (!ENV.IS_MOCK) {
-      // 過剰なトラッキングは避け、匿名性を確保するためにPayloadは最小限に留める
-      const { error } = await supabase.from('app_events').insert({
-        anonymous_user_id: anonymousUserId,
-        event_name: eventName,
-        event_payload: payload || {},
-        platform: getPlatform(),
-      });
-
-      if (error) {
-        // ログ送信の失敗は、本質的なユーザー体験に影響を与えてはならないため、警告表示のみ行う
-        if (__DEV__) {
-          console.warn(`[Analytics Failed] event: ${eventName}`, error.message);
-        }
-      }
-    }
-  } catch {
-    // catchして静かに無視する
+  // DB容量節約のため、Supabaseへのイベント送信は無効化し、開発ログ出力のみにします。
+  if (__DEV__) {
+    console.log(`[Event Tracked] ${eventName}`, payload || {});
   }
 };

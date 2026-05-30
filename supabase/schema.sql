@@ -38,7 +38,16 @@ CREATE TABLE IF NOT EXISTS public.diagnosis_sessions (
   completed_at timestamptz
 );
 
--- 3. votes テーブル
+-- 3. image_country_stats テーブル (国別の画像投票集計データ)
+CREATE TABLE IF NOT EXISTS public.image_country_stats (
+  image_id uuid REFERENCES public.images(id) ON DELETE CASCADE,
+  country_code text NOT NULL, -- 言語ロケールコード
+  like_count integer DEFAULT 0,
+  skip_count integer DEFAULT 0,
+  PRIMARY KEY (image_id, country_code)
+);
+
+-- 4. votes テーブル
 CREATE TABLE IF NOT EXISTS public.votes (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   anonymous_user_id text NOT NULL,

@@ -9,20 +9,19 @@ SELECT
   i.body_silhouette,
   i.tags,
   i.popularity_score,
-  COALESCE(COUNT(v.id) FILTER (WHERE v.vote_type = 'like'), 0) AS like_count,
-  COALESCE(COUNT(v.id) FILTER (WHERE v.vote_type = 'skip'), 0) AS skip_count,
-  COUNT(v.id) AS total_votes,
+  COALESCE(SUM(c.like_count), 0) AS like_count,
+  COALESCE(SUM(c.skip_count), 0) AS skip_count,
+  COALESCE(SUM(c.like_count + c.skip_count), 0) AS total_votes,
   CASE
-    -- 実投票が5票未満の場合は、実投票の傾向と初期スコア(popularity_score)をブレンドしてスコアの急激な変動を防ぐ
-    WHEN COUNT(v.id) >= 5 THEN
-      (COUNT(v.id) FILTER (WHERE v.vote_type = 'like')::float / COUNT(v.id)::float) * 100
-    WHEN COUNT(v.id) > 0 THEN
-      ((COUNT(v.id) FILTER (WHERE v.vote_type = 'like')::float / COUNT(v.id)::float) * 100 * 0.5) + (i.popularity_score::float * 0.5)
+    WHEN COALESCE(SUM(c.like_count + c.skip_count), 0) >= 5 THEN
+      (COALESCE(SUM(c.like_count), 0)::float / COALESCE(SUM(c.like_count + c.skip_count), 1)::float) * 100
+    WHEN COALESCE(SUM(c.like_count + c.skip_count), 0) > 0 THEN
+      ((COALESCE(SUM(c.like_count), 0)::float / COALESCE(SUM(c.like_count + c.skip_count), 1)::float) * 100 * 0.5) + (i.popularity_score::float * 0.5)
     ELSE
       i.popularity_score::float
   END AS like_rate
 FROM public.images i
-LEFT JOIN public.votes v ON i.id = v.image_id
+LEFT JOIN public.image_country_stats c ON i.id = c.image_id
 WHERE i.active = true AND i.safety_status = 'approved'
 GROUP BY i.id, i.style_group, i.regional_style, i.body_silhouette, i.tags, i.popularity_score;
 

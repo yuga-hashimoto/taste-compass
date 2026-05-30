@@ -28,6 +28,7 @@ type Background =
 export interface DiagnosisImageSeedSlot {
   id: string;
   fileName: string;
+  image_url: string;
   batch: number;
   slot: number;
   style_group: Exclude<StyleGroup, 'sexy'>;
@@ -226,7 +227,8 @@ export const diagnosisImageSeedPlan: DiagnosisImageSeedSlot[] = Array.from(
 
     return {
       id,
-      fileName: `diagnosis/b${batchPart}/${id}.webp`,
+      fileName: `public/images/diagnosis/b${batchPart}/${id}.webp`,
+      image_url: `/images/diagnosis/b${batchPart}/${id}.webp`,
       batch,
       slot,
       style_group,
@@ -264,7 +266,7 @@ export const diagnosisImageBatchPlan = Array.from({ length: BATCH_COUNT }, (_, b
     size: IMAGES_PER_BATCH,
     assetIndexStart: start,
     assetIndexEnd: end,
-    directory: `diagnosis/b${toBatchPart(batch)}`,
+    directory: `public/images/diagnosis/b${toBatchPart(batch)}`,
   };
 });
 

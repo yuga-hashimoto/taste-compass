@@ -55,5 +55,31 @@ BEGIN
 END;
 $$;
 
+-- 2. 画像の国別投票を加算(UPSERT)するRPC
+CREATE OR REPLACE FUNCTION public.increment_image_vote(
+  p_image_id uuid,
+  p_country_code text,
+  p_vote_type text
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  IF p_vote_type = 'like' THEN
+    INSERT INTO public.image_country_stats (image_id, country_code, like_count, skip_count)
+    VALUES (p_image_id, p_country_code, 1, 0)
+    ON CONFLICT (image_id, country_code)
+    DO UPDATE SET like_count = public.image_country_stats.like_count + 1;
+  ELSIF p_vote_type = 'skip' THEN
+    INSERT INTO public.image_country_stats (image_id, country_code, like_count, skip_count)
+    VALUES (p_image_id, p_country_code, 0, 1)
+    ON CONFLICT (image_id, country_code)
+    DO UPDATE SET skip_count = public.image_country_stats.skip_count + 1;
+  END IF;
+END;
+$$;
+
 -- RPCの実行権限をanon/authenticatedに付与
 GRANT EXECUTE ON FUNCTION public.get_overall_stats() TO anon, authenticated;
+GRANT EXECUTE ON FUNCTION public.increment_image_vote(uuid, text, text) TO anon, authenticated;

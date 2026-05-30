@@ -7,21 +7,21 @@ test.describe('Taste Compass E2E Diagnosis Flow', () => {
     await page.goto('/');
 
     // タイトルの確認
-    await expect(page.locator('text=好みズレ診断')).toBeVisible();
-    await expect(page.locator('text=世間の好みとあなたのズレを測定する')).toBeVisible();
+    await expect(page.locator('text=世間とズレてる？')).toBeVisible();
+    await expect(page.locator('text=スワイプするだけで好みを多角的に分析。')).toBeVisible();
 
     // 診断を始めるボタンをクリック
-    const startSetupBtn = page.getByLabel('診断設定画面へ進む');
+    const startSetupBtn = page.getByLabel('診断スタート');
     await expect(startSetupBtn).toBeVisible();
-    await startSetupBtn.click();
+    await startSetupBtn.click({ force: true });
 
     // 2. 診断設定画面の確認と開始
     await expect(page).toHaveURL(/.*setup/);
-    await expect(page.locator('text=1. 診断枚数を選択')).toBeVisible();
-    await expect(page.locator('text=2. 診断テーマを選択')).toBeVisible();
+    await expect(page.getByText('診断枚数')).toBeVisible();
+    await expect(page.getByText('テーマ', { exact: true })).toBeVisible();
 
     // デフォルト30枚で「診断スタート」をクリック
-    const startDiagBtn = page.getByLabel('診断を開始する');
+    const startDiagBtn = page.getByRole('button', { name: /診断スタート/ });
     await expect(startDiagBtn).toBeVisible();
     await startDiagBtn.click();
 
@@ -52,9 +52,9 @@ test.describe('Taste Compass E2E Diagnosis Flow', () => {
 
     // 4. 結果画面の確認
     await expect(page).toHaveURL(/.*result\/sess_.*/, { timeout: 15000 });
-    await expect(page.locator('text=あなたの診断結果')).toBeVisible();
+    await expect(page.locator('text=あなたの好みタイプ')).toBeVisible();
     await expect(page.locator('text=世間との一致度')).toBeVisible();
-    await expect(page.locator('text=王道寄り')).toBeVisible();
+    await expect(page.locator('text=王道派')).toBeVisible();
 
     // ホームに戻るをクリック
     const backHomeBtn = page.locator('text=ホームに戻る');

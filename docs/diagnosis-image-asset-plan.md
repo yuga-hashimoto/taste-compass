@@ -18,8 +18,9 @@ Expo 56 documentation checked before preparing this artifact: `https://docs.expo
 - Image id: `tc_diag_b{batch}_s{slot}`.
 - Batch format: two digits, `01` through `50`.
 - Slot format: two digits, `01` through `10`.
-- File path: `diagnosis/b{batch}/tc_diag_b{batch}_s{slot}.webp`.
-- Example: `tc_diag_b07_s04` maps to `diagnosis/b07/tc_diag_b07_s04.webp`.
+- Source file path: `public/images/diagnosis/b{batch}/tc_diag_b{batch}_s{slot}.webp`.
+- App `image_url`: `/images/diagnosis/b{batch}/tc_diag_b{batch}_s{slot}.webp`.
+- Example: `tc_diag_b07_s04` maps to `public/images/diagnosis/b07/tc_diag_b07_s04.webp` and `/images/diagnosis/b07/tc_diag_b07_s04.webp`.
 
 ## Safety Rules
 
@@ -181,7 +182,7 @@ Recommended generated metadata shape:
 ```json
 {
   "id": "tc_diag_b01_s01",
-  "image_url": "diagnosis/b01/tc_diag_b01_s01.webp",
+  "image_url": "/images/diagnosis/b01/tc_diag_b01_s01.webp",
   "style_group": "natural",
   "regional_style": "japanese_style",
   "vibe_type": "natural",
