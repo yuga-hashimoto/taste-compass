@@ -47,7 +47,7 @@ export const fr: TranslationKeys = {
   setup: {
     stepLabel: 'ÉTAPE 1 SUR 2',
     pageTitle: 'Configuration',
-    pageSub: 'Choisissez la quantité et le thème',
+    pageSub: 'Choisissez la quantité',
     countSection: 'Nombre de cartes',
     themeSection: 'Thème',
     recommended: 'Rec.',
@@ -77,6 +77,7 @@ export const fr: TranslationKeys = {
     swipeHint: 'Swipez pour voter',
   },
   result: {
+    title: 'Résultat du diagnostic',
     loading: 'Analyse de vos résultats...',
     yourType: 'Votre type de préférence',
     compatibilityLabel: 'Correspondance avec le monde',

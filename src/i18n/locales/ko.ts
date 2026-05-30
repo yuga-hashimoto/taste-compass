@@ -47,7 +47,7 @@ export const ko: TranslationKeys = {
   setup: {
     stepLabel: 'STEP 1 OF 2',
     pageTitle: '진단 설정',
-    pageSub: '장수와 테마를 선택하고 시작하세요',
+    pageSub: '진단 장수를 선택하고 시작하세요',
     countSection: '진단 장수',
     themeSection: '테마',
     recommended: '추천',
@@ -77,6 +77,7 @@ export const ko: TranslationKeys = {
     swipeHint: '스와이프로 판정',
   },
   result: {
+    title: '진단 결과',
     loading: '결과를 분석 중...',
     yourType: '나의 취향 타입',
     compatibilityLabel: '세상과의 일치도',

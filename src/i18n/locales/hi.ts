@@ -47,7 +47,7 @@ export const hi: TranslationKeys = {
   setup: {
     stepLabel: 'चरण 1 / 2',
     pageTitle: 'सेटअप',
-    pageSub: 'संख्या और थीम चुनें और शुरू करें',
+    pageSub: 'संख्या चुनें और शुरू करें',
     countSection: 'कार्ड की संख्या',
     themeSection: 'थीम',
     recommended: 'अनुशंसित',
@@ -77,6 +77,7 @@ export const hi: TranslationKeys = {
     swipeHint: 'रेट करने के लिए स्वाइप करें',
   },
   result: {
+    title: 'निदान परिणाम',
     loading: 'आपके परिणामों का विश्लेषण हो रहा है...',
     yourType: 'आपका पसंद प्रकार',
     compatibilityLabel: 'दुनिया से मेल',

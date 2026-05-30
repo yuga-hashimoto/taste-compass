@@ -39,22 +39,48 @@ const LANG_STORAGE_KEY = 'taste_compass_language';
 // ── デバイス言語 → サポート言語コードへのマッピング ──────────
 function detectDeviceLang(): string {
   try {
-    const locales = getLocales();
-    if (!locales || locales.length === 0) return 'en';
+    // 1. Webブラウザ環境での言語検出を優先
+    if (typeof navigator !== 'undefined') {
+      const navLangs = navigator.languages || [navigator.language];
+      for (const rawLang of navLangs) {
+        if (!rawLang) continue;
+        const normalized = rawLang.toLowerCase();
 
-    for (const locale of locales) {
-      const lang = locale.languageCode ?? '';
-      const region = locale.regionCode ?? '';
-      const full = `${lang}-${region}`;
+        // 繁体字優先チェック
+        if (
+          normalized.startsWith('zh-tw') ||
+          normalized.startsWith('zh-hk') ||
+          normalized.startsWith('zh-mo')
+        ) {
+          return 'zh-TW';
+        }
+        if (normalized.startsWith('zh')) {
+          return 'zh-CN';
+        }
 
-      // 繁体字優先チェック
-      if (lang === 'zh' && (region === 'TW' || region === 'HK' || region === 'MO')) {
-        return 'zh-TW';
+        const short = normalized.split('-')[0];
+        if (SUPPORTED_LANGS.includes(normalized)) return normalized;
+        if (SUPPORTED_LANGS.includes(short)) return short;
       }
-      if (lang === 'zh') return 'zh-CN';
+    }
 
-      if (SUPPORTED_LANGS.includes(full)) return full;
-      if (SUPPORTED_LANGS.includes(lang)) return lang;
+    // 2. React Nativeネイティブ環境でのフォールバック
+    const locales = getLocales();
+    if (locales && locales.length > 0) {
+      for (const locale of locales) {
+        const lang = locale.languageCode ?? '';
+        const region = locale.regionCode ?? '';
+        const full = `${lang}-${region}`;
+
+        // 繁体字優先チェック
+        if (lang === 'zh' && (region === 'TW' || region === 'HK' || region === 'MO')) {
+          return 'zh-TW';
+        }
+        if (lang === 'zh') return 'zh-CN';
+
+        if (SUPPORTED_LANGS.includes(full)) return full;
+        if (SUPPORTED_LANGS.includes(lang)) return lang;
+      }
     }
   } catch {}
   return 'en';

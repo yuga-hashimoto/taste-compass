@@ -49,3 +49,6 @@ test-results/
 playwright-report/
 .claude/
 .vscode/
+
+# scratch directory
+/scratch

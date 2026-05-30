@@ -47,7 +47,7 @@ export const zhCN: TranslationKeys = {
   setup: {
     stepLabel: '第 1 步 共 2 步',
     pageTitle: '测试设置',
-    pageSub: '选择张数和主题开始测试',
+    pageSub: '选择测试张数开始测试',
     countSection: '测试张数',
     themeSection: '主题',
     recommended: '推荐',
@@ -77,6 +77,7 @@ export const zhCN: TranslationKeys = {
     swipeHint: '滑动判断',
   },
   result: {
+    title: '诊断结果',
     loading: '分析结果中...',
     yourType: '你的喜好类型',
     compatibilityLabel: '与世界的契合度',

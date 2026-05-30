@@ -25,7 +25,7 @@ export default function SetupScreen() {
   const { t, i } = useI18n();
 
   const [selectedCount, setSelectedCount] = useState(30);
-  const [selectedTheme, setSelectedTheme] = useState<typeof THEME_IDS[number]>('all');
+  const selectedTheme = 'all';
 
   const fadeAnim  = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(24)).current;
@@ -106,42 +106,7 @@ export default function SetupScreen() {
         </View>
       </Animated.View>
 
-      {/* ─── テーマ選択 ─── */}
-      <Animated.View style={[styles.section, { opacity: fadeAnim }]}>
-        <Text style={styles.sectionLabel}>{t.setup.themeSection}</Text>
-        <View style={styles.themeGrid}>
-          {themes.map((th) => {
-            const active = selectedTheme === th.id;
-            return (
-              <Pressable
-                key={th.id}
-                style={({ pressed }) => [
-                  styles.themeChip,
-                  active && styles.themeChipActive,
-                  pressed && styles.pressed,
-                ]}
-                onPress={() => setSelectedTheme(th.id)}
-                accessibilityRole="radio"
-                accessibilityState={{ checked: active }}
-              >
-                <ThemeIcon
-                  themeId={th.id}
-                  size={16}
-                  color={active ? THEME.colors.primary : THEME.colors.textSub}
-                />
-                <Text style={[styles.themeLabel, active && styles.themeLabelActive]}>
-                  {th.label}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
 
-        {/* 選択中テーマの説明 */}
-        <View style={styles.themeDescBox}>
-          <Text style={styles.themeDescText}>{activeTheme?.desc ?? ''}</Text>
-        </View>
-      </Animated.View>
 
       {/* ─── スタートボタン ─── */}
       <Animated.View style={[styles.startArea, { opacity: fadeAnim }]}>

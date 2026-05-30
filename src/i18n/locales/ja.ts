@@ -52,7 +52,7 @@ export const ja = {
   setup: {
     stepLabel: 'STEP 1 OF 2',
     pageTitle: '診断の設定',
-    pageSub: '枚数とテーマを選んでスタート',
+    pageSub: '枚数を選んでスタート',
     countSection: '診断枚数',
     themeSection: 'テーマ',
     recommended: '推奨',
@@ -86,6 +86,7 @@ export const ja = {
 
   // ── 結果画面 ──────────────────────────────────────
   result: {
+    title: '診断結果',
     loading: '結果を分析中...',
     yourType: 'あなたの好みタイプ',
     compatibilityLabel: '世間との一致度',

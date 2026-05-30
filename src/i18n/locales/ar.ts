@@ -47,7 +47,7 @@ export const ar: TranslationKeys = {
   setup: {
     stepLabel: 'الخطوة 1 من 2',
     pageTitle: 'الإعداد',
-    pageSub: 'اختر العدد والموضوع للبدء',
+    pageSub: 'اختر العدد للبدء',
     countSection: 'عدد البطاقات',
     themeSection: 'الموضوع',
     recommended: 'موصى',
@@ -77,6 +77,7 @@ export const ar: TranslationKeys = {
     swipeHint: 'مرر للتقييم',
   },
   result: {
+    title: 'نتيجة التشخيص',
     loading: 'جارٍ تحليل نتائجك...',
     yourType: 'نوع تفضيلك',
     compatibilityLabel: 'التوافق مع العالم',

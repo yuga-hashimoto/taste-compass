@@ -47,7 +47,7 @@ export const id: TranslationKeys = {
   setup: {
     stepLabel: 'LANGKAH 1 DARI 2',
     pageTitle: 'Pengaturan',
-    pageSub: 'Pilih jumlah dan tema untuk memulai',
+    pageSub: 'Pilih jumlah untuk memulai',
     countSection: 'Jumlah Kartu',
     themeSection: 'Tema',
     recommended: 'Rec.',
@@ -77,6 +77,7 @@ export const id: TranslationKeys = {
     swipeHint: 'Geser untuk menilai',
   },
   result: {
+    title: 'Hasil Diagnosis',
     loading: 'Menganalisis hasil kamu...',
     yourType: 'Tipe Preferensi Kamu',
     compatibilityLabel: 'Kecocokan dengan Dunia',

@@ -185,7 +185,7 @@ export default function ResultScreen() {
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((s) => s.anonymousUserId);
-  const { t, i } = useI18n();
+  const { t, lang, changeLanguage, allLangs, i } = useI18n();
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<any>(null);
@@ -252,10 +252,16 @@ export default function ResultScreen() {
 
   const {
     compatibility_score, preference_type, preference_type_emoji,
-    mainstream_score, uniqueness_score, country_affinity,
-    body_preference, age_preference, vibe_preference,
-    rarity, meters, summary_json,
+    mainstream_score, uniqueness_score, summary_json,
   } = result;
+
+  // 以前のコードと互換性を保ちつつ、summary_json から拡張データを復元
+  const country_affinity = result.country_affinity || summary_json?.country_affinity;
+  const body_preference = result.body_preference || summary_json?.body_preference;
+  const age_preference = result.age_preference || summary_json?.age_preference;
+  const vibe_preference = result.vibe_preference || summary_json?.vibe_preference;
+  const rarity = result.rarity || summary_json?.rarity;
+  const meters = result.meters || summary_json?.meters;
 
   const top3Countries = (country_affinity?.rankings || []).slice(0, 5);
 

@@ -18,7 +18,6 @@ test.describe('Taste Compass E2E Diagnosis Flow', () => {
     // 2. 診断設定画面の確認と開始
     await expect(page).toHaveURL(/.*setup/);
     await expect(page.getByText('診断枚数')).toBeVisible();
-    await expect(page.getByText('テーマ', { exact: true })).toBeVisible();
 
     // デフォルト30枚で「診断スタート」をクリック
     const startDiagBtn = page.getByRole('button', { name: /診断スタート/ });

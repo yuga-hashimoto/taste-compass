@@ -47,7 +47,7 @@ export const vi: TranslationKeys = {
   setup: {
     stepLabel: 'BƯỚC 1 / 2',
     pageTitle: 'Cài Đặt',
-    pageSub: 'Chọn số lượng và chủ đề để bắt đầu',
+    pageSub: 'Chọn số lượng để bắt đầu',
     countSection: 'Số Thẻ',
     themeSection: 'Chủ Đề',
     recommended: 'Gợi ý',
@@ -77,6 +77,7 @@ export const vi: TranslationKeys = {
     swipeHint: 'Vuốt để đánh giá',
   },
   result: {
+    title: 'Kết quả chẩn đoán',
     loading: 'Đang phân tích kết quả của bạn...',
     yourType: 'Kiểu Sở Thích Của Bạn',
     compatibilityLabel: 'Mức Độ Tương Đồng Với Thế Giới',

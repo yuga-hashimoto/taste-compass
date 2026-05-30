@@ -47,7 +47,7 @@ export const zhTW: TranslationKeys = {
   setup: {
     stepLabel: '第 1 步 共 2 步',
     pageTitle: '測驗設定',
-    pageSub: '選擇張數和主題開始測驗',
+    pageSub: '選擇測試張數開始測驗',
     countSection: '測驗張數',
     themeSection: '主題',
     recommended: '推薦',
@@ -77,6 +77,7 @@ export const zhTW: TranslationKeys = {
     swipeHint: '滑動判斷',
   },
   result: {
+    title: '診斷結果',
     loading: '分析結果中...',
     yourType: '你的喜好類型',
     compatibilityLabel: '與世界的契合度',

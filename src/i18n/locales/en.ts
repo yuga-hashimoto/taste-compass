@@ -47,7 +47,7 @@ export const en: TranslationKeys = {
   setup: {
     stepLabel: 'STEP 1 OF 2',
     pageTitle: 'Setup',
-    pageSub: 'Choose count & theme to start',
+    pageSub: 'Choose count to start',
     countSection: 'Number of Cards',
     themeSection: 'Theme',
     recommended: 'Rec.',
@@ -77,6 +77,7 @@ export const en: TranslationKeys = {
     swipeHint: 'Swipe to rate',
   },
   result: {
+    title: 'Diagnosis Result',
     loading: 'Analyzing your results...',
     yourType: 'Your Preference Type',
     compatibilityLabel: 'Match with the World',

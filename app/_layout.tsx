@@ -13,22 +13,24 @@ export default function RootLayout() {
   const initializeStore = useDiagnosisStore((state) => state.initializeStore);
   const anonymousUserId = useDiagnosisStore((state) => state.anonymousUserId);
   const { t } = useI18n();
+  const [isReady, setIsReady] = React.useState(false);
 
   useEffect(() => {
     LogBox.ignoreAllLogs(true);
     const init = async () => {
       await initI18n();        // ← i18n初期化（デバイス言語検出）
       await initializeStore();
+      setIsReady(true);
     };
     init();
   }, [initializeStore]);
 
   useEffect(() => {
-    if (anonymousUserId) {
+    if (isReady && anonymousUserId) {
       // アプリ起動イベントのトラッキング
       trackEvent(anonymousUserId, 'app_open');
     }
-  }, [anonymousUserId]);
+  }, [isReady, anonymousUserId]);
 
   // Webブラウザで動作している場合、プレミアムなフォントやリセットスタイルをインジェクションする
   useEffect(() => {
@@ -53,10 +55,29 @@ export default function RootLayout() {
         button, a, input, select {
           outline: none;
         }
+        /* プレミアムなホバー・タップマイクロインタラクション */
+        [role="button"], button, a {
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.15s ease !important;
+        }
+        [role="button"]:hover, button:hover, a:hover {
+          transform: scale(1.03);
+          opacity: 0.95;
+        }
+        [role="button"]:active, button:active, a:active {
+          transform: scale(0.97);
+        }
       `;
       document.head.appendChild(style);
     }
   }, []);
+
+  if (!isReady) {
+    return (
+      <View style={{ flex: 1, backgroundColor: THEME.colors.background, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{ width: 40, height: 40, borderRadius: 20, borderWidth: 3, borderColor: THEME.colors.primary, borderTopColor: 'transparent' }} />
+      </View>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,7 +107,7 @@ export default function RootLayout() {
           />
           <Stack.Screen
             name="result/[sessionId]"
-            options={{ title: t.common.home, headerLeft: () => null }}
+            options={{ title: t.result.title, headerLeft: () => null }}
           />
           <Stack.Screen name="history" options={{ title: t.nav.history }} />
           <Stack.Screen name="stats" options={{ title: t.nav.stats }} />

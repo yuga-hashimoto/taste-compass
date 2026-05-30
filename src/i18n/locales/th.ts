@@ -47,7 +47,7 @@ export const th: TranslationKeys = {
   setup: {
     stepLabel: 'ขั้นตอน 1 จาก 2',
     pageTitle: 'ตั้งค่าการทดสอบ',
-    pageSub: 'เลือกจำนวนและธีมเพื่อเริ่ม',
+    pageSub: 'เลือกจำนวนเพื่อเริ่ม',
     countSection: 'จำนวนการ์ด',
     themeSection: 'ธีม',
     recommended: 'แนะนำ',
@@ -77,6 +77,7 @@ export const th: TranslationKeys = {
     swipeHint: 'ปัดเพื่อให้คะแนน',
   },
   result: {
+    title: 'ผลการวินิจฉัย',
     loading: 'กำลังวิเคราะห์ผลลัพธ์ของคุณ...',
     yourType: 'ประเภทรสนิยมของคุณ',
     compatibilityLabel: 'ความใกล้เคียงกับโลก',

@@ -17,6 +17,13 @@ export interface DiagnosisResultItem {
   uniqueness_score: number;
   summary_json: any;
   created_at: string;
+  // 拡張データ (summary_json 内に格納されるが、ランタイムマッピング用に定義)
+  country_affinity?: any;
+  body_preference?: any;
+  age_preference?: any;
+  vibe_preference?: any;
+  rarity?: any;
+  meters?: any;
 }
 
 /**
@@ -35,7 +42,15 @@ export const saveDiagnosisResult = async (
     preference_type_emoji: scoringResult.preference_type_emoji,
     mainstream_score: scoringResult.mainstream_score,
     uniqueness_score: scoringResult.uniqueness_score,
-    summary_json: scoringResult.summary_json,
+    summary_json: {
+      ...scoringResult.summary_json,
+      country_affinity: scoringResult.country_affinity,
+      body_preference: scoringResult.body_preference,
+      age_preference: scoringResult.age_preference,
+      vibe_preference: scoringResult.vibe_preference,
+      rarity: scoringResult.rarity,
+      meters: scoringResult.meters,
+    },
   };
 
   let savedItem: DiagnosisResultItem | null = null;
