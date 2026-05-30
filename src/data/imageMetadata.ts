@@ -708,7 +708,7 @@ export const LOCAL_IMAGES: ImageMetadata[] = [
     hair_style: 'short',
     skin_tone: 'dark',
     makeup_level: 'natural',
-    tags: ["casual","global_mixed","early20s","short","dark","park_daylight"],
+    tags: ['casual', 'global_mixed', 'early20s', 'short', 'dark', 'park_daylight'],
     popularity_score: 50,
   },
   {
@@ -725,7 +725,7 @@ export const LOCAL_IMAGES: ImageMetadata[] = [
     hair_style: 'updo',
     skin_tone: 'fair',
     makeup_level: 'moderate',
-    tags: ["simple","chinese_style","late20s","updo","fair","studio_soft_light"],
+    tags: ['simple', 'chinese_style', 'late20s', 'updo', 'fair', 'studio_soft_light'],
     popularity_score: 50,
   },
   {
@@ -742,7 +742,7 @@ export const LOCAL_IMAGES: ImageMetadata[] = [
     hair_style: 'long_wave',
     skin_tone: 'tan',
     makeup_level: 'gyaru',
-    tags: ["elegant","south_asian_style","thirties","long_wave","tan","cafe"],
+    tags: ['elegant', 'south_asian_style', 'thirties', 'long_wave', 'tan', 'cafe'],
     popularity_score: 50,
   },
 ];
