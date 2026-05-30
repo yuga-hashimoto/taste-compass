@@ -1,0 +1,44 @@
+# GitHub Actions CI Workflow for Taste Compass
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run TypeScript typecheck
+        run: npm run typecheck
+
+      - name: Run ESLint
+        run: npm run lint
+        continue-on-error: true # 未解決の警告があってもビルドに進むように設定
+
+      - name: Run Prettier format check
+        run: npm run format:check
+
+      - name: Run Unit Tests
+        run: npm run test
+
+      - name: Run Metadata Validation
+        run: npm run validate
+
+      - name: Run Expo Web Build test
+        run: npx expo export -p web

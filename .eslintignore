@@ -1,0 +1,8 @@
+node_modules
+coverage
+.expo
+web-build
+dist
+scripts/reset-project.js
+playwright-report
+test-results

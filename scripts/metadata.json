@@ -1,0 +1,44 @@
+[
+  {
+    "file_name": "img_0001.webp",
+    "style_group": "natural",
+    "regional_style": "japanese_style",
+    "skin_tone": "light",
+    "hair_texture": "straight",
+    "fashion_culture": "minimal",
+    "body_silhouette": "balanced",
+    "bust_impression": "average",
+    "height_impression": "average",
+    "overall_style": "clean",
+    "tags": ["ナチュラル", "清楚", "黒髪", "カフェ", "落ち着いた"],
+    "short_description": "カフェで自然に微笑む架空成人女性。露出控えめの私服。"
+  },
+  {
+    "file_name": "img_0002.webp",
+    "style_group": "korean",
+    "regional_style": "korean_style",
+    "skin_tone": "fair",
+    "hair_texture": "straight",
+    "fashion_culture": "trendy",
+    "body_silhouette": "slim",
+    "bust_impression": "subtle",
+    "height_impression": "average",
+    "overall_style": "clean",
+    "tags": ["トレンド", "シンプル", "韓国風", "綺麗め", "ボブ"],
+    "short_description": "街並みをバックにしたトレンドスタイルの架空成人女性。"
+  },
+  {
+    "file_name": "img_0003.webp",
+    "style_group": "cool",
+    "regional_style": "western_style",
+    "skin_tone": "light",
+    "hair_texture": "wavy",
+    "fashion_culture": "urban",
+    "body_silhouette": "healthy",
+    "bust_impression": "average",
+    "height_impression": "tall",
+    "overall_style": "cool",
+    "tags": ["クール", "都会的", "モノトーン", "モード", "ロングヘア"],
+    "short_description": "都会的なモノトーンコーデをまとった架空成人女性。"
+  }
+]
