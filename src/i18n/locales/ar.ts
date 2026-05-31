@@ -54,7 +54,7 @@ export const ar: TranslationKeys = {
     approx5min: '~5 دقائق',
     approx8min: '~8 دقائق',
     approx15min: '~15 دقيقة',
-    startBtn: '{{count}} بطاقة · {{theme}} → ابدأ',
+    startBtn: 'ابدأ',
     themes: {
       all:     { label: 'كل الأنماط',  desc: 'تحليل شامل بأنماط متنوعة' },
       natural: { label: 'طبيعي',       desc: 'مظهر نظيف، طبيعي، منعش' },
@@ -105,7 +105,10 @@ export const ar: TranslationKeys = {
       global:       'عالمي',
     },
   },
-  nav: { home: 'الرئيسية', history: 'السجل', stats: 'الإحصائيات', settings: 'الإعدادات' },
+  nav: {
+    home: 'الرئيسية',
+    diagnosis: 'التشخيص',
+    history: 'السجل', stats: 'الإحصائيات', settings: 'الإعدادات' },
   settings: {
     title: 'الإعدادات',
     language: 'اللغة',

@@ -54,7 +54,7 @@ export const zhTW: TranslationKeys = {
     approx5min: '約5分鐘',
     approx8min: '約8分鐘',
     approx15min: '約15分鐘',
-    startBtn: '{{count}}張 · {{theme}} 開始測驗',
+    startBtn: '開始測驗',
     themes: {
       all:     { label: '全部風格',   desc: '多樣風格的綜合測驗' },
       natural: { label: '自然系',     desc: '清純·自然·清潔感' },
@@ -105,7 +105,10 @@ export const zhTW: TranslationKeys = {
       global:       '全球化',
     },
   },
-  nav: { home: '首頁', history: '歷史', stats: '統計', settings: '設定' },
+  nav: {
+    home: '首頁',
+    diagnosis: '測驗',
+    history: '歷史', stats: '統計', settings: '設定' },
   settings: {
     title: '設定',
     language: '語言',

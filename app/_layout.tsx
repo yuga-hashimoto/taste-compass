@@ -103,7 +103,7 @@ export default function RootLayout() {
           <Stack.Screen name="setup" options={{ title: t.setup.pageTitle }} />
           <Stack.Screen
             name="diagnosis"
-            options={{ title: t.nav.home, headerLeft: () => null }}
+            options={{ title: t.nav.diagnosis, headerLeft: () => null }}
           />
           <Stack.Screen
             name="result/[sessionId]"

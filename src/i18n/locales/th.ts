@@ -54,7 +54,7 @@ export const th: TranslationKeys = {
     approx5min: '~5 นาที',
     approx8min: '~8 นาที',
     approx15min: '~15 นาที',
-    startBtn: '{{count}} ใบ · {{theme}} → เริ่ม',
+    startBtn: 'เริ่ม',
     themes: {
       all:     { label: 'ทุกสไตล์',    desc: 'วิเคราะห์หลากหลายสไตล์' },
       natural: { label: 'เนเชอรัล',    desc: 'ดูสะอาด เป็นธรรมชาติ สดชื่น' },
@@ -105,7 +105,13 @@ export const th: TranslationKeys = {
       global:       'โกลบอล',
     },
   },
-  nav: { home: 'หน้าหลัก', history: 'ประวัติ', stats: 'สถิติ', settings: 'ตั้งค่า' },
+  nav: {
+    home: 'หน้าแรก',
+    diagnosis: 'การวินิจฉัย',
+    history: 'ประวัติ',
+    stats: 'Stats',
+    settings: 'ตั้งค่า',
+  },
   settings: {
     title: 'การตั้งค่า',
     language: 'ภาษา',

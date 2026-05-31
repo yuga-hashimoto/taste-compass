@@ -54,7 +54,7 @@ export const en: TranslationKeys = {
     approx5min: '~5 min',
     approx8min: '~8 min',
     approx15min: '~15 min',
-    startBtn: '{{count}} cards · {{theme}} → Start',
+    startBtn: 'Start',
     themes: {
       all:     { label: 'All Styles',    desc: 'Diverse styles for a broad analysis' },
       natural: { label: 'Natural',       desc: 'Clean, natural, fresh look' },
@@ -107,6 +107,7 @@ export const en: TranslationKeys = {
   },
   nav: {
     home: 'Home',
+    diagnosis: 'Diagnosis',
     history: 'History',
     stats: 'Stats',
     settings: 'Settings',

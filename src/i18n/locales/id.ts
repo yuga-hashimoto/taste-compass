@@ -54,7 +54,7 @@ export const id: TranslationKeys = {
     approx5min: '~5 menit',
     approx8min: '~8 menit',
     approx15min: '~15 menit',
-    startBtn: '{{count}} kartu · {{theme}} → Mulai',
+    startBtn: 'Mulai',
     themes: {
       all:     { label: 'Semua Gaya',  desc: 'Analisis luas dengan berbagai gaya' },
       natural: { label: 'Natural',     desc: 'Tampil bersih, natural, segar' },
@@ -105,7 +105,13 @@ export const id: TranslationKeys = {
       global:       'Global',
     },
   },
-  nav: { home: 'Beranda', history: 'Riwayat', stats: 'Statistik', settings: 'Pengaturan' },
+  nav: {
+    home: 'Beranda',
+    diagnosis: 'Diagnosis',
+    history: 'Riwayat',
+    stats: 'Stats',
+    settings: 'Pengaturan',
+  },
   settings: {
     title: 'Pengaturan',
     language: 'Bahasa',

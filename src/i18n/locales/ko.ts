@@ -54,7 +54,7 @@ export const ko: TranslationKeys = {
     approx5min: '약 5분',
     approx8min: '약 8분',
     approx15min: '약 15분',
-    startBtn: '{{count}}장 · {{theme}} 진단 시작',
+    startBtn: '진단 시작',
     themes: {
       all:     { label: '전체 장르',   desc: '다양한 스타일로 폭넓게 진단' },
       natural: { label: '내추럴 계열', desc: '청순·내추럴·청결한 느낌' },
@@ -107,6 +107,7 @@ export const ko: TranslationKeys = {
   },
   nav: {
     home: '홈',
+    diagnosis: '진단',
     history: '기록',
     stats: '통계',
     settings: '설정',

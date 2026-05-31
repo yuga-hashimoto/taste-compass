@@ -54,7 +54,7 @@ export const pt: TranslationKeys = {
     approx5min: '~5 min',
     approx8min: '~8 min',
     approx15min: '~15 min',
-    startBtn: '{{count}} cartas · {{theme}} → Iniciar',
+    startBtn: 'Iniciar',
     themes: {
       all:     { label: 'Todos',       desc: 'Estilos diversos para análise ampla' },
       natural: { label: 'Natural',     desc: 'Look limpo, natural, fresco' },
@@ -105,7 +105,13 @@ export const pt: TranslationKeys = {
       global:       'Global',
     },
   },
-  nav: { home: 'Início', history: 'Histórico', stats: 'Stats', settings: 'Config.' },
+  nav: {
+    home: 'Início',
+    diagnosis: 'Diagnóstico',
+    history: 'Histórico',
+    stats: 'Stats',
+    settings: 'Configurações',
+  },
   settings: {
     title: 'Configurações',
     language: 'Idioma',

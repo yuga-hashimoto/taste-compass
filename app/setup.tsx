@@ -117,7 +117,7 @@ export default function SetupScreen() {
           accessibilityRole="button"
         >
           <Text style={styles.startBtnText}>
-            {i(t.setup.startBtn, { count: selectedCount, theme: activeTheme?.label ?? '' })}
+            {t.setup.startBtn}
           </Text>
           <Text style={styles.startArrow}>→</Text>
         </Pressable>

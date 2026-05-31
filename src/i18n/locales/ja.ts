@@ -59,7 +59,7 @@ export const ja = {
     approx5min: '約5分',
     approx8min: '約8分',
     approx15min: '約15分',
-    startBtn: '{{count}}枚 · {{theme}} で診断スタート',
+    startBtn: '診断スタート',
     themes: {
       all:     { label: '全ジャンル',   desc: 'あらゆるスタイルから幅広く診断' },
       natural: { label: 'ナチュラル系', desc: '清楚・ナチュラル・清潔感系' },
@@ -118,6 +118,7 @@ export const ja = {
   // ── ナビゲーション ────────────────────────────────
   nav: {
     home:     'ホーム',
+    diagnosis: '診断',
     history:  '履歴',
     stats:    '統計',
     settings: '設定',

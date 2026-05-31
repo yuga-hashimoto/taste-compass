@@ -54,7 +54,7 @@ export const hi: TranslationKeys = {
     approx5min: '~5 मिनट',
     approx8min: '~8 मिनट',
     approx15min: '~15 मिनट',
-    startBtn: '{{count}} कार्ड · {{theme}} → शुरू करें',
+    startBtn: 'शुरू करें',
     themes: {
       all:     { label: 'सभी शैलियाँ',  desc: 'विविध शैलियों के साथ व्यापक विश्लेषण' },
       natural: { label: 'नेचुरल',       desc: 'साफ, प्राकृतिक, ताज़ा लुक' },
@@ -105,7 +105,13 @@ export const hi: TranslationKeys = {
       global:       'वैश्विक',
     },
   },
-  nav: { home: 'होम', history: 'इतिहास', stats: 'आँकड़े', settings: 'सेटिंग्स' },
+  nav: {
+    home: 'होम',
+    diagnosis: 'निदान',
+    history: 'इतिहास',
+    stats: 'आंकड़े',
+    settings: 'सेटिंग्स',
+  },
   settings: {
     title: 'सेटिंग्स',
     language: 'भाषा',

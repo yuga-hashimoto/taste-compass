@@ -54,7 +54,7 @@ export const zhCN: TranslationKeys = {
     approx5min: '约5分钟',
     approx8min: '约8分钟',
     approx15min: '约15分钟',
-    startBtn: '{{count}}张 · {{theme}} 开始测试',
+    startBtn: '开始测试',
     themes: {
       all:     { label: '全部风格',   desc: '多样风格的综合测试' },
       natural: { label: '自然系',     desc: '清纯·自然·清洁感' },
@@ -107,6 +107,7 @@ export const zhCN: TranslationKeys = {
   },
   nav: {
     home: '首页',
+    diagnosis: '测试',
     history: '历史',
     stats: '统计',
     settings: '设置',

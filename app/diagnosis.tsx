@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
   },
   keyGuide: {
     fontSize: 9,
-    color: THEME.colors.textMuted,
+    color: 'rgba(255, 255, 255, 0.7)',
     marginTop: 2,
   },
   loadingContainer: {

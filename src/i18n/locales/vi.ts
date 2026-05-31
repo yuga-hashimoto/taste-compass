@@ -54,7 +54,7 @@ export const vi: TranslationKeys = {
     approx5min: '~5 phút',
     approx8min: '~8 phút',
     approx15min: '~15 phút',
-    startBtn: '{{count}} thẻ · {{theme}} → Bắt đầu',
+    startBtn: 'Bắt đầu',
     themes: {
       all:     { label: 'Tất Cả',      desc: 'Phân tích rộng với phong cách đa dạng' },
       natural: { label: 'Tự Nhiên',    desc: 'Sạch sẽ, tự nhiên, tươi mát' },
@@ -105,7 +105,13 @@ export const vi: TranslationKeys = {
       global:       'Toàn Cầu',
     },
   },
-  nav: { home: 'Trang chủ', history: 'Lịch sử', stats: 'Thống kê', settings: 'Cài đặt' },
+  nav: {
+    home: 'Trang chủ',
+    diagnosis: 'Chẩn đoán',
+    history: 'Lịch sử',
+    stats: 'Stats',
+    settings: 'Cài đặt',
+  },
   settings: {
     title: 'Cài Đặt',
     language: 'Ngôn ngữ',
