@@ -246,6 +246,15 @@ export default function ResultScreen() {
     if (!result) return;
     trackEvent(anonymousUserId, 'result_share_click', { session_id: sessionId });
     const { preference_type, compatibility_score, country_affinity, rarity, summary_json } = result;
+
+    // 現在の診断結果ページのURLを特定 (Webでは実際のURL、アプリではWeb版のフォールバック)
+    let shareUrl = 'https://taste-compass.web.app';
+    if (Platform.OS === 'web' && typeof window !== 'undefined' && window.location) {
+      shareUrl = window.location.href;
+    } else if (sessionId) {
+      shareUrl = `https://taste-compass.web.app/result/${sessionId}`;
+    }
+
     const text = [
       `【好みズレ診断】${preference_type}`,
       `世間との一致度: ${compatibility_score}%`,
@@ -253,6 +262,9 @@ export default function ResultScreen() {
       `レア度: ${rarity?.label || ''}`,
       ``,
       summary_json?.style_analysis || '',
+      ``,
+      `診断はこちら👇`,
+      shareUrl,
       ``,
       `#好みズレ診断 #TasteCompass`,
     ].join('\n');
