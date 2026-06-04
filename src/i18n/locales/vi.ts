@@ -26,7 +26,8 @@ export const vi: TranslationKeys = {
     badge: '✦ Quiz Hình Ảnh AI',
     title: 'Gu thẩm mỹ của bạn\n',
     titleAccent: 'có khác với thế giới?',
-    subtitle: 'Chỉ cần vuốt để phân tích sở thích của bạn.\nSo sánh với các quốc gia khác, xu hướng vóc dáng & tuổi tác.',
+    subtitle:
+      'Chỉ cần vuốt để phân tích sở thích của bạn.\nSo sánh với các quốc gia khác, xu hướng vóc dáng & tuổi tác.',
     startBtn: 'Bắt Đầu Quiz',
     feature1Label: 'Vuốt để Đánh Giá',
     feature1Desc: 'Chỉ cần vuốt trái hoặc phải',
@@ -56,15 +57,15 @@ export const vi: TranslationKeys = {
     approx15min: '~15 phút',
     startBtn: 'Bắt đầu',
     themes: {
-      all:     { label: 'Tất Cả',      desc: 'Phân tích rộng với phong cách đa dạng' },
-      natural: { label: 'Tự Nhiên',    desc: 'Sạch sẽ, tự nhiên, tươi mát' },
-      cool:    { label: 'Cool',         desc: 'Đô thị, hiện đại, trí tuệ' },
-      cute:    { label: 'Dễ Thương',   desc: 'Idol, nữ tính, ngây thơ' },
-      sexy:    { label: 'Gợi Cảm',     desc: 'Quyến rũ, táo bạo, hấp dẫn' },
-      korean:  { label: 'K-Style',     desc: 'K-beauty và xu hướng Hàn Quốc' },
-      global:  { label: 'Toàn Cầu',   desc: 'Đa văn hóa và phong cách phương Tây' },
-      mature:  { label: 'Trưởng Thành',desc: 'Thanh lịch, trí tuệ, tinh tế' },
-      casual:  { label: 'Thường Ngày', desc: 'Thể thao, bình thường, thân thiện' },
+      all: { label: 'Tất Cả', desc: 'Phân tích rộng với phong cách đa dạng' },
+      natural: { label: 'Tự Nhiên', desc: 'Sạch sẽ, tự nhiên, tươi mát' },
+      cool: { label: 'Cool', desc: 'Đô thị, hiện đại, trí tuệ' },
+      cute: { label: 'Dễ Thương', desc: 'Idol, nữ tính, ngây thơ' },
+      sexy: { label: 'Gợi Cảm', desc: 'Quyến rũ, táo bạo, hấp dẫn' },
+      korean: { label: 'K-Style', desc: 'K-beauty và xu hướng Hàn Quốc' },
+      global: { label: 'Toàn Cầu', desc: 'Đa văn hóa và phong cách phương Tây' },
+      mature: { label: 'Trưởng Thành', desc: 'Thanh lịch, trí tuệ, tinh tế' },
+      casual: { label: 'Thường Ngày', desc: 'Thể thao, bình thường, thân thiện' },
     },
   },
   diagnosis: {
@@ -97,12 +98,12 @@ export const vi: TranslationKeys = {
     shareText:
       '[Taste Compass] {{type}}\nTương đồng: {{score}}%\nQuốc gia gần nhất: {{country}}\nĐộ hiếm: {{rarity}}\n\n{{analysis}}\n\n#TasteCompass',
     meters: {
-      gyaru:        'Gyaru',
-      pure:         'Thuần Khiết',
-      sexy:         'Gợi Cảm',
-      mature:       'Trưởng Thành',
+      gyaru: 'Gyaru',
+      pure: 'Thuần Khiết',
+      sexy: 'Gợi Cảm',
+      mature: 'Trưởng Thành',
       intellectual: 'Trí Tuệ',
-      global:       'Toàn Cầu',
+      global: 'Toàn Cầu',
     },
   },
   nav: {
@@ -122,12 +123,15 @@ export const vi: TranslationKeys = {
     anonymousInfo: 'Thông tin người dùng ẩn danh',
     yourAnonymousId: 'ID ẩn danh của bạn',
     anonymousIdLoading: 'Đang tải...',
-    anonymousSub: '※Không liên kết với bất kỳ thông tin cá nhân nào. Nó được mã hóa an toàn và lưu trữ cục bộ trên thiết bị của bạn.',
+    anonymousSub:
+      '※Không liên kết với bất kỳ thông tin cá nhân nào. Nó được mã hóa an toàn và lưu trữ cục bộ trên thiết bị của bạn.',
     aboutService: 'Về dịch vụ',
     aboutImagesTitle: 'Về hình ảnh chẩn đoán',
-    aboutImagesText: 'Tất cả các hình ảnh được sử dụng trong dịch vụ này đều là phụ nữ trưởng thành hư cấu (20+) được tạo ra bởi AI. Không có người mẫu hay người thật ngoài đời. Chúng tôi loại trừ nghiêm ngặt các hình ảnh có vẻ là trẻ vị thành niên và ngăn chặn các biểu cảm nhạy cảm như để lộ cơ thể quá mức hoặc nhấn mạnh vóc dáng.',
+    aboutImagesText:
+      'Tất cả các hình ảnh được sử dụng trong dịch vụ này đều là phụ nữ trưởng thành hư cấu (20+) được tạo ra bởi AI. Không có người mẫu hay người thật ngoài đời. Chúng tôi loại trừ nghiêm ngặt các hình ảnh có vẻ là trẻ vị thành niên và ngăn chặn các biểu cảm nhạy cảm như để lộ cơ thể quá mức hoặc nhấn mạnh vóc dáng.',
     adsPrivacyTitle: 'Quảng cáo & Quyền riêng tư',
-    adsPrivacyText: 'Dịch vụ này được vận hành với chi phí thấp thông qua việc phân phối quảng cáo. Không có quảng cáo nào được hiển thị trong quá trình chẩn đoán để ngăn chặn các lượt nhấp vô tình. Ngoài ra, chúng tôi không theo dõi để nhận dạng cá nhân.',
+    adsPrivacyText:
+      'Dịch vụ này được vận hành với chi phí thấp thông qua việc phân phối quảng cáo. Không có quảng cáo nào được hiển thị trong quá trình chẩn đoán để ngăn chặn các lượt nhấp vô tình. Ngoài ra, chúng tôi không theo dõi để nhận dạng cá nhân.',
     docsContact: 'Tài liệu & Liên hệ',
     termsOfService: 'Điều khoản dịch vụ',
     privacyPolicy: 'Chính sách bảo mật',
@@ -136,12 +140,15 @@ export const vi: TranslationKeys = {
     regenerateId: 'Tạo lại ID ẩn danh',
     regenerateIdDesc: 'Cấp một ID hoàn toàn mới mà không kế thừa lịch sử chẩn đoán trước đó.',
     deleteAllData: 'Xóa toàn bộ lịch sử & dữ liệu',
-    deleteAllDataDesc: 'Xóa vĩnh viễn lịch sử được lưu trữ trên thiết bị này và tất cả dữ liệu bình chọn trong cơ sở dữ liệu.',
+    deleteAllDataDesc:
+      'Xóa vĩnh viễn lịch sử được lưu trữ trên thiết bị này và tất cả dữ liệu bình chọn trong cơ sở dữ liệu.',
     regenerateModalTitle: 'Tạo lại ID ẩn danh?',
-    regenerateModalDesc: 'Sau khi chuyển sang ID mới, dữ liệu lịch sử trước đó không thể tải lại. Hành động này không thể hoàn tác.',
+    regenerateModalDesc:
+      'Sau khi chuyển sang ID mới, dữ liệu lịch sử trước đó không thể tải lại. Hành động này không thể hoàn tác.',
     regenerateConfirm: 'Tạo lại',
     deleteModalTitle: 'Xóa toàn bộ dữ liệu?',
-    deleteModalDesc: 'Tất cả lịch sử, phiên và dữ liệu bình chọn được lưu trữ trên thiết bị này và cơ sở dữ liệu đám mây sẽ bị xóa vĩnh viễn.',
+    deleteModalDesc:
+      'Tất cả lịch sử, phiên và dữ liệu bình chọn được lưu trữ trên thiết bị này và cơ sở dữ liệu đám mây sẽ bị xóa vĩnh viễn.',
     deleteConfirm: 'Xóa vĩnh viễn',
   },
 
@@ -163,22 +170,22 @@ export const vi: TranslationKeys = {
     emptyDataSub: 'Thực hiện nhiều chẩn đoán hơn để tính toán thống kê',
     votesCount: '{{count}} lượt bình chọn',
     countries: {
-      'all': '🌏 Toàn cầu',
-      'ja': '🇯🇵 Nhật Bản',
-      'ko': '🇰🇷 Hàn Quốc',
-      'en': '🇺🇸 Cộng đồng nói tiếng Anh',
-      'zhCN': '🇨🇳 Trung Quốc',
-      'zhTW': '🇹🇼 Đài Loan',
-      'es': '🇪🇸 Cộng đồng nói tiếng Tây Ban Nha',
-      'pt': '🇵🇹 Cộng đồng nói tiếng Bồ Đào Nha',
-      'fr': '🇫🇷 Pháp',
-      'de': '🇩🇪 Đức',
-      'id': '🇮🇩 Indonesia',
-      'th': '🇹🇭 Thái Lan',
-      'vi': '🇻🇳 Việt Nam',
-      'ar': '🇸🇦 Thế giới Ả Rập',
-      'hi': '🇮🇳 Ấn Độ'
-},
+      all: '🌏 Toàn cầu',
+      ja: '🇯🇵 Nhật Bản',
+      ko: '🇰🇷 Hàn Quốc',
+      en: '🇺🇸 Cộng đồng nói tiếng Anh',
+      zhCN: '🇨🇳 Trung Quốc',
+      zhTW: '🇹🇼 Đài Loan',
+      es: '🇪🇸 Cộng đồng nói tiếng Tây Ban Nha',
+      pt: '🇵🇹 Cộng đồng nói tiếng Bồ Đào Nha',
+      fr: '🇫🇷 Pháp',
+      de: '🇩🇪 Đức',
+      id: '🇮🇩 Indonesia',
+      th: '🇹🇭 Thái Lan',
+      vi: '🇻🇳 Việt Nam',
+      ar: '🇸🇦 Thế giới Ả Rập',
+      hi: '🇮🇳 Ấn Độ',
+    },
 
     title: 'Dữ liệu thống kê',
     loading: 'Đang tổng hợp thống kê...',
@@ -208,7 +215,8 @@ export const vi: TranslationKeys = {
   },
   contact: {
     title: 'Báo cáo / Liên hệ với chúng tôi',
-    subtitle: 'Vui lòng báo cáo bất kỳ hình ảnh nào giống người thật một cách bất thường hoặc chứa các biểu cảm không phù hợp tại đây.',
+    subtitle:
+      'Vui lòng báo cáo bất kỳ hình ảnh nào giống người thật một cách bất thường hoặc chứa các biểu cảm không phù hợp tại đây.',
     labelType: 'Loại liên hệ',
     labelImageId: 'ID hình ảnh mục tiêu (Tùy chọn / Nếu biết)',
     labelMessage: 'Nội dung tin nhắn (Bắt buộc)',
@@ -217,14 +225,16 @@ export const vi: TranslationKeys = {
     errorRequired: 'Vui lòng nhập nội dung tin nhắn.',
     errorSubmit: 'Không gửi được. Vui lòng thử lại sau.',
     successTitle: 'Gửi thành công',
-    successDesc: 'Cảm ơn bạn đã báo cáo/liên hệ. Chúng tôi sẽ xem xét nội dung và thực hiện các biện pháp thích hợp (như vô hiệu hóa hoặc xóa hình ảnh) sớm nhất có thể.',
+    successDesc:
+      'Cảm ơn bạn đã báo cáo/liên hệ. Chúng tôi sẽ xem xét nội dung và thực hiện các biện pháp thích hợp (như vô hiệu hóa hoặc xóa hình ảnh) sớm nhất có thể.',
     submitting: 'Đang gửi...',
     submit: 'Gửi',
     types: {
       inappropriate: 'Báo cáo hình ảnh không phù hợp',
       inappropriateDesc: 'Chứa hình ảnh để lộ quá nhiều hoặc không lành mạnh',
       resemblance: 'Báo cáo giống người thật',
-      resemblanceDesc: 'Rất giống với một cá nhân hoặc người nổi tiếng ngoài đời thực và yêu cầu gỡ bỏ',
+      resemblanceDesc:
+        'Rất giống với một cá nhân hoặc người nổi tiếng ngoài đời thực và yêu cầu gỡ bỏ',
       other: 'Các yêu cầu khác',
       otherDesc: 'Phản hồi, báo cáo lỗi hoặc các yêu cầu chung khác gửi đến ban quản trị',
     },
@@ -232,8 +242,7 @@ export const vi: TranslationKeys = {
   documents: {
     termsTitle: 'Điều khoản dịch vụ',
     privacyTitle: 'Chính sách bảo mật',
-    termsContent: "",
-    privacyContent: "",
-  }
-
+    termsContent: '',
+    privacyContent: '',
+  },
 };

@@ -10,15 +10,35 @@ const filterImagesByTheme = (images: ImageMetadata[], theme: string): ImageMetad
   if (theme === 'all') return images;
   return images.filter((img) => {
     switch (theme) {
-      case 'natural':  return img.style_group === 'natural' || img.style_group === 'simple';
-      case 'cool':     return img.style_group === 'cool' || img.style_group === 'mode' || img.style_group === 'elegant';
-      case 'global':   return img.regional_style === 'western_style' || img.regional_style === 'latina_style' || img.regional_style === 'black_style' || img.style_group === 'global_elegant';
-      case 'mature':   return img.style_group === 'mature' || img.style_group === 'office' || img.style_group === 'elegant';
-      case 'casual':   return img.style_group === 'casual' || img.style_group === 'sporty';
-      case 'cute':     return img.style_group === 'cute' || img.style_group === 'feminine';
-      case 'sexy':     return img.style_group === 'sexy' || img.style_group === 'gyaru';
-      case 'korean':   return img.style_group === 'korean' || img.regional_style === 'korean_style';
-      default:         return true;
+      case 'natural':
+        return img.style_group === 'natural' || img.style_group === 'simple';
+      case 'cool':
+        return (
+          img.style_group === 'cool' || img.style_group === 'mode' || img.style_group === 'elegant'
+        );
+      case 'global':
+        return (
+          img.regional_style === 'western_style' ||
+          img.regional_style === 'latina_style' ||
+          img.regional_style === 'black_style' ||
+          img.style_group === 'global_elegant'
+        );
+      case 'mature':
+        return (
+          img.style_group === 'mature' ||
+          img.style_group === 'office' ||
+          img.style_group === 'elegant'
+        );
+      case 'casual':
+        return img.style_group === 'casual' || img.style_group === 'sporty';
+      case 'cute':
+        return img.style_group === 'cute' || img.style_group === 'feminine';
+      case 'sexy':
+        return img.style_group === 'sexy' || img.style_group === 'gyaru';
+      case 'korean':
+        return img.style_group === 'korean' || img.regional_style === 'korean_style';
+      default:
+        return true;
     }
   });
 };

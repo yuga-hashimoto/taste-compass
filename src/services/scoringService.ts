@@ -66,7 +66,12 @@ const COUNTRY_PROFILES: Record<string, CountryProfile> = {
     label: '中国',
     flag: 'cn',
     style_weights: { elegant: 30, natural: 25, mature: 20, cute: 15, korean: 10 },
-    regional_weights: { chinese_style: 45, korean_style: 25, japanese_style: 20, western_style: 10 },
+    regional_weights: {
+      chinese_style: 45,
+      korean_style: 25,
+      japanese_style: 20,
+      western_style: 10,
+    },
     bust_weights: { subtle: 35, average: 45, full: 15, very_full: 5 },
     age_weights: { teens: 15, early20s: 40, mid20s: 30, late20s: 10, thirties: 4, forties: 1 },
     vibe_weights: { elegant: 30, pure: 25, cute: 20, natural: 15, cool: 10 },
@@ -230,7 +235,9 @@ const calcCountrySimilarity = (
   countryWeights: Record<string, number>,
 ): number => {
   const allKeys = new Set([...Object.keys(userWeights), ...Object.keys(countryWeights)]);
-  let dot = 0, normU = 0, normC = 0;
+  let dot = 0,
+    normU = 0,
+    normC = 0;
   for (const k of allKeys) {
     const u = userWeights[k] ?? 0;
     const c = countryWeights[k] ?? 0;
@@ -244,18 +251,18 @@ const calcCountrySimilarity = (
 
 export interface ScoringResult {
   // --- 基本スコア ---
-  compatibility_score: number;    // 世間との一致度 0-100
-  preference_type: string;        // 好みタイプ名（例: 「ナチュラル・清楚派」）
-  preference_type_emoji: string;  // 絵文字
-  mainstream_score: number;       // 一般受けスコア
-  uniqueness_score: number;       // 個性スコア
+  compatibility_score: number; // 世間との一致度 0-100
+  preference_type: string; // 好みタイプ名（例: 「ナチュラル・清楚派」）
+  preference_type_emoji: string; // 絵文字
+  mainstream_score: number; // 一般受けスコア
+  uniqueness_score: number; // 個性スコア
 
   // --- 国別比較 ---
   country_affinity: {
-    top_country: string;          // 最も好みが近い国キー
-    top_country_label: string;    // 最も好みが近い国名
+    top_country: string; // 最も好みが近い国キー
+    top_country_label: string; // 最も好みが近い国名
     top_country_flag: string;
-    top_country_score: number;    // 一致度 %
+    top_country_score: number; // 一致度 %
     rankings: {
       country: string;
       label: string;
@@ -292,17 +299,17 @@ export interface ScoringResult {
     label: string;
     icon: string;
     description: string;
-    score: number;           // 好みのレア度 0-100（高いほどレア）
+    score: number; // 好みのレア度 0-100（高いほどレア）
   };
 
   // --- 各種メーター ---
   meters: {
-    gyaru_level: number;        // ギャル度 0-100
-    pure_level: number;         // 清楚度 0-100
-    global_level: number;       // グローバル好み度 0-100
+    gyaru_level: number; // ギャル度 0-100
+    pure_level: number; // 清楚度 0-100
+    global_level: number; // グローバル好み度 0-100
     intellectual_level: number; // 知的好み度 0-100
-    sexy_level: number;         // セクシー好み度 0-100
-    mature_level: number;       // 大人っぽさ好み度 0-100
+    sexy_level: number; // セクシー好み度 0-100
+    mature_level: number; // 大人っぽさ好み度 0-100
   };
 
   // --- 詳細サマリー（旧互換 + 拡張）---
@@ -346,7 +353,8 @@ export const calculateDiagnosisResult = (
   // ==============================
   let compatibilityScore = 50;
   if (votes.length > 0) {
-    let total = 0, count = 0;
+    let total = 0,
+      count = 0;
     let hasRealData = false;
 
     // 実データ（他のユーザーによる総投票数が1票以上のもの）が1つでもあるかチェック
@@ -426,7 +434,9 @@ export const calculateDiagnosisResult = (
     inc(vibeCounts, img.vibe_type);
     inc(hairCounts, img.hair_style);
     inc(makeupCounts, img.makeup_level);
-    img.tags.forEach((t) => { tagCounts[t] = (tagCounts[t] || 0) + 1; });
+    img.tags.forEach((t) => {
+      tagCounts[t] = (tagCounts[t] || 0) + 1;
+    });
   });
 
   // ==============================
@@ -442,21 +452,21 @@ export const calculateDiagnosisResult = (
 
   type PreferenceEntry = { label: string; icon: string };
   const preferenceMap: Record<string, PreferenceEntry> = {
-    natural:       { label: 'ナチュラル・清楚派',   icon: 'natural' },
-    korean:        { label: '韓国風トレンド派',     icon: 'korean' },
-    cool:          { label: 'クール・都会派',       icon: 'cool' },
-    casual:        { label: 'カジュアル親しみ派',   icon: 'casual' },
-    feminine:      { label: '柔らかフェミニン派',   icon: 'feminine' },
-    mature:        { label: '大人っぽい知的派',     icon: 'mature' },
-    office:        { label: '知的オフィス派',       icon: 'office' },
-    simple:        { label: 'シンプル洗練派',       icon: 'simple' },
-    gyaru:         { label: 'ギャル・個性派',       icon: 'gyaru' },
-    cute:          { label: '可愛い・アイドル派',   icon: 'cute' },
-    sexy:          { label: 'セクシー・グラマー派', icon: 'sexy' },
-    sporty:        { label: 'スポーティ・ヘルシー派', icon: 'sporty' },
-    elegant:       { label: 'エレガント・上品派',   icon: 'elegant' },
-    mode:          { label: 'モード・アーティスト派', icon: 'mode' },
-    global_elegant:{ label: 'グローバル洗練派',    icon: 'global_elegant' },
+    natural: { label: 'ナチュラル・清楚派', icon: 'natural' },
+    korean: { label: '韓国風トレンド派', icon: 'korean' },
+    cool: { label: 'クール・都会派', icon: 'cool' },
+    casual: { label: 'カジュアル親しみ派', icon: 'casual' },
+    feminine: { label: '柔らかフェミニン派', icon: 'feminine' },
+    mature: { label: '大人っぽい知的派', icon: 'mature' },
+    office: { label: '知的オフィス派', icon: 'office' },
+    simple: { label: 'シンプル洗練派', icon: 'simple' },
+    gyaru: { label: 'ギャル・個性派', icon: 'gyaru' },
+    cute: { label: '可愛い・アイドル派', icon: 'cute' },
+    sexy: { label: 'セクシー・グラマー派', icon: 'sexy' },
+    sporty: { label: 'スポーティ・ヘルシー派', icon: 'sporty' },
+    elegant: { label: 'エレガント・上品派', icon: 'elegant' },
+    mode: { label: 'モード・アーティスト派', icon: 'mode' },
+    global_elegant: { label: 'グローバル洗練派', icon: 'global_elegant' },
   };
   const prefEntry = preferenceMap[topStyle] ?? { label: 'ナチュラル・清楚派', icon: 'natural' };
 
@@ -487,7 +497,12 @@ export const calculateDiagnosisResult = (
       calcCountrySimilarity(userVibeRatio, profile.vibe_weights),
     ];
     const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length);
-    countryScores.push({ country: countryKey, label: profile.label, flag: profile.flag, score: avg });
+    countryScores.push({
+      country: countryKey,
+      label: profile.label,
+      flag: profile.flag,
+      score: avg,
+    });
   }
   countryScores.sort((a, b) => b.score - a.score);
   const topCountry = countryScores[0];
@@ -498,44 +513,75 @@ export const calculateDiagnosisResult = (
   const bustLabel = translateInternalTag('bust_impression', topBust);
   const buttLabel = translateInternalTag('butt_impression', topButt);
   const silhouetteLabel = translateInternalTag('body_silhouette', topSilhouette);
-  const heightLabel = translateInternalTag('height_impression', topEntries({ ...(likedImages.reduce((acc, img) => {
-    if (img.height_impression) acc[img.height_impression] = (acc[img.height_impression] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>)) }, 1)[0] || 'average');
+  const heightLabel = translateInternalTag(
+    'height_impression',
+    topEntries(
+      {
+        ...likedImages.reduce(
+          (acc, img) => {
+            if (img.height_impression)
+              acc[img.height_impression] = (acc[img.height_impression] || 0) + 1;
+            return acc;
+          },
+          {} as Record<string, number>,
+        ),
+      },
+      1,
+    )[0] || 'average',
+  );
 
-  const bodyOverall = [bustLabel, silhouetteLabel].filter(Boolean).join('や') || '全体のバランスを重視';
+  const bodyOverall =
+    [bustLabel, silhouetteLabel].filter(Boolean).join('や') || '全体のバランスを重視';
 
   // ==============================
   // 6. 年齢傾向
   // ==============================
   const ageDescriptions: Record<string, string> = {
-    teens:    '10代後半の若々しさに惹かれる傾向があります',
+    teens: '10代後半の若々しさに惹かれる傾向があります',
     early20s: '20代前半のフレッシュな魅力を好む傾向があります',
-    mid20s:   '20代中盤の落ち着きと若さのバランスを好みます',
-    late20s:  '20代後半〜30代前半の大人の色気を好む傾向があります',
+    mid20s: '20代中盤の落ち着きと若さのバランスを好みます',
+    late20s: '20代後半〜30代前半の大人の色気を好む傾向があります',
     thirties: '30代の成熟した知性と美しさに惹かれます',
-    forties:  '40代の貫禄ある大人の魅力を好みます',
+    forties: '40代の貫禄ある大人の魅力を好みます',
   };
 
   // ==============================
   // 7. メーター計算
   // ==============================
-  const styleScore = (s: string) => (styleCounts[s] || 0) / totalLikes * 100;
-  const vibeScore = (v: string) => (vibeCounts[v] || 0) / totalLikes * 100;
-  const makeupScore = (m: string) => (makeupCounts[m] || 0) / totalLikes * 100;
-  const regionalScore = (r: string) => (regionalCounts[r] || 0) / totalLikes * 100;
+  const styleScore = (s: string) => ((styleCounts[s] || 0) / totalLikes) * 100;
+  const vibeScore = (v: string) => ((vibeCounts[v] || 0) / totalLikes) * 100;
+  const makeupScore = (m: string) => ((makeupCounts[m] || 0) / totalLikes) * 100;
+  const regionalScore = (r: string) => ((regionalCounts[r] || 0) / totalLikes) * 100;
 
   const meters = {
     gyaru_level: clamp(styleScore('gyaru') * 1.5 + makeupScore('gyaru') * 1.2 + vibeScore('gyaru')),
-    pure_level: clamp(vibeScore('pure') * 1.5 + styleScore('natural') + makeupScore('natural') * 0.8),
-    global_level: clamp(
-      regionalScore('western_style') + regionalScore('latina_style') + regionalScore('black_style') +
-      regionalScore('middle_eastern_style') + styleScore('global_elegant')
+    pure_level: clamp(
+      vibeScore('pure') * 1.5 + styleScore('natural') + makeupScore('natural') * 0.8,
     ),
-    intellectual_level: clamp(styleScore('office') * 1.5 + styleScore('mature') + vibeScore('intellectual') * 1.5 + makeupScore('moderate')),
-    sexy_level: clamp(styleScore('sexy') * 1.8 + vibeScore('sexy') * 1.5 + (bustCounts['very_full'] || 0) / totalLikes * 80),
-    mature_level: clamp(styleScore('mature') * 1.5 + styleScore('elegant') + styleScore('office') +
-      ((ageCounts['thirties'] || 0) + (ageCounts['forties'] || 0)) / totalLikes * 100),
+    global_level: clamp(
+      regionalScore('western_style') +
+        regionalScore('latina_style') +
+        regionalScore('black_style') +
+        regionalScore('middle_eastern_style') +
+        styleScore('global_elegant'),
+    ),
+    intellectual_level: clamp(
+      styleScore('office') * 1.5 +
+        styleScore('mature') +
+        vibeScore('intellectual') * 1.5 +
+        makeupScore('moderate'),
+    ),
+    sexy_level: clamp(
+      styleScore('sexy') * 1.8 +
+        vibeScore('sexy') * 1.5 +
+        ((bustCounts['very_full'] || 0) / totalLikes) * 80,
+    ),
+    mature_level: clamp(
+      styleScore('mature') * 1.5 +
+        styleScore('elegant') +
+        styleScore('office') +
+        (((ageCounts['thirties'] || 0) + (ageCounts['forties'] || 0)) / totalLikes) * 100,
+    ),
   };
 
   // ==============================
@@ -543,38 +589,81 @@ export const calculateDiagnosisResult = (
   // ==============================
   // 世間と差があるほどレア、好みが偏っているほどレア
   const rarityScore = clamp(
-    uniquenessScore * 0.6 +
-    (topCountry.score < 50 ? (50 - topCountry.score) : 0) * 0.4
+    uniquenessScore * 0.6 + (topCountry.score < 50 ? 50 - topCountry.score : 0) * 0.4,
   );
 
   type RarityEntry = { label: string; icon: string; description: string };
   const getRarity = (score: number): RarityEntry => {
-    if (score >= 80) return { label: '超希少派', icon: 'eye', description: '上位5%以内の独自の審美眼を持つレアな好みです' };
-    if (score >= 65) return { label: '希少派', icon: 'star', description: '世間とはかなり違う、個性的な好みを持っています' };
-    if (score >= 50) return { label: 'やや個性派', icon: 'moon', description: '世間とは少しズレた、自分だけの感性があります' };
-    if (score >= 35) return { label: 'バランス派', icon: 'sliders', description: '世間の好みと自分の好みがほどよく一致しています' };
-    if (score >= 20) return { label: '大衆派', icon: 'users', description: 'みんなが好きなものを好む、共感力の高い好みです' };
-    return { label: '王道派', icon: 'award', description: '世間の好みとほぼ完全に一致する、トレンドに敏感な好みです' };
+    if (score >= 80)
+      return {
+        label: '超希少派',
+        icon: 'eye',
+        description: '上位5%以内の独自の審美眼を持つレアな好みです',
+      };
+    if (score >= 65)
+      return {
+        label: '希少派',
+        icon: 'star',
+        description: '世間とはかなり違う、個性的な好みを持っています',
+      };
+    if (score >= 50)
+      return {
+        label: 'やや個性派',
+        icon: 'moon',
+        description: '世間とは少しズレた、自分だけの感性があります',
+      };
+    if (score >= 35)
+      return {
+        label: 'バランス派',
+        icon: 'sliders',
+        description: '世間の好みと自分の好みがほどよく一致しています',
+      };
+    if (score >= 20)
+      return {
+        label: '大衆派',
+        icon: 'users',
+        description: 'みんなが好きなものを好む、共感力の高い好みです',
+      };
+    return {
+      label: '王道派',
+      icon: 'award',
+      description: '世間の好みとほぼ完全に一致する、トレンドに敏感な好みです',
+    };
   };
   const rarityEntry = getRarity(rarityScore);
 
   // ==============================
   // 9. フォーカスタイプ
   // ==============================
-  const faceIndicators = ['清楚', '黒髪', 'ボブ', '笑顔', 'メイク', 'ショートヘア', 'ロングヘア', '目', '可愛い'];
+  const faceIndicators = [
+    '清楚',
+    '黒髪',
+    'ボブ',
+    '笑顔',
+    'メイク',
+    'ショートヘア',
+    'ロングヘア',
+    '目',
+    '可愛い',
+  ];
   let faceScore = 0;
   likedImages.forEach((img) => {
-    img.tags.forEach((t) => { if (faceIndicators.includes(t)) faceScore++; });
+    img.tags.forEach((t) => {
+      if (faceIndicators.includes(t)) faceScore++;
+    });
   });
   let focusType: 'face' | 'atmosphere' | 'style' | 'body' = 'atmosphere';
   if (['cool', 'mode', 'office', 'global_elegant'].includes(topStyle)) focusType = 'style';
-  else if (['sexy', 'gyaru'].includes(topStyle) || ['very_full', 'full'].includes(topBust)) focusType = 'body';
+  else if (['sexy', 'gyaru'].includes(topStyle) || ['very_full', 'full'].includes(topBust))
+    focusType = 'body';
   else if (faceScore > totalLikes * 1.2) focusType = 'face';
 
   // ==============================
   // 10. 分析テキスト生成
   // ==============================
-  const regText = topRegional ? `、${translateInternalTag('regional_style', topRegional)}に惹かれる傾向` : '';
+  const regText = topRegional
+    ? `、${translateInternalTag('regional_style', topRegional)}に惹かれる傾向`
+    : '';
   const focusTexts = {
     face: '顔立ちや表情のニュアンスを重視するタイプ',
     style: '全体のシルエットやファッションの完成度を重視するタイプ',
@@ -619,7 +708,7 @@ export const calculateDiagnosisResult = (
     vibe_preference: {
       top_vibe: topVibe,
       label: translateInternalTag('vibe_type', topVibe),
-      score: Math.round((vibeCounts[topVibe] || 0) / totalLikes * 100),
+      score: Math.round(((vibeCounts[topVibe] || 0) / totalLikes) * 100),
     },
 
     rarity: {
@@ -633,7 +722,9 @@ export const calculateDiagnosisResult = (
 
     summary_json: {
       top_styles: topEntries(styleCounts),
-      top_regional_styles: topEntries(regionalCounts).map((r) => translateInternalTag('regional_style', r)),
+      top_regional_styles: topEntries(regionalCounts).map((r) =>
+        translateInternalTag('regional_style', r),
+      ),
       top_tags: topEntries(tagCounts, 5),
       silhouette_impression: bodyOverall,
       focus_type: focusType,

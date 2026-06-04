@@ -179,12 +179,18 @@ describe('Scoring Service tests', () => {
       ];
       // img1のみ実データ（likes=20, skips=10, total=30, like_rate=67%）があり、img2は実データがない（total=0）場合をシミュレート
       const mockImageStats = {
-        img1: { likes: 20, skips: 10, total: 30, like_rate: 67, last_updated: '2026-06-04T00:00:00.000Z' },
+        img1: {
+          likes: 20,
+          skips: 10,
+          total: 30,
+          like_rate: 67,
+          last_updated: '2026-06-04T00:00:00.000Z',
+        },
         img2: { likes: 0, skips: 0, total: 0, like_rate: 50, last_updated: '' },
       };
 
       const result = calculateDiagnosisResult(votes, mockImages, mockImageStats);
-      
+
       // img1は実データがあり、img2は実データ（total=0）がないため、img1のみが集計対象（フォールバックが排除される）
       // よって一致度は67%になる
       expect(result.compatibility_score).toBe(67);

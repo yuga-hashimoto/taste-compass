@@ -76,7 +76,14 @@ if (!batchNumStr || !srcDir) {
 }
 
 const batchNum = parseInt(batchNumStr, 10);
-const destDir = path.join(__dirname, '..', 'public', 'images', 'diagnosis', `b${batchNumStr.padStart(2, '0')}`);
+const destDir = path.join(
+  __dirname,
+  '..',
+  'public',
+  'images',
+  'diagnosis',
+  `b${batchNumStr.padStart(2, '0')}`,
+);
 
 fs.mkdirSync(destDir, { recursive: true });
 
@@ -102,7 +109,7 @@ async function main() {
 
     // このスロットに対応するPNGファイルを探す
     const targetPrefix = `${prefix}${slotStr}_`;
-    const targetPngs = files.filter(f => f.startsWith(targetPrefix) && f.endsWith('.png'));
+    const targetPngs = files.filter((f) => f.startsWith(targetPrefix) && f.endsWith('.png'));
 
     if (targetPngs.length === 0) {
       console.log(`SKIP: ${slotId} のPNGが見つかりません。`);
@@ -126,7 +133,7 @@ async function main() {
 
     // 2. メタデータ登録用の文字列構築 (未登録の場合のみ)
     if (!isRegistered) {
-      const planData = diagnosisImageSeedPlan.find(img => img.id === slotId);
+      const planData = diagnosisImageSeedPlan.find((img) => img.id === slotId);
       if (!planData) {
         console.error(`❌ プランデータが見つかりません: ${slotId}`);
         continue;
@@ -154,7 +161,7 @@ async function main() {
       addString += `    hair_style: '${planData.hair_style}',\n`;
       addString += `    skin_tone: '${planData.skin_tone}',\n`;
       addString += `    makeup_level: '${planData.makeup_level}',\n`;
-      addString += `    tags: [${tags.map(t => `'${t}'`).join(', ')}],\n`;
+      addString += `    tags: [${tags.map((t) => `'${t}'`).join(', ')}],\n`;
       addString += `    popularity_score: ${planData.popularity_score || 50},\n`;
       addString += `  },\n`;
 
@@ -172,12 +179,13 @@ async function main() {
       return;
     }
 
-    const updatedContent = metadataContent.substring(0, lastIndex) + addString + metadataContent.substring(lastIndex);
+    const updatedContent =
+      metadataContent.substring(0, lastIndex) + addString + metadataContent.substring(lastIndex);
     fs.writeFileSync(metadataPath, updatedContent, 'utf8');
     console.log(`✅ ${addedCount} 件のメタデータを imageMetadata.ts に追記しました。`);
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('❌ エラーが発生しました:', err);
 });

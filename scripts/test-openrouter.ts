@@ -14,17 +14,18 @@ async function test() {
         messages: [
           {
             role: 'user',
-            content: 'A close-up portrait of a natural Japanese young woman with straight black hair, smiling in a cafe, 8k, photorealistic'
-          }
+            content:
+              'A close-up portrait of a natural Japanese young woman with straight black hair, smiling in a cafe, 8k, photorealistic',
+          },
         ],
-        modalities: ['image']
+        modalities: ['image'],
       },
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`
-        }
-      }
+          Authorization: `Bearer ${API_KEY}`,
+        },
+      },
     );
 
     console.log('Response status:', response.status);
@@ -32,7 +33,6 @@ async function test() {
 
     // メッセージ全体を出力
     console.log('Response data:', JSON.stringify(response.data, null, 2));
-
   } catch (error: any) {
     console.error('Error occurred:', error.response ? error.response.data : error.message);
   }

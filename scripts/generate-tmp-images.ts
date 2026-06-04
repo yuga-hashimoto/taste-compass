@@ -13,14 +13,14 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const PROMPTS = [
-  "A beautiful and cute Japanese woman, 20s, smiling, wearing casual t-shirt, bob cut hair, inside a cozy cafe, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, 20s, gentle smile, wearing cozy knitted sweater, ponytail hair, in a sunny green park, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, 20s, serene expression, wearing elegant summer dress, long straight hair, in a room with soft dappled sunlight filtering through, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, 20s, serious expression, wearing elegant blouse, medium length hair, inside a bookstore surrounded by books, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, 20s, cheerful laughing, wearing sleeveless summer dress, wavy hair, on a beach background, realistic photo, highly detailed, natural lighting"
+  'A beautiful and cute Japanese woman, 20s, smiling, wearing casual t-shirt, bob cut hair, inside a cozy cafe, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, 20s, gentle smile, wearing cozy knitted sweater, ponytail hair, in a sunny green park, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, 20s, serene expression, wearing elegant summer dress, long straight hair, in a room with soft dappled sunlight filtering through, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, 20s, serious expression, wearing elegant blouse, medium length hair, inside a bookstore surrounded by books, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, 20s, cheerful laughing, wearing sleeveless summer dress, wavy hair, on a beach background, realistic photo, highly detailed, natural lighting',
 ];
 
 function getFormattedTimestamp() {
@@ -46,7 +46,7 @@ const generateAndDownload = async (prompt: string, index: number) => {
   try {
     const response = await axios.get(url, {
       responseType: 'arraybuffer',
-      timeout: 60000 // 60秒タイムアウト
+      timeout: 60000, // 60秒タイムアウト
     });
 
     const timestamp = getFormattedTimestamp();
@@ -85,7 +85,7 @@ const main = async () => {
   console.log('====================================');
   console.log('🎉 処理完了しました！');
   console.log('生成されたファイル一覧:');
-  generatedFiles.forEach(file => console.log(`- ${file}`));
+  generatedFiles.forEach((file) => console.log(`- ${file}`));
   console.log('====================================');
 };
 

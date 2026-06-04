@@ -9,7 +9,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: 'http://localhost:8081',
+    baseURL: 'http://localhost:8091',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     locale: 'ja-JP',
@@ -25,9 +25,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'node node_modules/expo/bin/cli start --web --port 8081',
-    url: 'http://localhost:8081',
-    reuseExistingServer: !process.env.CI,
+    command: 'node node_modules/expo/bin/cli start --web --port 8091',
+    url: 'http://localhost:8091',
+    reuseExistingServer: false,
     timeout: 120 * 1000, // 起動までの最大タイムアウト
     env: {
       EXPO_PUBLIC_SUPABASE_URL: 'https://taste-compass-test.supabase.co',

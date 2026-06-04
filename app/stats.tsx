@@ -171,16 +171,18 @@ export default function StatsScreen() {
         const mockData: ImageRankingItem[] = LOCAL_IMAGES.map((img) => {
           const hash = img.id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
           const total = 25 + (hash % 150); // 25〜175票
-          
+
           let rateOffset = 0;
           if (country !== 'all') {
-            const countryHash = country.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            const countryHash = country
+              .split('')
+              .reduce((acc, char) => acc + char.charCodeAt(0), 0);
             rateOffset = ((hash + countryHash) % 26) - 13; // -13%〜+13%
           }
-          
+
           let like_rate = img.popularity_score + rateOffset;
           like_rate = Math.max(35, Math.min(92, like_rate));
-          
+
           return {
             id: img.id,
             image_url: img.image_url,
@@ -230,7 +232,9 @@ export default function StatsScreen() {
 
           if (!error && data) {
             finalData = data.map((row: any) => {
-              const img = LOCAL_IMAGES.find((i) => i.id === row.image_id || toDeterministicUUID(i.id) === row.image_id);
+              const img = LOCAL_IMAGES.find(
+                (i) => i.id === row.image_id || toDeterministicUUID(i.id) === row.image_id,
+              );
               return {
                 id: img?.id || row.image_id,
                 image_url: img?.image_url || '',
@@ -253,7 +257,9 @@ export default function StatsScreen() {
               .map((row: any) => {
                 const total = row.like_count + row.skip_count;
                 const rate = total > 0 ? Math.round((row.like_count / total) * 100) : 50;
-                const img = LOCAL_IMAGES.find((i) => i.id === row.image_id || toDeterministicUUID(i.id) === row.image_id);
+                const img = LOCAL_IMAGES.find(
+                  (i) => i.id === row.image_id || toDeterministicUUID(i.id) === row.image_id,
+                );
                 return {
                   id: img?.id || row.image_id,
                   image_url: img?.image_url || '',
@@ -327,7 +333,11 @@ export default function StatsScreen() {
           style={[styles.tabButton, activeTab === 'my' && styles.tabButtonActive]}
           onPress={() => setActiveTab('my')}
         >
-          <Feather name="user" size={14} color={activeTab === 'my' ? '#fff' : THEME.colors.textSub} />
+          <Feather
+            name="user"
+            size={14}
+            color={activeTab === 'my' ? '#fff' : THEME.colors.textSub}
+          />
           <Text style={[styles.tabText, activeTab === 'my' && styles.tabTextActive]}>
             {t.stats.compareTitle}
           </Text>
@@ -336,7 +346,11 @@ export default function StatsScreen() {
           style={[styles.tabButton, activeTab === 'everyone' && styles.tabButtonActive]}
           onPress={() => setActiveTab('everyone')}
         >
-          <Feather name="users" size={14} color={activeTab === 'everyone' ? '#fff' : THEME.colors.textSub} />
+          <Feather
+            name="users"
+            size={14}
+            color={activeTab === 'everyone' ? '#fff' : THEME.colors.textSub}
+          />
           <Text style={[styles.tabText, activeTab === 'everyone' && styles.tabTextActive]}>
             {t.stats.everyoneTitle}
           </Text>
@@ -355,7 +369,15 @@ export default function StatsScreen() {
               </View>
               <View style={styles.compareRow}>
                 <View style={styles.compareItem}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, marginBottom: 4 }}>
+                  <View
+                    style={{
+                      flexDirection: 'row',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 6,
+                      marginBottom: 4,
+                    }}
+                  >
                     {myTopStyle !== null && myTopStyleIcon ? (
                       <ThemeIcon themeId={myTopStyleIcon} size={18} color={THEME.colors.primary} />
                     ) : null}
@@ -391,7 +413,8 @@ export default function StatsScreen() {
                   <View style={styles.statLeft}>
                     <Text style={styles.rankNum}>{idx + 1}</Text>
                     <Text style={styles.statLabel}>
-                      {t.stats.styles[item.style_group as keyof typeof t.stats.styles] || item.style_group}
+                      {t.stats.styles[item.style_group as keyof typeof t.stats.styles] ||
+                        item.style_group}
                     </Text>
                   </View>
                   <View style={styles.statRight}>
@@ -465,7 +488,9 @@ export default function StatsScreen() {
                     style={[styles.countryChip, active && styles.countryChipActive]}
                     onPress={() => setSelectedCountry(country.code)}
                   >
-                    <Text style={[styles.countryChipLabel, active && styles.countryChipLabelActive]}>
+                    <Text
+                      style={[styles.countryChipLabel, active && styles.countryChipLabelActive]}
+                    >
                       {country.label}
                     </Text>
                   </Pressable>
@@ -513,9 +538,13 @@ export default function StatsScreen() {
                           <Image source={{ uri: item.image_url }} style={styles.rankThumbnail} />
                         </Pressable>
                         <View style={styles.rankDetails}>
-                          <Text style={styles.rankImgId}>{item.id.replace('tc_diag_b', 'B').replace('_s', ' S')}</Text>
+                          <Text style={styles.rankImgId}>
+                            {item.id.replace('tc_diag_b', 'B').replace('_s', ' S')}
+                          </Text>
                           <Text style={styles.rankTags}>
-                            {t.stats.styles[item.style_group as keyof typeof t.stats.styles] || item.style_group} · {translateInternalTag('regional_style', item.regional_style)}
+                            {t.stats.styles[item.style_group as keyof typeof t.stats.styles] ||
+                              item.style_group}{' '}
+                            · {translateInternalTag('regional_style', item.regional_style)}
                           </Text>
                         </View>
                       </View>
@@ -523,7 +552,9 @@ export default function StatsScreen() {
                       {/* 右側: Like率 */}
                       <View style={styles.rankRight}>
                         <Text style={styles.rankLikeRate}>{item.like_rate}%</Text>
-                        <Text style={styles.rankVotes}>{i(t.stats.votesCount, { count: item.total_votes })}</Text>
+                        <Text style={styles.rankVotes}>
+                          {i(t.stats.votesCount, { count: item.total_votes })}
+                        </Text>
                       </View>
                     </View>
                   );
@@ -547,11 +578,11 @@ export default function StatsScreen() {
         <Pressable style={styles.modalOverlay} onPress={() => setSelectedImage(null)}>
           <View style={styles.modalContentLarge}>
             {selectedImage && (
-               <Image
-                 source={{ uri: selectedImage }}
-                 style={styles.modalImageLarge}
-                 contentFit="contain"
-               />
+              <Image
+                source={{ uri: selectedImage }}
+                style={styles.modalImageLarge}
+                contentFit="contain"
+              />
             )}
             <Pressable style={styles.modalCloseBtn} onPress={() => setSelectedImage(null)}>
               <Text style={styles.modalCloseText}>{t.common.close}</Text>

@@ -1,948 +1,1013 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taste Compass - 画像選別・生成レビューツール</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-base: #0a0a0c;
-      --bg-surface: rgba(20, 20, 25, 0.7);
-      --bg-card: #15151a;
-      --border-color: rgba(255, 255, 255, 0.08);
-      --text-primary: #f3f4f6;
-      --text-secondary: #9ca3af;
-      --text-muted: #6b7280;
-      
-      --color-approve: #10b981;
-      --color-approve-rgb: 16, 185, 129;
-      --color-reject: #ef4444;
-      --color-reject-rgb: 239, 68, 68;
-      
-      --accent-grad: linear-gradient(135deg, #6366f1, #3b82f6);
-      --approve-grad: linear-gradient(135deg, #10b981, #059669);
-      --reject-grad: linear-gradient(135deg, #ef4444, #dc2626);
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Taste Compass - 画像選別・生成レビューツール</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg-base: #0a0a0c;
+        --bg-surface: rgba(20, 20, 25, 0.7);
+        --bg-card: #15151a;
+        --border-color: rgba(255, 255, 255, 0.08);
+        --text-primary: #f3f4f6;
+        --text-secondary: #9ca3af;
+        --text-muted: #6b7280;
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+        --color-approve: #10b981;
+        --color-approve-rgb: 16, 185, 129;
+        --color-reject: #ef4444;
+        --color-reject-rgb: 239, 68, 68;
 
-    body {
-      background-color: var(--bg-base);
-      color: var(--text-primary);
-      font-family: 'Inter', 'Noto Sans JP', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow-x: hidden;
-    }
+        --accent-grad: linear-gradient(135deg, #6366f1, #3b82f6);
+        --approve-grad: linear-gradient(135deg, #10b981, #059669);
+        --reject-grad: linear-gradient(135deg, #ef4444, #dc2626);
+      }
 
-    header {
-      background: rgba(10, 10, 12, 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border-color);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-    .logo {
-      font-family: 'Outfit', sans-serif;
-      font-weight: 800;
-      font-size: 1.5rem;
-      background: var(--accent-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: -0.05em;
-    }
+      body {
+        background-color: var(--bg-base);
+        color: var(--text-primary);
+        font-family: 'Inter', 'Noto Sans JP', sans-serif;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+      }
 
-    .stats-badge {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--border-color);
-      padding: 0.4rem 1rem;
-      border-radius: 9999px;
-      font-size: 0.875rem;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
+      header {
+        background: rgba(10, 10, 12, 0.8);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+      }
 
-    .stats-badge strong {
-      color: #6366f1;
-    }
+      .logo {
+        font-family: 'Outfit', sans-serif;
+        font-weight: 800;
+        font-size: 1.5rem;
+        background: var(--accent-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.05em;
+      }
 
-    .main-container {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 1fr 420px;
-      height: calc(100vh - 65px);
-      overflow: hidden;
-    }
+      .stats-badge {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border-color);
+        padding: 0.4rem 1rem;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+        color: var(--text-secondary);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-    /* 左側: プレビューエリア */
-    .preview-area {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      background: radial-gradient(circle at center, #181824 0%, #0a0a0c 100%);
-      position: relative;
-      overflow: hidden;
-    }
+      .stats-badge strong {
+        color: #6366f1;
+      }
 
-    .image-container-wrapper {
-      position: relative;
-      width: 100%;
-      max-width: 550px;
-      aspect-ratio: 1;
-      border-radius: 24px;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-      background: #111;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+      .main-container {
+        flex: 1;
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        height: calc(100vh - 65px);
+        overflow: hidden;
+      }
 
-    .image-container-wrapper.approve-active {
-      transform: scale(0.95) translateX(100px);
-      opacity: 0;
-      transition: all 0.2s ease;
-    }
+      /* 左側: プレビューエリア */
+      .preview-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        background: radial-gradient(circle at center, #181824 0%, #0a0a0c 100%);
+        position: relative;
+        overflow: hidden;
+      }
 
-    .image-container-wrapper.reject-active {
-      transform: scale(0.95) translateX(-100px);
-      opacity: 0;
-      transition: all 0.2s ease;
-    }
+      .image-container-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 550px;
+        aspect-ratio: 1;
+        border-radius: 24px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        background: #111;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
 
-    .preview-image {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: opacity 0.2s ease;
-    }
+      .image-container-wrapper.approve-active {
+        transform: scale(0.95) translateX(100px);
+        opacity: 0;
+        transition: all 0.2s ease;
+      }
 
-    .no-images-message {
-      text-align: center;
-      max-width: 400px;
-    }
+      .image-container-wrapper.reject-active {
+        transform: scale(0.95) translateX(-100px);
+        opacity: 0;
+        transition: all 0.2s ease;
+      }
 
-    .no-images-message h2 {
-      font-family: 'Outfit', sans-serif;
-      font-size: 2rem;
-      margin-bottom: 1rem;
-      background: var(--accent-grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
+      .preview-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: opacity 0.2s ease;
+      }
 
-    .no-images-message p {
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
+      .no-images-message {
+        text-align: center;
+        max-width: 400px;
+      }
 
-    /* 右側: コントロールパネル */
-    .control-panel {
-      background: var(--bg-surface);
-      backdrop-filter: blur(20px);
-      border-left: 1px solid var(--border-color);
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      overflow-y: auto;
-    }
+      .no-images-message h2 {
+        font-family: 'Outfit', sans-serif;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        background: var(--accent-grad);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
 
-    .panel-section {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: 16px;
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1rem;
-    }
+      .no-images-message p {
+        color: var(--text-secondary);
+        line-height: 1.6;
+      }
 
-    .section-title {
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-secondary);
-      font-weight: 700;
-      border-bottom: 1px solid var(--border-color);
-      padding-bottom: 0.5rem;
-      margin-bottom: 0.25rem;
-    }
+      /* 右側: コントロールパネル */
+      .control-panel {
+        background: var(--bg-surface);
+        backdrop-filter: blur(20px);
+        border-left: 1px solid var(--border-color);
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+        overflow-y: auto;
+      }
 
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
+      .panel-section {
+        background: var(--bg-card);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
 
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 80px;
-      gap: 0.5rem;
-    }
+      .section-title {
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        font-weight: 700;
+        border-bottom: 1px solid var(--border-color);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.25rem;
+      }
 
-    .form-group label {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-    }
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
 
-    select, input[type="text"], input[type="number"] {
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 0.65rem;
-      color: var(--text-primary);
-      font-family: inherit;
-      font-size: 0.9rem;
-      outline: none;
-      transition: all 0.2s ease;
-    }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 80px;
+        gap: 0.5rem;
+      }
 
-    select:focus, input[type="text"]:focus, input[type="number"]:focus {
-      border-color: #6366f1;
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-      background: rgba(255, 255, 255, 0.05);
-    }
+      .form-group label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
 
-    /* クイックチップス */
-    .quick-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
+      select,
+      input[type='text'],
+      input[type='number'] {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 0.65rem;
+        color: var(--text-primary);
+        font-family: inherit;
+        font-size: 0.9rem;
+        outline: none;
+        transition: all 0.2s ease;
+      }
 
-    .tag-chip {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid var(--border-color);
-      padding: 0.35rem 0.75rem;
-      border-radius: 9999px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      user-select: none;
-      transition: all 0.15s ease;
-    }
+      select:focus,
+      input[type='text']:focus,
+      input[type='number']:focus {
+        border-color: #6366f1;
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+      }
 
-    .tag-chip:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
+      /* クイックチップス */
+      .quick-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
 
-    .tag-chip.active {
-      background: rgba(99, 102, 241, 0.15);
-      border-color: #6366f1;
-      color: #818cf8;
-    }
+      .tag-chip {
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid var(--border-color);
+        padding: 0.35rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.15s ease;
+      }
 
-    /* アクションボタン */
-    .action-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-      margin-top: auto;
-      padding-top: 1rem;
-    }
+      .tag-chip:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
 
-    .btn {
-      padding: 0.85rem;
-      border-radius: 12px;
-      border: none;
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-      color: white;
-    }
+      .tag-chip.active {
+        background: rgba(99, 102, 241, 0.15);
+        border-color: #6366f1;
+        color: #818cf8;
+      }
 
-    .btn-primary {
-      background: var(--accent-grad);
-      box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.3);
-    }
+      /* アクションボタン */
+      .action-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-top: auto;
+        padding-top: 1rem;
+      }
 
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.4);
-    }
+      .btn {
+        padding: 0.85rem;
+        border-radius: 12px;
+        border: none;
+        font-family: inherit;
+        font-weight: 700;
+        font-size: 0.95rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        color: white;
+      }
 
-    .btn-reject {
-      background: var(--reject-grad);
-      box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
-    }
+      .btn-primary {
+        background: var(--accent-grad);
+        box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.3);
+      }
 
-    .btn-reject:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
-    }
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.4);
+      }
 
-    .btn-approve {
-      background: var(--approve-grad);
-      box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
-    }
+      .btn-reject {
+        background: var(--reject-grad);
+        box-shadow: 0 4px 14px 0 rgba(239, 68, 68, 0.3);
+      }
 
-    .btn-approve:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
-    }
+      .btn-reject:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(239, 68, 68, 0.4);
+      }
 
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+      .btn-approve {
+        background: var(--approve-grad);
+        box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.3);
+      }
 
-    .btn:active:not(:disabled) {
-      transform: translateY(0);
-    }
+      .btn-approve:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px 0 rgba(16, 185, 129, 0.4);
+      }
 
-    /* ジェネレータセクションの特別スタイル */
-    .generator-progress {
-      margin-top: 0.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
+      .btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
 
-    .progress-bar-container {
-      width: 100%;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--border-color);
-    }
+      .btn:active:not(:disabled) {
+        transform: translateY(0);
+      }
 
-    .progress-bar-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, #6366f1, #10b981);
-      transition: width 0.3s ease;
-    }
+      /* ジェネレータセクションの特別スタイル */
+      .generator-progress {
+        margin-top: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+      }
 
-    .progress-text {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      display: flex;
-      justify-content: space-between;
-    }
+      .progress-bar-container {
+        width: 100%;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 999px;
+        overflow: hidden;
+        border: 1px solid var(--border-color);
+      }
 
-    .generation-error {
-      font-size: 0.75rem;
-      color: var(--color-reject);
-      margin-top: 0.25rem;
-      word-break: break-all;
-    }
+      .progress-bar-fill {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #6366f1, #10b981);
+        transition: width 0.3s ease;
+      }
 
-    /* ショートカット案内 */
-    .shortcuts-guide {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
+      .progress-text {
+        font-size: 0.75rem;
+        color: var(--text-secondary);
+        display: flex;
+        justify-content: space-between;
+      }
 
-    .kbd {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 0.1rem 0.4rem;
-      font-family: monospace;
-      color: var(--text-secondary);
-      font-weight: bold;
-    }
+      .generation-error {
+        font-size: 0.75rem;
+        color: var(--color-reject);
+        margin-top: 0.25rem;
+        word-break: break-all;
+      }
 
-    /* ローディング */
-    .loading-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(10, 10, 12, 0.8);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s ease;
-    }
+      /* ショートカット案内 */
+      .shortcuts-guide {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
 
-    .loading-overlay.active {
-      opacity: 1;
-      pointer-events: all;
-    }
+      .kbd {
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: 0.1rem 0.4rem;
+        font-family: monospace;
+        color: var(--text-secondary);
+        font-weight: bold;
+      }
 
-    .spinner {
-      width: 40px;
-      height: 40px;
-      border: 3px solid rgba(99, 102, 241, 0.1);
-      border-radius: 50%;
-      border-top-color: #6366f1;
-      animation: spin 0.8s linear infinite;
-    }
+      /* ローディング */
+      .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(10, 10, 12, 0.8);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease;
+      }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
 
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(100px);
-      background: rgba(20, 20, 25, 0.9);
-      border: 1px solid var(--border-color);
-      padding: 0.75rem 1.5rem;
-      border-radius: 9999px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      z-index: 1000;
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      pointer-events: none;
-      opacity: 0;
-    }
+      .spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid rgba(99, 102, 241, 0.1);
+        border-radius: 50%;
+        border-top-color: #6366f1;
+        animation: spin 0.8s linear infinite;
+      }
 
-    .toast.show {
-      transform: translateX(-50%) translateY(0);
-      opacity: 1;
-    }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
 
-    .toast-success {
-      border-color: rgba(16, 185, 129, 0.3);
-      color: #a7f3d0;
-    }
+      .toast {
+        position: fixed;
+        bottom: 2rem;
+        left: 50%;
+        transform: translateX(-50%) translateY(100px);
+        background: rgba(20, 20, 25, 0.9);
+        border: 1px solid var(--border-color);
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        z-index: 1000;
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        pointer-events: none;
+        opacity: 0;
+      }
 
-    .toast-error {
-      border-color: rgba(239, 68, 68, 0.3);
-      color: #fca5a5;
-    }
-  </style>
-</head>
-<body>
+      .toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+      }
 
-  <header>
-    <div class="logo">Taste Compass Reviewer</div>
-    <div class="stats-badge">
-      <span>未選別: <strong id="remaining-count">0</strong> 枚</span>
-      <span style="color: var(--border-color)">|</span>
-      <span>承認済み (b30): <strong id="approved-count" style="color: #10b981;">0</strong> 枚</span>
-    </div>
-  </header>
+      .toast-success {
+        border-color: rgba(16, 185, 129, 0.3);
+        color: #a7f3d0;
+      }
 
-  <div class="main-container">
-    <!-- プレビューエリア -->
-    <div class="preview-area">
-      <div class="loading-overlay" id="loading-overlay">
-        <div class="spinner"></div>
+      .toast-error {
+        border-color: rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">Taste Compass Reviewer</div>
+      <div class="stats-badge">
+        <span>未選別: <strong id="remaining-count">0</strong> 枚</span>
+        <span style="color: var(--border-color)">|</span>
+        <span
+          >承認済み (b30): <strong id="approved-count" style="color: #10b981">0</strong> 枚</span
+        >
       </div>
-      
-      <div class="image-container-wrapper" id="image-wrapper">
-        <img src="" alt="選別中画像" class="preview-image" id="preview-image" style="display: none;">
-      </div>
-      
-      <div class="no-images-message" id="no-images" style="display: none;">
-        <h2>選別完了！</h2>
-        <p>一時フォルダ `tmp_craiyon` 内のすべての画像選別が完了しました。右のパネルから新しく画像を生成するか、アプリを起動して反映を確認してください。</p>
-      </div>
-    </div>
+    </header>
 
-    <!-- コントロールパネル -->
-    <div class="control-panel">
-      
-      <!-- 【新規】画像自動生成セクション -->
-      <div class="panel-section" style="border-color: rgba(99, 102, 241, 0.25); background: rgba(99, 102, 241, 0.02)">
-        <div class="section-title" style="color: #818cf8;">画像自動生成 (Craiyon API)</div>
-        
-        <div class="form-group">
-          <label for="generate-prompt">プロンプト</label>
-          <input type="text" id="generate-prompt" value="可愛い日本人">
+    <div class="main-container">
+      <!-- プレビューエリア -->
+      <div class="preview-area">
+        <div class="loading-overlay" id="loading-overlay">
+          <div class="spinner"></div>
         </div>
-        
-        <div class="form-row">
+
+        <div class="image-container-wrapper" id="image-wrapper">
+          <img
+            src=""
+            alt="選別中画像"
+            class="preview-image"
+            id="preview-image"
+            style="display: none"
+          />
+        </div>
+
+        <div class="no-images-message" id="no-images" style="display: none">
+          <h2>選別完了！</h2>
+          <p>
+            一時フォルダ `tmp_craiyon`
+            内のすべての画像選別が完了しました。右のパネルから新しく画像を生成するか、アプリを起動して反映を確認してください。
+          </p>
+        </div>
+      </div>
+
+      <!-- コントロールパネル -->
+      <div class="control-panel">
+        <!-- 【新規】画像自動生成セクション -->
+        <div
+          class="panel-section"
+          style="border-color: rgba(99, 102, 241, 0.25); background: rgba(99, 102, 241, 0.02)"
+        >
+          <div class="section-title" style="color: #818cf8">画像自動生成 (Craiyon API)</div>
+
           <div class="form-group">
-            <label>生成枚数</label>
-            <input type="number" id="generate-count" value="10" min="1" max="1000">
+            <label for="generate-prompt">プロンプト</label>
+            <input type="text" id="generate-prompt" value="可愛い日本人" />
           </div>
-          <div class="form-group" style="justify-content: flex-end;">
-            <button class="btn btn-primary" id="btn-start-generate" style="height: 38px; padding: 0;">開始</button>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>生成枚数</label>
+              <input type="number" id="generate-count" value="10" min="1" max="1000" />
+            </div>
+            <div class="form-group" style="justify-content: flex-end">
+              <button
+                class="btn btn-primary"
+                id="btn-start-generate"
+                style="height: 38px; padding: 0"
+              >
+                開始
+              </button>
+            </div>
           </div>
-        </div>
 
-        <!-- 進行状況インジケータ -->
-        <div class="generator-progress" id="gen-progress-area" style="display: none;">
-          <div class="progress-bar-container">
-            <div class="progress-bar-fill" id="gen-progress-fill"></div>
-          </div>
-          <div class="progress-text">
-            <span id="gen-progress-label">準備中...</span>
-            <button id="btn-stop-generate" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:0.75rem; text-decoration:underline;">停止</button>
-          </div>
-          <div class="generation-error" id="gen-error-msg" style="display: none;"></div>
-        </div>
-      </div>
-
-      <!-- 属性設定 -->
-      <div class="panel-section">
-        <div class="section-title">診断属性設定</div>
-        
-        <div class="form-group">
-          <label for="style_group">スタイルグループ (style_group)</label>
-          <select id="style_group">
-            <option value="natural" selected>natural (ナチュラル)</option>
-            <option value="casual">casual (カジュアル)</option>
-            <option value="feminine">feminine (フェミニン)</option>
-            <option value="office">office (オフィス)</option>
-            <option value="cool">cool (クール)</option>
-            <option value="mature">mature (大人っぽさ)</option>
-            <option value="simple">simple (シンプル)</option>
-            <option value="korean">korean (韓国風)</option>
-            <option value="gyaru">gyaru (ギャル)</option>
-            <option value="cute">cute (キュート)</option>
-            <option value="sporty">sporty (スポーティ)</option>
-            <option value="elegant">elegant (エレガント)</option>
-            <option value="mode">mode (モード)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="vibe_type">雰囲気 (vibe_type)</label>
-          <select id="vibe_type">
-            <option value="pure" selected>pure (清楚・透明感)</option>
-            <option value="natural">natural (自然・親しみ)</option>
-            <option value="cute">cute (可愛い・アイドル風)</option>
-            <option value="cool">cool (かっこいい・綺麗)</option>
-            <option value="intellectual">intellectual (知性・上品)</option>
-            <option value="sporty">sporty (アクティブ・健康的)</option>
-            <option value="elegant">elegant (華やか・上品)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="hair_style">髪型 (hair_style)</label>
-          <select id="hair_style">
-            <option value="long_straight" selected>long_straight (ストレートロング)</option>
-            <option value="long_wave">long_wave (ロングウェーブ)</option>
-            <option value="medium">medium (ミディアム)</option>
-            <option value="bob">bob (ボブ)</option>
-            <option value="short">short (ショート)</option>
-            <option value="pony">pony (ポニーテール)</option>
-            <option value="twin">twin (ツインテール)</option>
-            <option value="updo">updo (アップヘア)</option>
-            <option value="curly">curly (巻き髪・パーマ)</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="age_impression">想定年齢 (age_impression)</label>
-          <select id="age_impression">
-            <option value="early20s" selected>early20s (20代前半)</option>
-            <option value="mid20s">mid20s (20代半ば)</option>
-            <option value="late20s">late20s (20代後半)</option>
-            <option value="thirties">thirties (30代)</option>
-            <option value="forties">forties (40代)</option>
-          </select>
-        </div>
-      </div>
-
-      <!-- タグ設定 -->
-      <div class="panel-section">
-        <div class="section-title">タグ設定</div>
-        <div class="form-group">
-          <label for="custom-tags">追加タグ（カンマ区切り）</label>
-          <input type="text" id="custom-tags" placeholder="カフェ, 笑顔, 落ち着いた">
-        </div>
-        <div class="form-group">
-          <label>クイックタグ選択 (クリックでトグル)</label>
-          <div class="quick-tags" id="quick-tags-container">
-            <!-- JSで動的生成 -->
+          <!-- 進行状況インジケータ -->
+          <div class="generator-progress" id="gen-progress-area" style="display: none">
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" id="gen-progress-fill"></div>
+            </div>
+            <div class="progress-text">
+              <span id="gen-progress-label">準備中...</span>
+              <button
+                id="btn-stop-generate"
+                style="
+                  background: none;
+                  border: none;
+                  color: var(--text-muted);
+                  cursor: pointer;
+                  font-size: 0.75rem;
+                  text-decoration: underline;
+                "
+              >
+                停止
+              </button>
+            </div>
+            <div class="generation-error" id="gen-error-msg" style="display: none"></div>
           </div>
         </div>
-      </div>
 
-      <!-- アクションボタン -->
-      <div class="action-buttons">
-        <button class="btn btn-reject" id="btn-reject" title="左矢印キー または Backspace">
-          <span>❌ 却下</span>
-        </button>
-        <button class="btn btn-approve" id="btn-approve" title="右矢印キー または Enter/Space">
-          <span>✅ 承認</span>
-        </button>
-      </div>
+        <!-- 属性設定 -->
+        <div class="panel-section">
+          <div class="section-title">診断属性設定</div>
 
-      <!-- 操作ガイド -->
-      <div class="panel-section">
-        <div class="section-title">キーボードショートカット</div>
-        <div class="shortcuts-guide">
-          <p><kbd>←</kbd> または <kbd>Backspace</kbd> : 却下（画像削除）</p>
-          <p><kbd>→</kbd> または <kbd>Enter</kbd> / <kbd>Space</kbd> : 承認（b30に移動 & 登録）</p>
-          <p style="margin-top: 0.5rem; font-weight: 500; color: #818cf8;">※承認時の設定値は、次の画像に自動で引き継がれます。</p>
+          <div class="form-group">
+            <label for="style_group">スタイルグループ (style_group)</label>
+            <select id="style_group">
+              <option value="natural" selected>natural (ナチュラル)</option>
+              <option value="casual">casual (カジュアル)</option>
+              <option value="feminine">feminine (フェミニン)</option>
+              <option value="office">office (オフィス)</option>
+              <option value="cool">cool (クール)</option>
+              <option value="mature">mature (大人っぽさ)</option>
+              <option value="simple">simple (シンプル)</option>
+              <option value="korean">korean (韓国風)</option>
+              <option value="gyaru">gyaru (ギャル)</option>
+              <option value="cute">cute (キュート)</option>
+              <option value="sporty">sporty (スポーティ)</option>
+              <option value="elegant">elegant (エレガント)</option>
+              <option value="mode">mode (モード)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="vibe_type">雰囲気 (vibe_type)</label>
+            <select id="vibe_type">
+              <option value="pure" selected>pure (清楚・透明感)</option>
+              <option value="natural">natural (自然・親しみ)</option>
+              <option value="cute">cute (可愛い・アイドル風)</option>
+              <option value="cool">cool (かっこいい・綺麗)</option>
+              <option value="intellectual">intellectual (知性・上品)</option>
+              <option value="sporty">sporty (アクティブ・健康的)</option>
+              <option value="elegant">elegant (華やか・上品)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="hair_style">髪型 (hair_style)</label>
+            <select id="hair_style">
+              <option value="long_straight" selected>long_straight (ストレートロング)</option>
+              <option value="long_wave">long_wave (ロングウェーブ)</option>
+              <option value="medium">medium (ミディアム)</option>
+              <option value="bob">bob (ボブ)</option>
+              <option value="short">short (ショート)</option>
+              <option value="pony">pony (ポニーテール)</option>
+              <option value="twin">twin (ツインテール)</option>
+              <option value="updo">updo (アップヘア)</option>
+              <option value="curly">curly (巻き髪・パーマ)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="age_impression">想定年齢 (age_impression)</label>
+            <select id="age_impression">
+              <option value="early20s" selected>early20s (20代前半)</option>
+              <option value="mid20s">mid20s (20代半ば)</option>
+              <option value="late20s">late20s (20代後半)</option>
+              <option value="thirties">thirties (30代)</option>
+              <option value="forties">forties (40代)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- タグ設定 -->
+        <div class="panel-section">
+          <div class="section-title">タグ設定</div>
+          <div class="form-group">
+            <label for="custom-tags">追加タグ（カンマ区切り）</label>
+            <input type="text" id="custom-tags" placeholder="カフェ, 笑顔, 落ち着いた" />
+          </div>
+          <div class="form-group">
+            <label>クイックタグ選択 (クリックでトグル)</label>
+            <div class="quick-tags" id="quick-tags-container">
+              <!-- JSで動的生成 -->
+            </div>
+          </div>
+        </div>
+
+        <!-- アクションボタン -->
+        <div class="action-buttons">
+          <button class="btn btn-reject" id="btn-reject" title="左矢印キー または Backspace">
+            <span>❌ 却下</span>
+          </button>
+          <button class="btn btn-approve" id="btn-approve" title="右矢印キー または Enter/Space">
+            <span>✅ 承認</span>
+          </button>
+        </div>
+
+        <!-- 操作ガイド -->
+        <div class="panel-section">
+          <div class="section-title">キーボードショートカット</div>
+          <div class="shortcuts-guide">
+            <p><kbd>←</kbd> または <kbd>Backspace</kbd> : 却下（画像削除）</p>
+            <p>
+              <kbd>→</kbd> または <kbd>Enter</kbd> / <kbd>Space</kbd> : 承認（b30に移動 & 登録）
+            </p>
+            <p style="margin-top: 0.5rem; font-weight: 500; color: #818cf8">
+              ※承認時の設定値は、次の画像に自動で引き継がれます。
+            </p>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="toast" id="toast">
-    <span id="toast-icon"></span>
-    <span id="toast-message"></span>
-  </div>
+    <div class="toast" id="toast">
+      <span id="toast-icon"></span>
+      <span id="toast-message"></span>
+    </div>
 
-  <script>
-    const PRESET_TAGS = ['可愛い', '清楚', '笑顔', '黒髪', 'カフェ', 'ナチュラル', 'カジュアル', '綺麗め', 'ボブ', 'ロングヘア', 'ストリート', 'ジャケット', '夏服', '冬服', 'オフィス', '上品'];
+    <script>
+      const PRESET_TAGS = [
+        '可愛い',
+        '清楚',
+        '笑顔',
+        '黒髪',
+        'カフェ',
+        'ナチュラル',
+        'カジュアル',
+        '綺麗め',
+        'ボブ',
+        'ロングヘア',
+        'ストリート',
+        'ジャケット',
+        '夏服',
+        '冬服',
+        'オフィス',
+        '上品',
+      ];
 
-    let imageList = [];
-    let currentIndex = 0;
-    let selectedTags = new Set(['ナチュラル', '清楚', '笑顔']);
-    let pollIntervalId = null;
+      let imageList = [];
+      let currentIndex = 0;
+      let selectedTags = new Set(['ナチュラル', '清楚', '笑顔']);
+      let pollIntervalId = null;
 
-    // DOM要素の取得
-    const remainingCountEl = document.getElementById('remaining-count');
-    const approvedCountEl = document.getElementById('approved-count');
-    const previewImage = document.getElementById('preview-image');
-    const imageWrapper = document.getElementById('image-wrapper');
-    const noImagesEl = document.getElementById('no-images');
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const btnApprove = document.getElementById('btn-approve');
-    const btnReject = document.getElementById('btn-reject');
-    
-    // 入力コントロール
-    const selectStyleGroup = document.getElementById('style_group');
-    const selectVibeType = document.getElementById('vibe_type');
-    const selectHairStyle = document.getElementById('hair_style');
-    const selectAgeImpression = document.getElementById('age_impression');
-    const inputCustomTags = document.getElementById('custom-tags');
-    const quickTagsContainer = document.getElementById('quick-tags-container');
+      // DOM要素の取得
+      const remainingCountEl = document.getElementById('remaining-count');
+      const approvedCountEl = document.getElementById('approved-count');
+      const previewImage = document.getElementById('preview-image');
+      const imageWrapper = document.getElementById('image-wrapper');
+      const noImagesEl = document.getElementById('no-images');
+      const loadingOverlay = document.getElementById('loading-overlay');
+      const btnApprove = document.getElementById('btn-approve');
+      const btnReject = document.getElementById('btn-reject');
 
-    // 生成関連コントロール
-    const inputGenPrompt = document.getElementById('generate-prompt');
-    const inputGenCount = document.getElementById('generate-count');
-    const btnStartGen = document.getElementById('btn-start-generate');
-    const btnStopGen = document.getElementById('btn-stop-generate');
-    const genProgressArea = document.getElementById('gen-progress-area');
-    const genProgressFill = document.getElementById('gen-progress-fill');
-    const genProgressLabel = document.getElementById('gen-progress-label');
-    const genErrorMsg = document.getElementById('gen-error-msg');
+      // 入力コントロール
+      const selectStyleGroup = document.getElementById('style_group');
+      const selectVibeType = document.getElementById('vibe_type');
+      const selectHairStyle = document.getElementById('hair_style');
+      const selectAgeImpression = document.getElementById('age_impression');
+      const inputCustomTags = document.getElementById('custom-tags');
+      const quickTagsContainer = document.getElementById('quick-tags-container');
 
-    // トースト
-    function showToast(message, type = 'success') {
-      const toast = document.getElementById('toast');
-      const msgEl = document.getElementById('toast-message');
-      const iconEl = document.getElementById('toast-icon');
-      
-      toast.className = `toast show toast-${type}`;
-      msgEl.textContent = message;
-      iconEl.textContent = type === 'success' ? '✅' : '❌';
-      
-      setTimeout(() => {
-        toast.className = 'toast';
-      }, 2000);
-    }
+      // 生成関連コントロール
+      const inputGenPrompt = document.getElementById('generate-prompt');
+      const inputGenCount = document.getElementById('generate-count');
+      const btnStartGen = document.getElementById('btn-start-generate');
+      const btnStopGen = document.getElementById('btn-stop-generate');
+      const genProgressArea = document.getElementById('gen-progress-area');
+      const genProgressFill = document.getElementById('gen-progress-fill');
+      const genProgressLabel = document.getElementById('gen-progress-label');
+      const genErrorMsg = document.getElementById('gen-error-msg');
 
-    // クイックタグ初期化
-    function initQuickTags() {
-      quickTagsContainer.innerHTML = '';
-      PRESET_TAGS.forEach(tag => {
-        const chip = document.createElement('div');
-        chip.className = 'tag-chip' + (selectedTags.has(tag) ? ' active' : '');
-        chip.textContent = tag;
-        chip.addEventListener('click', () => {
-          if (selectedTags.has(tag)) {
-            selectedTags.delete(tag);
-            chip.classList.remove('active');
-          } else {
-            selectedTags.add(tag);
-            chip.classList.add('active');
-          }
-        });
-        quickTagsContainer.appendChild(chip);
-      });
-    }
+      // トースト
+      function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        const msgEl = document.getElementById('toast-message');
+        const iconEl = document.getElementById('toast-icon');
 
-    // 画像リストの取得
-    async function loadImages(silent = false) {
-      if (!silent) loadingOverlay.classList.add('active');
-      try {
-        const res = await fetch('/api/images');
-        const data = await res.json();
-        
-        const oldLength = imageList.length;
-        
-        if (data.files && data.files.length > 0) {
-          imageList = data.files;
-          
-          // 新しい画像が増えていて、かつ現在「画像なし」表示だった場合は再表示
-          if (previewImage.style.display === 'none' || oldLength === 0) {
-            currentIndex = 0;
-            showCurrentImage();
-          } else {
-            // 単に残り枚数カウンタを更新
-            remainingCountEl.textContent = imageList.length - currentIndex;
-          }
-        } else {
-          imageList = [];
-          showNoImages();
-        }
-      } catch (err) {
-        showToast('画像リストのロードに失敗しました', 'error');
-        console.error(err);
-      } finally {
-        if (!silent) loadingOverlay.classList.remove('active');
-      }
-    }
+        toast.className = `toast show toast-${type}`;
+        msgEl.textContent = message;
+        iconEl.textContent = type === 'success' ? '✅' : '❌';
 
-    // 現在の画像表示
-    function showCurrentImage() {
-      if (currentIndex >= imageList.length) {
-        showNoImages();
-        return;
+        setTimeout(() => {
+          toast.className = 'toast';
+        }, 2000);
       }
 
-      const filename = imageList[currentIndex];
-      previewImage.src = `/images/tmp_craiyon/${filename}`;
-      previewImage.style.display = 'block';
-      imageWrapper.style.display = 'flex';
-      noImagesEl.style.display = 'none';
-
-      remainingCountEl.textContent = imageList.length - currentIndex;
-
-      // 事前読み込み
-      if (currentIndex + 1 < imageList.length) {
-        const nextImg = new Image();
-        nextImg.src = `/images/tmp_craiyon/${imageList[currentIndex + 1]}`;
-      }
-    }
-
-    function showNoImages() {
-      previewImage.style.display = 'none';
-      imageWrapper.style.display = 'none';
-      noImagesEl.style.display = 'block';
-      remainingCountEl.textContent = '0';
-    }
-
-    // 却下
-    async function handleReject() {
-      if (currentIndex >= imageList.length) return;
-      const filename = imageList[currentIndex];
-      imageWrapper.classList.add('reject-active');
-      
-      try {
-        const res = await fetch('/api/reject', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ filename })
-        });
-        const result = await res.json();
-        
-        if (result.success) {
-          showToast('画像を却下しました');
-          currentIndex++;
-          setTimeout(() => {
-            imageWrapper.classList.remove('reject-active');
-            showCurrentImage();
-          }, 150);
-        } else {
-          showToast(result.error || '却下に失敗しました', 'error');
-          imageWrapper.classList.remove('reject-active');
-        }
-      } catch (err) {
-        showToast('エラーが発生しました', 'error');
-        imageWrapper.classList.remove('reject-active');
-      }
-    }
-
-    // 承認
-    async function handleApprove() {
-      if (currentIndex >= imageList.length) return;
-      const filename = imageList[currentIndex];
-      
-      const customTagsVal = inputCustomTags.value.trim();
-      const customTagsList = customTagsVal ? customTagsVal.split(/[,，、\s]+/).filter(Boolean) : [];
-      const allTags = [...new Set([...selectedTags, ...customTagsList])];
-
-      const approveData = {
-        filename,
-        style_group: selectStyleGroup.value,
-        vibe_type: selectVibeType.value,
-        hair_style: selectHairStyle.value,
-        age_impression: selectAgeImpression.value,
-        tags: allTags
-      };
-
-      imageWrapper.classList.add('approve-active');
-
-      try {
-        const res = await fetch('/api/approve', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(approveData)
-        });
-        const result = await res.json();
-
-        if (result.success) {
-          showToast(`画像を承認し、${result.id} として登録しました`);
-          approvedCountEl.textContent = parseInt(approvedCountEl.textContent, 10) + 1;
-          currentIndex++;
-          setTimeout(() => {
-            imageWrapper.classList.remove('approve-active');
-            showCurrentImage();
-          }, 150);
-        } else {
-          showToast(result.error || '承認に失敗しました', 'error');
-          imageWrapper.classList.remove('approve-active');
-        }
-      } catch (err) {
-        showToast('エラーが発生しました', 'error');
-        imageWrapper.classList.remove('approve-active');
-      }
-    }
-
-    // 【新規】画像生成の開始
-    async function startGeneration() {
-      const prompt = inputGenPrompt.value.trim();
-      const count = parseInt(inputGenCount.value, 10) || 10;
-
-      if (!prompt) {
-        showToast('プロンプトを入力してください', 'error');
-        return;
-      }
-
-      btnStartGen.disabled = true;
-      genProgressArea.style.display = 'block';
-      genErrorMsg.style.display = 'none';
-      genProgressFill.style.width = '0%';
-      genProgressLabel.textContent = '生成タスクを起動中...';
-
-      try {
-        const res = await fetch('/api/generate', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ prompt, count })
-        });
-        const data = await res.json();
-
-        if (data.success) {
-          showToast('画像生成を開始しました。');
-          // 進捗のポーリング開始
-          startPollingProgress();
-        } else {
-          showToast(data.error || '生成の開始に失敗しました', 'error');
-          btnStartGen.disabled = false;
-        }
-      } catch (err) {
-        showToast('通信エラーが発生しました', 'error');
-        btnStartGen.disabled = false;
-      }
-    }
-
-    // 【新規】画像生成の停止
-    async function stopGeneration() {
-      try {
-        const res = await fetch('/api/generate/stop', { method: 'POST' });
-        const data = await res.json();
-        if (data.success) {
-          showToast('生成タスクを停止しました。');
-          stopPollingProgress();
-        }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-
-    // 【新規】進捗ポーリングの開始
-    function startPollingProgress() {
-      if (pollIntervalId) clearInterval(pollIntervalId);
-      
-      pollIntervalId = setInterval(async () => {
-        try {
-          const res = await fetch('/api/generate/status');
-          const status = await res.json();
-
-          if (status.isRunning) {
-            const pct = status.total > 0 ? (status.current / status.total) * 100 : 0;
-            genProgressFill.style.width = `${pct}%`;
-            genProgressLabel.textContent = `生成中: ${status.current} / ${status.total} 枚`;
-            
-            if (status.error) {
-              genErrorMsg.style.display = 'block';
-              genErrorMsg.textContent = status.error;
+      // クイックタグ初期化
+      function initQuickTags() {
+        quickTagsContainer.innerHTML = '';
+        PRESET_TAGS.forEach((tag) => {
+          const chip = document.createElement('div');
+          chip.className = 'tag-chip' + (selectedTags.has(tag) ? ' active' : '');
+          chip.textContent = tag;
+          chip.addEventListener('click', () => {
+            if (selectedTags.has(tag)) {
+              selectedTags.delete(tag);
+              chip.classList.remove('active');
+            } else {
+              selectedTags.add(tag);
+              chip.classList.add('active');
             }
-            
-            // 生成された画像があれば、サイレントにリストを再読み込みしてUIをアップデート
-            loadImages(true);
+          });
+          quickTagsContainer.appendChild(chip);
+        });
+      }
+
+      // 画像リストの取得
+      async function loadImages(silent = false) {
+        if (!silent) loadingOverlay.classList.add('active');
+        try {
+          const res = await fetch('/api/images');
+          const data = await res.json();
+
+          const oldLength = imageList.length;
+
+          if (data.files && data.files.length > 0) {
+            imageList = data.files;
+
+            // 新しい画像が増えていて、かつ現在「画像なし」表示だった場合は再表示
+            if (previewImage.style.display === 'none' || oldLength === 0) {
+              currentIndex = 0;
+              showCurrentImage();
+            } else {
+              // 単に残り枚数カウンタを更新
+              remainingCountEl.textContent = imageList.length - currentIndex;
+            }
           } else {
-            // 生成完了または停止
-            genProgressFill.style.width = '100%';
-            genProgressLabel.textContent = `完了: ${status.current} / ${status.total} 枚`;
-            stopPollingProgress();
-            loadImages(true);
-            showToast('すべての画像生成が終了しました！');
+            imageList = [];
+            showNoImages();
           }
         } catch (err) {
-          console.error('進捗取得エラー:', err);
+          showToast('画像リストのロードに失敗しました', 'error');
+          console.error(err);
+        } finally {
+          if (!silent) loadingOverlay.classList.remove('active');
         }
-      }, 1500);
-    }
-
-    // 【新規】ポーリング停止
-    function stopPollingProgress() {
-      if (pollIntervalId) {
-        clearInterval(pollIntervalId);
-        pollIntervalId = null;
-      }
-      btnStartGen.disabled = false;
-    }
-
-    // キーボードショートカット
-    document.addEventListener('keydown', (e) => {
-      if (document.activeElement.tagName === 'INPUT' || document.activeElement.tagName === 'SELECT') {
-        return;
       }
 
-      if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
-        e.preventDefault();
-        btnReject.classList.add('active');
-        handleReject();
-        setTimeout(() => btnReject.classList.remove('active'), 100);
-      } else if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        btnApprove.classList.add('active');
-        handleApprove();
-        setTimeout(() => btnApprove.classList.remove('active'), 100);
+      // 現在の画像表示
+      function showCurrentImage() {
+        if (currentIndex >= imageList.length) {
+          showNoImages();
+          return;
+        }
+
+        const filename = imageList[currentIndex];
+        previewImage.src = `/images/tmp_craiyon/${filename}`;
+        previewImage.style.display = 'block';
+        imageWrapper.style.display = 'flex';
+        noImagesEl.style.display = 'none';
+
+        remainingCountEl.textContent = imageList.length - currentIndex;
+
+        // 事前読み込み
+        if (currentIndex + 1 < imageList.length) {
+          const nextImg = new Image();
+          nextImg.src = `/images/tmp_craiyon/${imageList[currentIndex + 1]}`;
+        }
       }
-    });
 
-    btnApprove.addEventListener('click', handleApprove);
-    btnReject.addEventListener('click', handleReject);
-    btnStartGen.addEventListener('click', startGeneration);
-    btnStopGen.addEventListener('click', stopGeneration);
+      function showNoImages() {
+        previewImage.style.display = 'none';
+        imageWrapper.style.display = 'none';
+        noImagesEl.style.display = 'block';
+        remainingCountEl.textContent = '0';
+      }
 
-    // 初期化と起動
-    initQuickTags();
-    loadImages();
-  </script>
-</body>
+      // 却下
+      async function handleReject() {
+        if (currentIndex >= imageList.length) return;
+        const filename = imageList[currentIndex];
+        imageWrapper.classList.add('reject-active');
+
+        try {
+          const res = await fetch('/api/reject', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ filename }),
+          });
+          const result = await res.json();
+
+          if (result.success) {
+            showToast('画像を却下しました');
+            currentIndex++;
+            setTimeout(() => {
+              imageWrapper.classList.remove('reject-active');
+              showCurrentImage();
+            }, 150);
+          } else {
+            showToast(result.error || '却下に失敗しました', 'error');
+            imageWrapper.classList.remove('reject-active');
+          }
+        } catch (err) {
+          showToast('エラーが発生しました', 'error');
+          imageWrapper.classList.remove('reject-active');
+        }
+      }
+
+      // 承認
+      async function handleApprove() {
+        if (currentIndex >= imageList.length) return;
+        const filename = imageList[currentIndex];
+
+        const customTagsVal = inputCustomTags.value.trim();
+        const customTagsList = customTagsVal
+          ? customTagsVal.split(/[,，、\s]+/).filter(Boolean)
+          : [];
+        const allTags = [...new Set([...selectedTags, ...customTagsList])];
+
+        const approveData = {
+          filename,
+          style_group: selectStyleGroup.value,
+          vibe_type: selectVibeType.value,
+          hair_style: selectHairStyle.value,
+          age_impression: selectAgeImpression.value,
+          tags: allTags,
+        };
+
+        imageWrapper.classList.add('approve-active');
+
+        try {
+          const res = await fetch('/api/approve', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(approveData),
+          });
+          const result = await res.json();
+
+          if (result.success) {
+            showToast(`画像を承認し、${result.id} として登録しました`);
+            approvedCountEl.textContent = parseInt(approvedCountEl.textContent, 10) + 1;
+            currentIndex++;
+            setTimeout(() => {
+              imageWrapper.classList.remove('approve-active');
+              showCurrentImage();
+            }, 150);
+          } else {
+            showToast(result.error || '承認に失敗しました', 'error');
+            imageWrapper.classList.remove('approve-active');
+          }
+        } catch (err) {
+          showToast('エラーが発生しました', 'error');
+          imageWrapper.classList.remove('approve-active');
+        }
+      }
+
+      // 【新規】画像生成の開始
+      async function startGeneration() {
+        const prompt = inputGenPrompt.value.trim();
+        const count = parseInt(inputGenCount.value, 10) || 10;
+
+        if (!prompt) {
+          showToast('プロンプトを入力してください', 'error');
+          return;
+        }
+
+        btnStartGen.disabled = true;
+        genProgressArea.style.display = 'block';
+        genErrorMsg.style.display = 'none';
+        genProgressFill.style.width = '0%';
+        genProgressLabel.textContent = '生成タスクを起動中...';
+
+        try {
+          const res = await fetch('/api/generate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, count }),
+          });
+          const data = await res.json();
+
+          if (data.success) {
+            showToast('画像生成を開始しました。');
+            // 進捗のポーリング開始
+            startPollingProgress();
+          } else {
+            showToast(data.error || '生成の開始に失敗しました', 'error');
+            btnStartGen.disabled = false;
+          }
+        } catch (err) {
+          showToast('通信エラーが発生しました', 'error');
+          btnStartGen.disabled = false;
+        }
+      }
+
+      // 【新規】画像生成の停止
+      async function stopGeneration() {
+        try {
+          const res = await fetch('/api/generate/stop', { method: 'POST' });
+          const data = await res.json();
+          if (data.success) {
+            showToast('生成タスクを停止しました。');
+            stopPollingProgress();
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+
+      // 【新規】進捗ポーリングの開始
+      function startPollingProgress() {
+        if (pollIntervalId) clearInterval(pollIntervalId);
+
+        pollIntervalId = setInterval(async () => {
+          try {
+            const res = await fetch('/api/generate/status');
+            const status = await res.json();
+
+            if (status.isRunning) {
+              const pct = status.total > 0 ? (status.current / status.total) * 100 : 0;
+              genProgressFill.style.width = `${pct}%`;
+              genProgressLabel.textContent = `生成中: ${status.current} / ${status.total} 枚`;
+
+              if (status.error) {
+                genErrorMsg.style.display = 'block';
+                genErrorMsg.textContent = status.error;
+              }
+
+              // 生成された画像があれば、サイレントにリストを再読み込みしてUIをアップデート
+              loadImages(true);
+            } else {
+              // 生成完了または停止
+              genProgressFill.style.width = '100%';
+              genProgressLabel.textContent = `完了: ${status.current} / ${status.total} 枚`;
+              stopPollingProgress();
+              loadImages(true);
+              showToast('すべての画像生成が終了しました！');
+            }
+          } catch (err) {
+            console.error('進捗取得エラー:', err);
+          }
+        }, 1500);
+      }
+
+      // 【新規】ポーリング停止
+      function stopPollingProgress() {
+        if (pollIntervalId) {
+          clearInterval(pollIntervalId);
+          pollIntervalId = null;
+        }
+        btnStartGen.disabled = false;
+      }
+
+      // キーボードショートカット
+      document.addEventListener('keydown', (e) => {
+        if (
+          document.activeElement.tagName === 'INPUT' ||
+          document.activeElement.tagName === 'SELECT'
+        ) {
+          return;
+        }
+
+        if (e.key === 'ArrowLeft' || e.key === 'Backspace') {
+          e.preventDefault();
+          btnReject.classList.add('active');
+          handleReject();
+          setTimeout(() => btnReject.classList.remove('active'), 100);
+        } else if (e.key === 'ArrowRight' || e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btnApprove.classList.add('active');
+          handleApprove();
+          setTimeout(() => btnApprove.classList.remove('active'), 100);
+        }
+      });
+
+      btnApprove.addEventListener('click', handleApprove);
+      btnReject.addEventListener('click', handleReject);
+      btnStartGen.addEventListener('click', startGeneration);
+      btnStopGen.addEventListener('click', stopGeneration);
+
+      // 初期化と起動
+      initQuickTags();
+      loadImages();
+    </script>
+  </body>
 </html>

@@ -4232,7 +4232,13 @@ export const LOCAL_IMAGES: ImageMetadata[] = [
     hair_style: 'long_straight',
     skin_tone: 'fair',
     makeup_level: 'natural',
-    tags: ['ナチュラル', 'モルディブ水上コテージ', 'パステルイエロードレス', 'セミロング', '落ち着いた'],
+    tags: [
+      'ナチュラル',
+      'モルディブ水上コテージ',
+      'パステルイエロードレス',
+      'セミロング',
+      '落ち着いた',
+    ],
     popularity_score: 56,
   },
   {
@@ -8470,4 +8476,3 @@ export const LOCAL_IMAGES: ImageMetadata[] = [
     popularity_score: 55,
   },
 ];
-

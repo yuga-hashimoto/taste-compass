@@ -18,7 +18,7 @@ export default function RootLayout() {
   useEffect(() => {
     LogBox.ignoreAllLogs(true);
     const init = async () => {
-      await initI18n();        // ← i18n初期化（デバイス言語検出）
+      await initI18n(); // ← i18n初期化（デバイス言語検出）
       await initializeStore();
       setIsReady(true);
     };
@@ -73,8 +73,24 @@ export default function RootLayout() {
 
   if (!isReady) {
     return (
-      <View style={{ flex: 1, backgroundColor: THEME.colors.background, justifyContent: 'center', alignItems: 'center' }}>
-        <View style={{ width: 40, height: 40, borderRadius: 20, borderWidth: 3, borderColor: THEME.colors.primary, borderTopColor: 'transparent' }} />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: THEME.colors.background,
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            borderWidth: 3,
+            borderColor: THEME.colors.primary,
+            borderTopColor: 'transparent',
+          }}
+        />
       </View>
     );
   }

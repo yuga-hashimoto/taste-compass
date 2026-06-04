@@ -11,7 +11,12 @@ interface ThemeIconProps {
   style?: ViewStyle;
 }
 
-export function ThemeIcon({ themeId, size = 18, color = THEME.colors.text, style }: ThemeIconProps) {
+export function ThemeIcon({
+  themeId,
+  size = 18,
+  color = THEME.colors.text,
+  style,
+}: ThemeIconProps) {
   const key = themeId.toLowerCase().trim();
 
   // マップ定義：(ライブラリ名, アイコン名)

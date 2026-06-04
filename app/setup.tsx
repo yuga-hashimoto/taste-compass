@@ -1,14 +1,11 @@
 // setup.tsx - 診断設定画面（モダンリデザイン版）
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import {
-  StyleSheet, Text, View, Pressable, ScrollView, Platform, Animated,
-} from 'react-native';
+import React, { useState, useEffect, useMemo } from 'react';
+import { StyleSheet, Text, View, Pressable, ScrollView, Platform, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useDiagnosisStore } from '../src/stores/useDiagnosisStore';
 import { THEME } from '../src/theme/theme';
 import { trackEvent } from '../src/services/eventService';
 import { useI18n } from '../src/i18n';
-import { ThemeIcon } from '../src/components/ui/ThemeIcon';
 
 const CARD_COUNTS = [
   { value: 30, label: '30', recommended: true },
@@ -16,26 +13,24 @@ const CARD_COUNTS = [
   { value: 100, label: '100', recommended: false },
 ];
 
-const THEME_IDS = ['all', 'natural', 'cool', 'cute', 'sexy', 'korean', 'global', 'mature', 'casual'] as const;
-
 export default function SetupScreen() {
   const router = useRouter();
   const startSession = useDiagnosisStore((s) => s.startSession);
   const anonymousUserId = useDiagnosisStore((s) => s.anonymousUserId);
-  const { t, i } = useI18n();
+  const { t } = useI18n();
 
   const [selectedCount, setSelectedCount] = useState(30);
   const selectedTheme = 'all';
 
-  const fadeAnim  = useMemo(() => new Animated.Value(0), []);
+  const fadeAnim = useMemo(() => new Animated.Value(0), []);
   const slideAnim = useMemo(() => new Animated.Value(24), []);
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(fadeAnim,  { toValue: 1, duration: 500, useNativeDriver: true }),
+      Animated.timing(fadeAnim, { toValue: 1, duration: 500, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, tension: 70, friction: 12, useNativeDriver: true }),
     ]).start();
-  }, []);
+  }, [fadeAnim, slideAnim]);
 
   const handleStart = () => {
     const sessionId = startSession(selectedTheme, selectedCount);
@@ -47,23 +42,14 @@ export default function SetupScreen() {
     router.replace('/diagnosis');
   };
 
-  // 翻訳済みテーマリスト
-  const themes = THEME_IDS.map((id) => ({
-    id,
-    ...t.setup.themes[id],
-  }));
-
-  const activeTheme = themes.find((th) => th.id === selectedTheme);
-
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       <View style={styles.bgBlob} pointerEvents="none" />
 
       {/* ─── ヘッダー ─── */}
-      <Animated.View style={[styles.header, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+      <Animated.View
+        style={[styles.header, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
+      >
         <Text style={styles.stepLabel}>{t.setup.stepLabel}</Text>
         <Text style={styles.pageTitle}>{t.setup.pageTitle}</Text>
         <Text style={styles.pageSub}>{t.setup.pageSub}</Text>
@@ -97,16 +83,12 @@ export default function SetupScreen() {
                 <Text style={[styles.countNumber, active && styles.countNumberActive]}>
                   {c.value}
                 </Text>
-                <Text style={[styles.countSub, active && styles.countSubActive]}>
-                  {subLabel}
-                </Text>
+                <Text style={[styles.countSub, active && styles.countSubActive]}>{subLabel}</Text>
               </Pressable>
             );
           })}
         </View>
       </Animated.View>
-
-
 
       {/* ─── スタートボタン ─── */}
       <Animated.View style={[styles.startArea, { opacity: fadeAnim }]}>
@@ -116,9 +98,7 @@ export default function SetupScreen() {
           accessibilityLabel={t.setup.startBtn}
           accessibilityRole="button"
         >
-          <Text style={styles.startBtnText}>
-            {t.setup.startBtn}
-          </Text>
+          <Text style={styles.startBtnText}>{t.setup.startBtn}</Text>
           <Text style={styles.startArrow}>→</Text>
         </Pressable>
       </Animated.View>

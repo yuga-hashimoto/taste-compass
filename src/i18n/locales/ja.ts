@@ -61,15 +61,15 @@ export const ja = {
     approx15min: '約15分',
     startBtn: '診断スタート',
     themes: {
-      all:     { label: '全ジャンル',   desc: 'あらゆるスタイルから幅広く診断' },
+      all: { label: '全ジャンル', desc: 'あらゆるスタイルから幅広く診断' },
       natural: { label: 'ナチュラル系', desc: '清楚・ナチュラル・清潔感系' },
-      cool:    { label: 'クール系',     desc: '都会的・モード・知的系' },
-      cute:    { label: '可愛い系',     desc: 'アイドル・フェミニン・ガーリー系' },
-      sexy:    { label: 'セクシー系',   desc: 'グラマー・ギャル・色気重視系' },
-      korean:  { label: '韓国風',       desc: 'K-beauty・トレンド系' },
-      global:  { label: 'グローバル系', desc: '多国籍・洋風・ダイバーシティ系' },
-      mature:  { label: '大人っぽい系', desc: '知的・エレガント・成熟系' },
-      casual:  { label: 'カジュアル系', desc: 'スポーティ・カジュアル・親しみ系' },
+      cool: { label: 'クール系', desc: '都会的・モード・知的系' },
+      cute: { label: '可愛い系', desc: 'アイドル・フェミニン・ガーリー系' },
+      sexy: { label: 'セクシー系', desc: 'グラマー・ギャル・色気重視系' },
+      korean: { label: '韓国風', desc: 'K-beauty・トレンド系' },
+      global: { label: 'グローバル系', desc: '多国籍・洋風・ダイバーシティ系' },
+      mature: { label: '大人っぽい系', desc: '知的・エレガント・成熟系' },
+      casual: { label: 'カジュアル系', desc: 'スポーティ・カジュアル・親しみ系' },
     },
   },
 
@@ -106,21 +106,21 @@ export const ja = {
     shareText:
       '【好みズレ診断】{{type}}\n世間との一致度: {{score}}%\n好みが近い国: {{country}}\nレア度: {{rarity}}\n\n{{analysis}}\n\n#好みズレ診断 #TasteCompass',
     meters: {
-      gyaru:        'ギャル度',
-      pure:         '清楚度',
-      sexy:         'セクシー度',
-      mature:       '大人度',
+      gyaru: 'ギャル度',
+      pure: '清楚度',
+      sexy: 'セクシー度',
+      mature: '大人度',
       intellectual: '知的度',
-      global:       'グローバル',
+      global: 'グローバル',
     },
   },
 
   // ── ナビゲーション ────────────────────────────────
   nav: {
-    home:     'ホーム',
+    home: 'ホーム',
     diagnosis: '診断',
-    history:  '履歴',
-    stats:    '統計',
+    history: '履歴',
+    stats: '統計',
     settings: '設定',
   },
 
@@ -138,9 +138,11 @@ export const ja = {
     anonymousSub: '※個人情報は一切紐づいていません。端末ローカルに安全に暗号・保存されています。',
     aboutService: 'サービスについて',
     aboutImagesTitle: '診断画像について',
-    aboutImagesText: '本サービスで用いられるビジュアルは、すべてAIにより生成された架空の成人女性であり、実在のモデルや人物は存在しません。未成年に見える画像の排除、および過度な露出や身体の強調などのセンシティブ表現の防止を徹底しています。',
+    aboutImagesText:
+      '本サービスで用いられるビジュアルは、すべてAIにより生成された架空の成人女性であり、実在のモデルや人物は存在しません。未成年に見える画像の排除、および過度な露出や身体の強調などのセンシティブ表現の防止を徹底しています。',
     adsPrivacyTitle: '広告とプライバシー',
-    adsPrivacyText: '本サービスは広告配信を通じて低コストで持続的に運営されています。診断中には誤操作を防止するため一切広告を表示しません。また、個人を特定できるトラッキングは行っていません。',
+    adsPrivacyText:
+      '本サービスは広告配信を通じて低コストで持続的に運営されています。診断中には誤操作を防止するため一切広告を表示しません。また、個人を特定できるトラッキングは行っていません。',
     docsContact: 'ドキュメント & お問い合わせ',
     termsOfService: '利用規約',
     privacyPolicy: 'プライバシーポリシー',
@@ -149,12 +151,15 @@ export const ja = {
     regenerateId: '匿名IDの再生成',
     regenerateIdDesc: '診断履歴を引き継がず、完全に新規IDを発行します。',
     deleteAllData: '履歴とデータの完全削除',
-    deleteAllDataDesc: 'このデバイスに保存されている履歴と、データベース上の全投票データを永久に削除します。',
+    deleteAllDataDesc:
+      'このデバイスに保存されている履歴と、データベース上の全投票データを永久に削除します。',
     regenerateModalTitle: '匿名IDを再生成しますか？',
-    regenerateModalDesc: '新しいIDに切り替わると、これまでの履歴データが読み込めなくなります。この操作は取り消せません。',
+    regenerateModalDesc:
+      '新しいIDに切り替わると、これまでの履歴データが読み込めなくなります。この操作は取り消せません。',
     regenerateConfirm: '再生成する',
     deleteModalTitle: 'データを完全削除しますか？',
-    deleteModalDesc: 'このデバイスおよびクラウドデータベースに保存されているすべての履歴、セッション、投票データが完全に消去されます。',
+    deleteModalDesc:
+      'このデバイスおよびクラウドデータベースに保存されているすべての履歴、セッション、投票データが完全に消去されます。',
     deleteConfirm: '完全に削除',
   },
 
@@ -179,22 +184,22 @@ export const ja = {
     emptyDataSub: '診断を増やすことで統計が算出されます',
     votesCount: '{{count}} 票',
     countries: {
-      'all': '🌏 全体',
-      'ja': '🇯🇵 日本',
-      'ko': '🇰🇷 韓国',
-      'en': '🇺🇸 英語圏',
-      'zhCN': '🇨🇳 中国',
-      'zhTW': '🇹🇼 台湾',
-      'es': '🇪🇸 スペイン語圏',
-      'pt': '🇵🇹 ポルトガル語圏',
-      'fr': '🇫🇷 フランス',
-      'de': '🇩🇪 ドイツ',
-      'id': '🇮🇩 インドネシア',
-      'th': '🇹🇭 タイ',
-      'vi': '🇻🇳 ベトナム',
-      'ar': '🇸🇦 アラブ圏',
-      'hi': '🇮🇳 インド'
-},
+      all: '🌏 全体',
+      ja: '🇯🇵 日本',
+      ko: '🇰🇷 韓国',
+      en: '🇺🇸 英語圏',
+      zhCN: '🇨🇳 中国',
+      zhTW: '🇹🇼 台湾',
+      es: '🇪🇸 スペイン語圏',
+      pt: '🇵🇹 ポルトガル語圏',
+      fr: '🇫🇷 フランス',
+      de: '🇩🇪 ドイツ',
+      id: '🇮🇩 インドネシア',
+      th: '🇹🇭 タイ',
+      vi: '🇻🇳 ベトナム',
+      ar: '🇸🇦 アラブ圏',
+      hi: '🇮🇳 インド',
+    },
 
     title: '統計データ',
     loading: '統計データを集計中...',
@@ -226,7 +231,8 @@ export const ja = {
   // ── お問い合わせ画面 ────────────────────────────────
   contact: {
     title: '不適切報告 / お問い合わせ',
-    subtitle: '本サービスの画像に関して、実在人物への酷似や不適切な表現がある場合はこちらからご報告ください。',
+    subtitle:
+      '本サービスの画像に関して、実在人物への酷似や不適切な表現がある場合はこちらからご報告ください。',
     labelType: 'お問い合わせの種類',
     labelImageId: '対象の画像ID (分かる場合のみ・任意)',
     labelMessage: 'メッセージ内容 (必須)',
@@ -235,7 +241,8 @@ export const ja = {
     errorRequired: 'メッセージ本文を入力してください。',
     errorSubmit: '送信に失敗しました。時間をおいて再度お試しください。',
     successTitle: '送信が完了しました',
-    successDesc: 'ご報告・お問い合わせありがとうございました。頂いた内容を運営で確認し、必要に応じて迅速に対応（画像の削除や非表示措置等）を行います。',
+    successDesc:
+      'ご報告・お問い合わせありがとうございました。頂いた内容を運営で確認し、必要に応じて迅速に対応（画像の削除や非表示措置等）を行います。',
     submitting: '送信中...',
     submit: '送信する',
     types: {

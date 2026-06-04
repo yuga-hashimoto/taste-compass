@@ -15,18 +15,14 @@ const config = {
 };
 
 // 適用するSQLファイルの順序
-const SQL_FILES = [
-  'schema.sql',
-  'views.sql',
-  'functions.sql',
-  'policies.sql',
-  'seed.sql',
-];
+const SQL_FILES = ['schema.sql', 'views.sql', 'functions.sql', 'policies.sql', 'seed.sql'];
 
 async function main() {
   if (!config.password) {
     console.error('Error: SUPABASE_DB_PASSWORD environment variable is not set.');
-    console.error('Usage: SUPABASE_DB_PASSWORD="your-password" npx tsx scripts/apply-migrations.ts');
+    console.error(
+      'Usage: SUPABASE_DB_PASSWORD="your-password" npx tsx scripts/apply-migrations.ts',
+    );
     process.exit(1);
   }
 

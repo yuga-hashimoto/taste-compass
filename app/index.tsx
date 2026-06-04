@@ -1,15 +1,6 @@
 // index.tsx - ホーム画面（モダンリデザイン + i18n対応版）
-import React, { useEffect, useRef } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Pressable,
-  ScrollView,
-  Platform,
-  Animated,
-  Dimensions,
-} from 'react-native';
+import React, { useEffect, useMemo } from 'react';
+import { StyleSheet, Text, View, Pressable, ScrollView, Platform, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { Image } from 'expo-image';
 import { THEME } from '../src/theme/theme';
@@ -18,34 +9,32 @@ import { useI18n } from '../src/i18n';
 import { Feather } from '@expo/vector-icons';
 import { getDiagnosisImages } from '../src/services/imageService';
 
-const { width: SCREEN_W } = Dimensions.get('window');
-
 export default function HomeScreen() {
   const router = useRouter();
   const { t } = useI18n();
-  const fadeAnim   = useRef(new Animated.Value(0)).current;
-  const slideAnim  = useRef(new Animated.Value(30)).current;
-  const pulseAnim  = useRef(new Animated.Value(1)).current;
-  const glowAnim   = useRef(new Animated.Value(0)).current;
+  const fadeAnim = useMemo(() => new Animated.Value(0), []);
+  const slideAnim = useMemo(() => new Animated.Value(30), []);
+  const pulseAnim = useMemo(() => new Animated.Value(1), []);
+  const glowAnim = useMemo(() => new Animated.Value(0), []);
 
   useEffect(() => {
     Animated.parallel([
-      Animated.timing(fadeAnim,  { toValue: 1, duration: 800, useNativeDriver: true }),
+      Animated.timing(fadeAnim, { toValue: 1, duration: 800, useNativeDriver: true }),
       Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 10, useNativeDriver: true }),
     ]).start();
 
     Animated.loop(
       Animated.sequence([
         Animated.timing(pulseAnim, { toValue: 1.04, duration: 1800, useNativeDriver: true }),
-        Animated.timing(pulseAnim, { toValue: 1,    duration: 1800, useNativeDriver: true }),
-      ])
+        Animated.timing(pulseAnim, { toValue: 1, duration: 1800, useNativeDriver: true }),
+      ]),
     ).start();
 
     Animated.loop(
       Animated.sequence([
         Animated.timing(glowAnim, { toValue: 1, duration: 2000, useNativeDriver: false }),
         Animated.timing(glowAnim, { toValue: 0, duration: 2000, useNativeDriver: false }),
-      ])
+      ]),
     ).start();
 
     // 診断用画像の事前プリロード
@@ -58,7 +47,7 @@ export default function HomeScreen() {
         console.warn('Failed to prefetch images on Home:', err);
       }
     })();
-  }, []);
+  }, [fadeAnim, glowAnim, pulseAnim, slideAnim]);
 
   return (
     <ScrollView
@@ -90,10 +79,7 @@ export default function HomeScreen() {
 
       {/* ─── CTAボタン ─── */}
       <Animated.View
-        style={[
-          styles.ctaWrapper,
-          { opacity: fadeAnim, transform: [{ scale: pulseAnim }] },
-        ]}
+        style={[styles.ctaWrapper, { opacity: fadeAnim, transform: [{ scale: pulseAnim }] }]}
       >
         <Pressable
           style={({ pressed }) => [styles.ctaButton, pressed && styles.ctaPressed]}
@@ -109,9 +95,21 @@ export default function HomeScreen() {
       {/* ─── 特徴リスト ─── */}
       <Animated.View style={[styles.featuresRow, { opacity: fadeAnim }]}>
         {[
-          { icon: <Feather name="sliders" size={20} color={THEME.colors.primary} />, label: t.home.feature1Label, desc: t.home.feature1Desc },
-          { icon: <Feather name="pie-chart" size={20} color={THEME.colors.primary} />, label: t.home.feature2Label, desc: t.home.feature2Desc },
-          { icon: <Feather name="users" size={20} color={THEME.colors.primary} />, label: t.home.feature3Label, desc: t.home.feature3Desc },
+          {
+            icon: <Feather name="sliders" size={20} color={THEME.colors.primary} />,
+            label: t.home.feature1Label,
+            desc: t.home.feature1Desc,
+          },
+          {
+            icon: <Feather name="pie-chart" size={20} color={THEME.colors.primary} />,
+            label: t.home.feature2Label,
+            desc: t.home.feature2Desc,
+          },
+          {
+            icon: <Feather name="users" size={20} color={THEME.colors.primary} />,
+            label: t.home.feature3Label,
+            desc: t.home.feature3Desc,
+          },
         ].map((f, i) => (
           <View key={i} style={styles.featureCard}>
             <View style={styles.featureIcon}>{f.icon}</View>
@@ -123,7 +121,12 @@ export default function HomeScreen() {
 
       {/* ─── 免責カード ─── */}
       <Animated.View style={[styles.disclaimerCard, { opacity: fadeAnim }]}>
-        <Feather name="alert-triangle" size={14} color={THEME.colors.skip} style={styles.disclaimerIcon} />
+        <Feather
+          name="alert-triangle"
+          size={14}
+          color={THEME.colors.skip}
+          style={styles.disclaimerIcon}
+        />
         <Text style={styles.disclaimerText}>{t.home.disclaimer}</Text>
       </Animated.View>
 
@@ -133,7 +136,12 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/history')}
         >
-          <Feather name="bar-chart-2" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
+          <Feather
+            name="bar-chart-2"
+            size={18}
+            color={THEME.colors.textSub}
+            style={styles.subBtnIcon}
+          />
           <Text style={styles.subBtnText}>{t.home.navHistory}</Text>
         </Pressable>
         <View style={styles.subDivider} />
@@ -141,7 +149,12 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/stats')}
         >
-          <Feather name="trending-up" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
+          <Feather
+            name="trending-up"
+            size={18}
+            color={THEME.colors.textSub}
+            style={styles.subBtnIcon}
+          />
           <Text style={styles.subBtnText}>{t.home.navStats}</Text>
         </Pressable>
         <View style={styles.subDivider} />
@@ -149,7 +162,12 @@ export default function HomeScreen() {
           style={({ pressed }) => [styles.subBtn, pressed && styles.subBtnPressed]}
           onPress={() => router.push('/settings')}
         >
-          <Feather name="settings" size={18} color={THEME.colors.textSub} style={styles.subBtnIcon} />
+          <Feather
+            name="settings"
+            size={18}
+            color={THEME.colors.textSub}
+            style={styles.subBtnIcon}
+          />
           <Text style={styles.subBtnText}>{t.home.navSettings}</Text>
         </Pressable>
       </Animated.View>
@@ -158,7 +176,7 @@ export default function HomeScreen() {
       <View style={styles.footer}>
         <View style={styles.footerLinks}>
           {[
-            { label: t.home.terms,   path: '/terms' },
+            { label: t.home.terms, path: '/terms' },
             { label: t.home.privacy, path: '/privacy' },
             { label: t.home.contact, path: '/contact' },
           ].map((l, i) => (

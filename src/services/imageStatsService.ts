@@ -41,7 +41,13 @@ export const incrementImageStat = async (
 ): Promise<void> => {
   try {
     const stats = await getLocalImageStats();
-    const current = stats[imageId] ?? { likes: 0, skips: 0, total: 0, like_rate: 50, last_updated: '' };
+    const current = stats[imageId] ?? {
+      likes: 0,
+      skips: 0,
+      total: 0,
+      like_rate: 50,
+      last_updated: '',
+    };
 
     const likes = current.likes + (voteType === 'like' ? 1 : 0);
     const skips = current.skips + (voteType === 'skip' ? 1 : 0);
@@ -66,14 +72,14 @@ export const incrementImageStat = async (
  * Supabaseのimage_statsビューから全画像の集計を取得し、
  * ローカル集計とマージして返す（Supabaseが優先）
  *
- * 将来Supabaseに以下のビューを作成することで精度が上がる：
+ * Supabaseに以下のビューがあると精度が上がる：
  * CREATE VIEW image_stats AS
  *   SELECT image_id,
- *     COUNT(*) FILTER (WHERE vote_type='like') AS likes,
- *     COUNT(*) FILTER (WHERE vote_type='skip') AS skips,
- *     COUNT(*) AS total,
- *     ROUND(COUNT(*) FILTER (WHERE vote_type='like') * 100.0 / NULLIF(COUNT(*),0)) AS like_rate
- *   FROM votes GROUP BY image_id;
+ *     SUM(like_count) AS like_count,
+ *     SUM(skip_count) AS skip_count,
+ *     SUM(like_count + skip_count) AS total_votes,
+ *     ...
+ *   FROM image_country_stats GROUP BY image_id;
  */
 export const getMergedImageStats = async (): Promise<ImageStatsMap> => {
   const localStats = await getLocalImageStats();
@@ -83,27 +89,31 @@ export const getMergedImageStats = async (): Promise<ImageStatsMap> => {
   try {
     const { data, error } = await supabase
       .from('image_stats')
-      .select('image_id, likes, skips, total, like_rate');
+      .select('image_id, like_count, skip_count, total_votes, like_rate');
 
     if (error || !data) return localStats;
 
     const merged: ImageStatsMap = { ...localStats };
     for (const row of data as any[]) {
+      const likes = row.like_count ?? row.likes ?? 0;
+      const skips = row.skip_count ?? row.skips ?? 0;
+      const total = row.total_votes ?? row.total ?? likes + skips;
+
       // Supabase集計が十分なデータ（10票以上）であれば優先
-      if (row.total >= 10) {
+      if (total >= 10) {
         merged[row.image_id] = {
-          likes: row.likes,
-          skips: row.skips,
-          total: row.total,
+          likes,
+          skips,
+          total,
           like_rate: row.like_rate,
           last_updated: new Date().toISOString(),
         };
       } else if (!merged[row.image_id]) {
         // ローカルになければSupabase値を使う
         merged[row.image_id] = {
-          likes: row.likes,
-          skips: row.skips,
-          total: row.total,
+          likes,
+          skips,
+          total,
           like_rate: row.like_rate,
           last_updated: new Date().toISOString(),
         };

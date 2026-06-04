@@ -26,7 +26,8 @@ export const id: TranslationKeys = {
     badge: '✦ Kuis Visual AI',
     title: 'Selera kamu\n',
     titleAccent: 'berbeda dari dunia?',
-    subtitle: 'Geser untuk analisis preferensi kamu.\nBandingkan dengan negara lain, tren tubuh & usia.',
+    subtitle:
+      'Geser untuk analisis preferensi kamu.\nBandingkan dengan negara lain, tren tubuh & usia.',
     startBtn: 'Mulai Kuis',
     feature1Label: 'Geser untuk Nilai',
     feature1Desc: 'Geser kiri atau kanan saja',
@@ -56,15 +57,15 @@ export const id: TranslationKeys = {
     approx15min: '~15 menit',
     startBtn: 'Mulai',
     themes: {
-      all:     { label: 'Semua Gaya',  desc: 'Analisis luas dengan berbagai gaya' },
-      natural: { label: 'Natural',     desc: 'Tampil bersih, natural, segar' },
-      cool:    { label: 'Keren',       desc: 'Urban, modern, intelektual' },
-      cute:    { label: 'Imut',        desc: 'Idol, feminin, girly' },
-      sexy:    { label: 'Seksi',       desc: 'Glamor, berani, menggoda' },
-      korean:  { label: 'K-Style',     desc: 'K-beauty dan tren Korea' },
-      global:  { label: 'Global',      desc: 'Multikultural dan tampilan barat' },
-      mature:  { label: 'Dewasa',      desc: 'Elegan, intelektual, sophisticated' },
-      casual:  { label: 'Kasual',      desc: 'Sporty, kasual, ramah' },
+      all: { label: 'Semua Gaya', desc: 'Analisis luas dengan berbagai gaya' },
+      natural: { label: 'Natural', desc: 'Tampil bersih, natural, segar' },
+      cool: { label: 'Keren', desc: 'Urban, modern, intelektual' },
+      cute: { label: 'Imut', desc: 'Idol, feminin, girly' },
+      sexy: { label: 'Seksi', desc: 'Glamor, berani, menggoda' },
+      korean: { label: 'K-Style', desc: 'K-beauty dan tren Korea' },
+      global: { label: 'Global', desc: 'Multikultural dan tampilan barat' },
+      mature: { label: 'Dewasa', desc: 'Elegan, intelektual, sophisticated' },
+      casual: { label: 'Kasual', desc: 'Sporty, kasual, ramah' },
     },
   },
   diagnosis: {
@@ -97,12 +98,12 @@ export const id: TranslationKeys = {
     shareText:
       '[Taste Compass] {{type}}\nKecocokan: {{score}}%\nNegara terdekat: {{country}}\nKelangkaan: {{rarity}}\n\n{{analysis}}\n\n#TasteCompass',
     meters: {
-      gyaru:        'Gyaru',
-      pure:         'Kemurnian',
-      sexy:         'Seksi',
-      mature:       'Kematangan',
+      gyaru: 'Gyaru',
+      pure: 'Kemurnian',
+      sexy: 'Seksi',
+      mature: 'Kematangan',
       intellectual: 'Intelektual',
-      global:       'Global',
+      global: 'Global',
     },
   },
   nav: {
@@ -122,12 +123,15 @@ export const id: TranslationKeys = {
     anonymousInfo: 'Info Pengguna Anonim',
     yourAnonymousId: 'ID Anonim Anda',
     anonymousIdLoading: 'Memuat...',
-    anonymousSub: '※Tidak ada informasi pribadi yang ditautkan. Ini dienkripsi dengan aman dan disimpan secara lokal di perangkat Anda.',
+    anonymousSub:
+      '※Tidak ada informasi pribadi yang ditautkan. Ini dienkripsi dengan aman dan disimpan secara lokal di perangkat Anda.',
     aboutService: 'Tentang Layanan',
     aboutImagesTitle: 'Tentang Gambar Diagnosis',
-    aboutImagesText: 'Semua visual yang digunakan dalam layanan ini adalah wanita dewasa fiktif (20+) yang dihasilkan oleh AI. Tidak ada model atau orang nyata. Kami secara ketat mengecualikan gambar yang tampak seperti anak di bawah umur dan mencegah ekspresi sensitif seperti paparan berlebihan atau penekanan tubuh.',
+    aboutImagesText:
+      'Semua visual yang digunakan dalam layanan ini adalah wanita dewasa fiktif (20+) yang dihasilkan oleh AI. Tidak ada model atau orang nyata. Kami secara ketat mengecualikan gambar yang tampak seperti anak di bawah umur dan mencegah ekspresi sensitif seperti paparan berlebihan atau penekanan tubuh.',
     adsPrivacyTitle: 'Iklan & Privasi',
-    adsPrivacyText: 'Layanan ini dioperasikan dengan biaya rendah melalui penayangan iklan. Tidak ada iklan yang ditampilkan selama diagnosis untuk mencegah klik yang tidak disengaja. Selain itu, kami tidak melacak untuk mengidentifikasi individu.',
+    adsPrivacyText:
+      'Layanan ini dioperasikan dengan biaya rendah melalui penayangan iklan. Tidak ada iklan yang ditampilkan selama diagnosis untuk mencegah klik yang tidak disengaja. Selain itu, kami tidak melacak untuk mengidentifikasi individu.',
     docsContact: 'Dokumen & Kontak',
     termsOfService: 'Ketentuan Layanan',
     privacyPolicy: 'Kebijakan Privasi',
@@ -136,12 +140,15 @@ export const id: TranslationKeys = {
     regenerateId: 'Regenerasi ID Anonim',
     regenerateIdDesc: 'Menerbitkan ID yang benar-benar baru tanpa mewarisi riwayat diagnosis.',
     deleteAllData: 'Hapus Semua Riwayat & Data',
-    deleteAllDataDesc: 'Menghapus riwayat yang disimpan di perangkat ini dan semua data pemungutan suara di database secara permanen.',
+    deleteAllDataDesc:
+      'Menghapus riwayat yang disimpan di perangkat ini dan semua data pemungutan suara di database secara permanen.',
     regenerateModalTitle: 'Regenerasi ID Anonim?',
-    regenerateModalDesc: 'Setelah beralih ke ID baru, data riwayat sebelumnya tidak dapat dimuat. Tindakan ini tidak dapat dibatalkan.',
+    regenerateModalDesc:
+      'Setelah beralih ke ID baru, data riwayat sebelumnya tidak dapat dimuat. Tindakan ini tidak dapat dibatalkan.',
     regenerateConfirm: 'Regenerasi',
     deleteModalTitle: 'Hapus Semua Data?',
-    deleteModalDesc: 'Semua riwayat, sesi, dan data pemungutan suara yang disimpan di perangkat ini dan database cloud akan dihapus secara permanen.',
+    deleteModalDesc:
+      'Semua riwayat, sesi, dan data pemungutan suara yang disimpan di perangkat ini dan database cloud akan dihapus secara permanen.',
     deleteConfirm: 'Hapus Permanen',
   },
 
@@ -163,22 +170,22 @@ export const id: TranslationKeys = {
     emptyDataSub: 'Selesaikan lebih banyak diagnosis untuk menghasilkan statistik',
     votesCount: '{{count}} suara',
     countries: {
-      'all': '🌏 Global',
-      'ja': '🇯🇵 Jepang',
-      'ko': '🇰🇷 Korea',
-      'en': '🇺🇸 Berbahasa Inggris',
-      'zhCN': '🇨🇳 China',
-      'zhTW': '🇹🇼 Taiwan',
-      'es': '🇪🇸 Berbahasa Spanyol',
-      'pt': '🇵🇹 Berbahasa Portugis',
-      'fr': '🇫🇷 Prancis',
-      'de': '🇩🇪 Jerman',
-      'id': '🇮🇩 Indonesia',
-      'th': '🇹🇭 Thailand',
-      'vi': '🇻🇳 Vietnam',
-      'ar': '🇸🇦 Dunia Arab',
-      'hi': '🇮🇳 India'
-},
+      all: '🌏 Global',
+      ja: '🇯🇵 Jepang',
+      ko: '🇰🇷 Korea',
+      en: '🇺🇸 Berbahasa Inggris',
+      zhCN: '🇨🇳 China',
+      zhTW: '🇹🇼 Taiwan',
+      es: '🇪🇸 Berbahasa Spanyol',
+      pt: '🇵🇹 Berbahasa Portugis',
+      fr: '🇫🇷 Prancis',
+      de: '🇩🇪 Jerman',
+      id: '🇮🇩 Indonesia',
+      th: '🇹🇭 Thailand',
+      vi: '🇻🇳 Vietnam',
+      ar: '🇸🇦 Dunia Arab',
+      hi: '🇮🇳 India',
+    },
 
     title: 'Data Statistik',
     loading: 'Menyusun statistik...',
@@ -208,23 +215,27 @@ export const id: TranslationKeys = {
   },
   contact: {
     title: 'Laporkan / Hubungi Us',
-    subtitle: 'Silakan laporkan gambar apa pun yang sangat mirip dengan orang nyata atau berisi ekspresi yang tidak pantas di sini.',
+    subtitle:
+      'Silakan laporkan gambar apa pun yang sangat mirip dengan orang nyata atau berisi ekspresi yang tidak pantas di sini.',
     labelType: 'Jenis Kontak',
     labelImageId: 'ID Gambar Target (Opsional / Jika diketahui)',
     labelMessage: 'Isi Pesan (Wajib)',
     placeholderImageId: 'misalnya, 00000000-0000-0000-0000-000000000001',
-    placeholderMessage: 'Harap jelaskan masalah spesifik atau alasan permintaan penghangusan secara mendetail.',
+    placeholderMessage:
+      'Harap jelaskan masalah spesifik atau alasan permintaan penghangusan secara mendetail.',
     errorRequired: 'Harap masukkan isi pesan.',
     errorSubmit: 'Gagal mengirim. Silakan coba lagi nanti.',
     successTitle: 'Pengiriman Selesai',
-    successDesc: 'Terima kasih atas laporan/pertanyaan Anda. Kami akan meninjau konten dan mengambil tindakan yang sesuai (seperti menonaktifkan atau menghapus gambar) secepat mungkin.',
+    successDesc:
+      'Terima kasih atas laporan/pertanyaan Anda. Kami akan meninjau konten dan mengambil tindakan yang sesuai (seperti menonaktifkan atau menghapus gambar) secepat mungkin.',
     submitting: 'Mengirim...',
     submit: 'Kirim',
     types: {
       inappropriate: 'Laporkan Gambar Tidak Pantas',
       inappropriateDesc: 'Berisi eksposur tinggi atau visual yang tidak pantas',
       resemblance: 'Laporkan Kemiripan dengan Orang Nyata',
-      resemblanceDesc: 'Sangat mirip dengan individu atau selebritas nyata tertentu dan meminta penghapusan',
+      resemblanceDesc:
+        'Sangat mirip dengan individu atau selebritas nyata tertentu dan meminta penghapusan',
       other: 'Pertanyaan Lain',
       otherDesc: 'Umpan balik, laporan bug, atau pertanyaan umum lainnya kepada operator',
     },
@@ -232,8 +243,7 @@ export const id: TranslationKeys = {
   documents: {
     termsTitle: 'Ketentuan Layanan',
     privacyTitle: 'Kebijakan Privasi',
-    termsContent: "",
-    privacyContent: "",
-  }
-
+    termsContent: '',
+    privacyContent: '',
+  },
 };

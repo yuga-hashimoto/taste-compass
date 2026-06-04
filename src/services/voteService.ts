@@ -1,6 +1,5 @@
 // voteService.ts - 投票送信サービス（localStorage集計付き）
 import { supabase } from '../lib/supabase';
-import { getPlatform } from '../lib/platform';
 import { ENV } from '../lib/env';
 import { incrementImageStat } from './imageStatsService';
 import { toDeterministicUUID } from '../lib/uuid';

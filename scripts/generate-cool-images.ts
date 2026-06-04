@@ -13,14 +13,14 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const PROMPTS = [
-  "A beautiful and cute Japanese woman, late 20s, cool expression, wearing leather jacket and T-shirt, short hair, on a city street, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, mid 20s, serious expression, wearing simple black knit, long straight hair, in a monotone studio, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, late 20s, smiling with an adult atmosphere, wearing a stylish setup, wavy hair, on a high-rise building terrace, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, late 20s, mysterious expression, wearing dark tone clothes, bob hair, in a modern bar, realistic photo, highly detailed, natural lighting",
-  "A beautiful and cute Japanese woman, mid 20s, active expression, wearing sporty jacket, ponytail hair, with a concrete background, realistic photo, highly detailed, natural lighting"
+  'A beautiful and cute Japanese woman, late 20s, cool expression, wearing leather jacket and T-shirt, short hair, on a city street, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, mid 20s, serious expression, wearing simple black knit, long straight hair, in a monotone studio, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, late 20s, smiling with an adult atmosphere, wearing a stylish setup, wavy hair, on a high-rise building terrace, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, late 20s, mysterious expression, wearing dark tone clothes, bob hair, in a modern bar, realistic photo, highly detailed, natural lighting',
+  'A beautiful and cute Japanese woman, mid 20s, active expression, wearing sporty jacket, ponytail hair, with a concrete background, realistic photo, highly detailed, natural lighting',
 ];
 
 function getFormattedTimestamp() {
@@ -44,7 +44,7 @@ const generateAndDownload = async (prompt: string, index: number) => {
   try {
     const response = await axios.get(url, {
       responseType: 'arraybuffer',
-      timeout: 60000 // 60秒タイムアウト
+      timeout: 60000, // 60秒タイムアウト
     });
 
     const timestamp = getFormattedTimestamp();
@@ -82,12 +82,16 @@ const main = async () => {
   console.log('====================================');
   console.log('🎉 処理完了しました！');
   console.log('生成されたファイル一覧:');
-  generatedFiles.forEach(file => console.log(`- ${file}`));
+  generatedFiles.forEach((file) => console.log(`- ${file}`));
   console.log('====================================');
-  
+
   // ファイル一覧を出力するためのJSONファイルを一時的に作成して、呼び出し側で読み取れるようにするか、
   // あるいは標準出力からパースできるようにします。
-  fs.writeFileSync(path.resolve(__dirname, 'last_generated_cool_images.json'), JSON.stringify(generatedFiles, null, 2), 'utf8');
+  fs.writeFileSync(
+    path.resolve(__dirname, 'last_generated_cool_images.json'),
+    JSON.stringify(generatedFiles, null, 2),
+    'utf8',
+  );
 };
 
 main();

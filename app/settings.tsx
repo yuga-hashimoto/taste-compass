@@ -55,7 +55,6 @@ export default function SettingsScreen() {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-
       {/* ─── 言語選択セクション ─── */}
       <View style={styles.section}>
         <View style={styles.headerWithIcon}>
@@ -79,9 +78,7 @@ export default function SettingsScreen() {
                 accessibilityState={{ checked: active }}
               >
                 <CountryFlag code={l.code} size={16} />
-                <Text style={[styles.langName, active && styles.langNameActive]}>
-                  {l.name}
-                </Text>
+                <Text style={[styles.langName, active && styles.langNameActive]}>{l.name}</Text>
                 {active && <Text style={styles.langCheck}>✓</Text>}
               </Pressable>
             );
@@ -155,7 +152,9 @@ export default function SettingsScreen() {
       <View style={styles.section}>
         <View style={styles.headerWithIcon}>
           <Feather name="trash-2" size={14} color={THEME.colors.skip} />
-          <Text style={[styles.sectionHeader, styles.dangerHeader]}>{t.settings.dataDeleteSection}</Text>
+          <Text style={[styles.sectionHeader, styles.dangerHeader]}>
+            {t.settings.dataDeleteSection}
+          </Text>
         </View>
 
         <Pressable style={styles.dangerRowItem} onPress={() => setResetModalVisible(true)}>

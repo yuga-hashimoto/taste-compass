@@ -1,181 +1,150 @@
-import { Image } from 'expo-image';
-import { SymbolView } from 'expo-symbols';
-import { Platform, Pressable, ScrollView, StyleSheet } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons';
+import { Stack, useRouter } from 'expo-router';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { ExternalLink } from '@/components/external-link';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Collapsible } from '@/components/ui/collapsible';
-import { WebBadge } from '@/components/web-badge';
-import { BottomTabInset, MaxContentWidth, Spacing } from '@/constants/theme';
-import { useTheme } from '@/hooks/use-theme';
+import { THEME } from '../src/theme/theme';
 
-export default function TabTwoScreen() {
-  const safeAreaInsets = useSafeAreaInsets();
-  const insets = {
-    ...safeAreaInsets,
-    bottom: safeAreaInsets.bottom + BottomTabInset + Spacing.three,
-  };
-  const theme = useTheme();
+const sections = [
+  {
+    icon: 'shield',
+    title: '安全な画像設計',
+    body: '診断画像はすべてAI生成の架空成人ビジュアルです。実在人物との関係や個人評価を前提にしない娯楽サービスとして設計しています。',
+  },
+  {
+    icon: 'bar-chart-2',
+    title: '匿名の統計比較',
+    body: 'ログイン不要の匿名IDで、好みの傾向と全体平均との差を算出します。個人を特定する登録情報は扱いません。',
+  },
+  {
+    icon: 'globe',
+    title: '多角的な好み分析',
+    body: 'スタイル、地域傾向、雰囲気、年齢感などを組み合わせて、単純な好き嫌いでは見えにくい傾向を表示します。',
+  },
+] as const;
 
-  const contentPlatformStyle = Platform.select({
-    android: {
-      paddingTop: insets.top,
-      paddingLeft: insets.left,
-      paddingRight: insets.right,
-      paddingBottom: insets.bottom,
-    },
-    web: {
-      paddingTop: Spacing.six,
-      paddingBottom: Spacing.four,
-    },
-  });
+export default function ExploreScreen() {
+  const router = useRouter();
 
   return (
-    <ScrollView
-      style={[styles.scrollView, { backgroundColor: theme.background }]}
-      contentInset={insets}
-      contentContainerStyle={[styles.contentContainer, contentPlatformStyle]}
-    >
-      <ThemedView style={styles.container}>
-        <ThemedView style={styles.titleContainer}>
-          <ThemedText type="subtitle">Explore</ThemedText>
-          <ThemedText style={styles.centerText} themeColor="textSecondary">
-            This starter app includes example{'\n'}code to help you get started.
-          </ThemedText>
+    <>
+      <Stack.Screen options={{ title: '概要' }} />
+      <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
+        <View style={styles.header}>
+          <Text style={styles.eyebrow}>ABOUT TASTE COMPASS</Text>
+          <Text style={styles.title}>好みのズレを、軽く楽しく見える化。</Text>
+          <Text style={styles.lead}>
+            Taste Compass は、スワイプ診断を通して自分の好みと世間の傾向を比較するWebサービスです。
+          </Text>
+        </View>
 
-          <ExternalLink href="https://docs.expo.dev" asChild>
-            <Pressable style={({ pressed }) => pressed && styles.pressed}>
-              <ThemedView type="backgroundElement" style={styles.linkButton}>
-                <ThemedText type="link">Expo documentation</ThemedText>
-                <SymbolView
-                  tintColor={theme.text}
-                  name={{ ios: 'arrow.up.right.square', android: 'link', web: 'link' }}
-                  size={12}
-                />
-              </ThemedView>
-            </Pressable>
-          </ExternalLink>
-        </ThemedView>
+        <View style={styles.sectionList}>
+          {sections.map((section) => (
+            <View key={section.title} style={styles.section}>
+              <View style={styles.iconBox}>
+                <Feather name={section.icon} size={18} color={THEME.colors.primary} />
+              </View>
+              <View style={styles.sectionText}>
+                <Text style={styles.sectionTitle}>{section.title}</Text>
+                <Text style={styles.sectionBody}>{section.body}</Text>
+              </View>
+            </View>
+          ))}
+        </View>
 
-        <ThemedView style={styles.sectionsWrapper}>
-          <Collapsible title="File-based routing">
-            <ThemedText type="small">
-              This app has two screens: <ThemedText type="code">src/app/index.tsx</ThemedText> and{' '}
-              <ThemedText type="code">src/app/explore.tsx</ThemedText>
-            </ThemedText>
-            <ThemedText type="small">
-              The layout file in <ThemedText type="code">src/app/_layout.tsx</ThemedText> sets up
-              the tab navigator.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/router/introduction">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Android, iOS, and web support">
-            <ThemedView type="backgroundElement" style={styles.collapsibleContent}>
-              <ThemedText type="small">
-                You can open this project on Android, iOS, and the web. To open the web version,
-                press <ThemedText type="smallBold">w</ThemedText> in the terminal running this
-                project.
-              </ThemedText>
-              <Image
-                source={require('@/assets/images/tutorial-web.png')}
-                style={styles.imageTutorial}
-              />
-            </ThemedView>
-          </Collapsible>
-
-          <Collapsible title="Images">
-            <ThemedText type="small">
-              For static images, you can use the <ThemedText type="code">@2x</ThemedText> and{' '}
-              <ThemedText type="code">@3x</ThemedText> suffixes to provide files for different
-              screen densities.
-            </ThemedText>
-            <Image source={require('@/assets/images/react-logo.png')} style={styles.imageReact} />
-            <ExternalLink href="https://reactnative.dev/docs/images">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Light and dark mode components">
-            <ThemedText type="small">
-              This template has light and dark mode support. The{' '}
-              <ThemedText type="code">useColorScheme()</ThemedText> hook lets you inspect what the
-              user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-            </ThemedText>
-            <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-              <ThemedText type="linkPrimary">Learn more</ThemedText>
-            </ExternalLink>
-          </Collapsible>
-
-          <Collapsible title="Animations">
-            <ThemedText type="small">
-              This template includes an example of an animated component. The{' '}
-              <ThemedText type="code">src/components/ui/collapsible.tsx</ThemedText> component uses
-              the powerful <ThemedText type="code">react-native-reanimated</ThemedText> library to
-              animate opening this hint.
-            </ThemedText>
-          </Collapsible>
-        </ThemedView>
-        {Platform.OS === 'web' && <WebBadge />}
-      </ThemedView>
-    </ScrollView>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="診断スタート"
+          style={({ pressed }) => [styles.cta, pressed && styles.ctaPressed]}
+          onPress={() => router.push('/setup')}
+        >
+          <Text style={styles.ctaText}>診断スタート</Text>
+          <Feather name="arrow-right" size={18} color="#FFF8F2" />
+        </Pressable>
+      </ScrollView>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
-    flex: 1,
-  },
-  contentContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   container: {
-    maxWidth: MaxContentWidth,
     flexGrow: 1,
+    backgroundColor: THEME.colors.background,
+    paddingHorizontal: 22,
+    paddingTop: 48,
+    paddingBottom: 40,
   },
-  titleContainer: {
-    gap: Spacing.three,
-    alignItems: 'center',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.six,
+  header: {
+    gap: 14,
+    marginBottom: 28,
   },
-  centerText: {
-    textAlign: 'center',
+  eyebrow: {
+    color: THEME.colors.primary,
+    fontSize: 11,
+    fontWeight: '800',
+    letterSpacing: 1.2,
   },
-  pressed: {
-    opacity: 0.7,
+  title: {
+    color: THEME.colors.text,
+    fontSize: 28,
+    lineHeight: 36,
+    fontWeight: '900',
   },
-  linkButton: {
+  lead: {
+    color: THEME.colors.textSub,
+    fontSize: 14,
+    lineHeight: 23,
+  },
+  sectionList: {
+    gap: 12,
+    marginBottom: 28,
+  },
+  section: {
     flexDirection: 'row',
-    paddingHorizontal: Spacing.four,
-    paddingVertical: Spacing.two,
-    borderRadius: Spacing.five,
+    gap: 14,
+    padding: 16,
+    borderRadius: THEME.radius.lg,
+    backgroundColor: THEME.colors.surface,
+    borderWidth: 1,
+    borderColor: THEME.colors.border,
+  },
+  iconBox: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
     justifyContent: 'center',
-    gap: Spacing.one,
+    backgroundColor: 'rgba(175,82,57,0.10)',
+  },
+  sectionText: {
+    flex: 1,
+    gap: 6,
+  },
+  sectionTitle: {
+    color: THEME.colors.text,
+    fontSize: 15,
+    fontWeight: '800',
+  },
+  sectionBody: {
+    color: THEME.colors.textSub,
+    fontSize: 12,
+    lineHeight: 20,
+  },
+  cta: {
+    minHeight: 54,
+    borderRadius: THEME.radius.full,
+    backgroundColor: THEME.colors.primary,
     alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    gap: 8,
   },
-  sectionsWrapper: {
-    gap: Spacing.five,
-    paddingHorizontal: Spacing.four,
-    paddingTop: Spacing.three,
+  ctaPressed: {
+    opacity: 0.82,
+    transform: [{ scale: 0.98 }],
   },
-  collapsibleContent: {
-    alignItems: 'center',
-  },
-  imageTutorial: {
-    width: '100%',
-    aspectRatio: 296 / 171,
-    borderRadius: Spacing.three,
-    marginTop: Spacing.two,
-  },
-  imageReact: {
-    width: 100,
-    height: 100,
-    alignSelf: 'center',
+  ctaText: {
+    color: '#FFF8F2',
+    fontSize: 16,
+    fontWeight: '900',
   },
 });

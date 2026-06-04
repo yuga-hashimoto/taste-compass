@@ -32,7 +32,7 @@ if (fs.existsSync(STATUS_FILE)) {
   }
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const saveStatus = () => {
   fs.writeFileSync(STATUS_FILE, JSON.stringify(status, null, 2), 'utf8');
@@ -48,15 +48,15 @@ const generateImageViaUI = async (page: Page, index: number): Promise<boolean> =
     if (!promptInput) {
       throw new Error('プロンプト入力欄が見つかりません。');
     }
-    
+
     // 入力欄をクリアしてから入力
     await promptInput.fill('');
     await promptInput.fill('可愛い日本人');
 
     // 2. レスポンス待機プロミスを先にセットアップ
     const responsePromise = page.waitForResponse(
-      response => response.url().includes('/api/image/draw') && response.status() === 200,
-      { timeout: 120000 } // 2分タイムアウト
+      (response) => response.url().includes('/api/image/draw') && response.status() === 200,
+      { timeout: 120000 }, // 2分タイムアウト
     );
 
     // 3. Draw ボタンをクリック
@@ -100,7 +100,7 @@ const generateImageViaUI = async (page: Page, index: number): Promise<boolean> =
     }, imageUrl);
 
     const buffer = Buffer.from(base64Data, 'base64');
-    
+
     const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 15);
     const filename = `craiyon_${timestamp}_${Math.floor(100 + Math.random() * 900)}.png`;
     const filepath = path.join(OUTPUT_DIR, filename);
@@ -129,18 +129,19 @@ const main = async () => {
   try {
     browser = await chromium.launch({
       headless: false,
-      args: ['--disable-blink-features=AutomationControlled']
+      args: ['--disable-blink-features=AutomationControlled'],
     });
-    
+
     const context = await browser.newContext({
       viewport: { width: 1280, height: 800 },
-      userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+      userAgent:
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       locale: 'ja-JP',
-      timezoneId: 'Asia/Tokyo'
+      timezoneId: 'Asia/Tokyo',
     });
-    
+
     page = await context.newPage();
-    page.setDefaultTimeout(120000); 
+    page.setDefaultTimeout(120000);
 
     let consecutiveErrors = 0;
 
@@ -169,7 +170,7 @@ const main = async () => {
         consecutiveErrors = 0;
       } else {
         consecutiveErrors++;
-        
+
         if (consecutiveErrors >= 5) {
           console.error('❌ 5回連続で生成に失敗したため、一時停止して30秒待ちます...');
           await sleep(30000);

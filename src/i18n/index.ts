@@ -6,26 +6,36 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useCallback, useEffect, useState } from 'react';
 
 import { ja, TranslationKeys } from './locales/ja';
-import { en }   from './locales/en';
-import { ko }   from './locales/ko';
+import { en } from './locales/en';
+import { ko } from './locales/ko';
 import { zhCN } from './locales/zh-CN';
 import { zhTW } from './locales/zh-TW';
-import { es }   from './locales/es';
-import { pt }   from './locales/pt';
-import { fr }   from './locales/fr';
-import { de }   from './locales/de';
-import { id }   from './locales/id';
-import { th }   from './locales/th';
-import { vi }   from './locales/vi';
-import { ar }   from './locales/ar';
-import { hi }   from './locales/hi';
+import { es } from './locales/es';
+import { pt } from './locales/pt';
+import { fr } from './locales/fr';
+import { de } from './locales/de';
+import { id } from './locales/id';
+import { th } from './locales/th';
+import { vi } from './locales/vi';
+import { ar } from './locales/ar';
+import { hi } from './locales/hi';
 
 // ── サポート言語マップ ───────────────────────────────────
 export const LOCALES: Record<string, TranslationKeys> = {
-  ja, en, ko,
+  ja,
+  en,
+  ko,
   'zh-CN': zhCN,
   'zh-TW': zhTW,
-  es, pt, fr, de, id, th, vi, ar, hi,
+  es,
+  pt,
+  fr,
+  de,
+  id,
+  th,
+  vi,
+  ar,
+  hi,
 };
 
 export const SUPPORTED_LANGS = Object.keys(LOCALES);
@@ -192,7 +202,7 @@ export function isRTL(): boolean {
 // 使用例: interpolate('{{count}}枚 · {{theme}} で診断', { count: 30, theme: 'ナチュラル系' })
 export function interpolate(template: string, vars: Record<string, string | number>): string {
   return template.replace(/\{\{(\w+)\}\}/g, (_, key) =>
-    vars[key] !== undefined ? String(vars[key]) : `{{${key}}}`
+    vars[key] !== undefined ? String(vars[key]) : `{{${key}}}`,
   );
 }
 

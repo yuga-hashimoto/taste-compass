@@ -10,19 +10,80 @@ const __dirname = path.dirname(__filename);
 const API_KEY = process.env.OPENROUTER_API_KEY || '';
 
 // 属性の候補値定義
-const STYLES = ['gyaru', 'cute', 'korean', 'global_elegant', 'mode', 'natural', 'casual', 'office', 'sporty', 'elegant'];
-const REGIONS = ['middle_eastern_style', 'south_asian_style', 'southeast_asian_style', 'latina_style', 'black_style', 'japanese_style', 'korean_style', 'western_style', 'chinese_style', 'global_mixed'];
+const STYLES = [
+  'gyaru',
+  'cute',
+  'korean',
+  'global_elegant',
+  'mode',
+  'natural',
+  'casual',
+  'office',
+  'sporty',
+  'elegant',
+];
+const REGIONS = [
+  'middle_eastern_style',
+  'south_asian_style',
+  'southeast_asian_style',
+  'latina_style',
+  'black_style',
+  'japanese_style',
+  'korean_style',
+  'western_style',
+  'chinese_style',
+  'global_mixed',
+];
 const AGES = ['teens', 'forties', 'early20s', 'mid20s', 'late20s', 'thirties'];
-const VIBES = ['gyaru', 'cute', 'charismatic', 'sporty', 'intellectual', 'pure', 'cool', 'natural', 'elegant'];
+const VIBES = [
+  'gyaru',
+  'cute',
+  'charismatic',
+  'sporty',
+  'intellectual',
+  'pure',
+  'cool',
+  'natural',
+  'elegant',
+];
 const SILHOUETTES = ['curvy', 'petite', 'slim', 'healthy', 'balanced'];
 const HAIRS = ['curly', 'pony', 'bob', 'long_straight', 'long_wave', 'medium', 'short', 'updo'];
 const SKINS = ['tan', 'dark', 'fair', 'medium'];
 const MAKEUPS = ['gyaru', 'heavy', 'natural', 'moderate'];
 
 // 定義済みの日本語タグ
-const STYLE_TAGS: Record<string, string> = { gyaru: 'ギャル', cute: '可愛い', korean: '韓国風', global_elegant: 'グローバル', mode: 'モード', natural: 'ナチュラル', casual: 'カジュアル', office: 'オフィス', sporty: 'スポーティ', elegant: 'エレガント' };
-const REGION_TAGS: Record<string, string> = { middle_eastern_style: '中東系', south_asian_style: '南アジア系', southeast_asian_style: '東南アジア系', latina_style: 'ラテン系', black_style: 'ブラック系', japanese_style: '日本風', korean_style: '韓国風', western_style: '洋風', chinese_style: '中国風', global_mixed: 'ハーフ' };
-const AGE_TAGS: Record<string, string> = { teens: '10代', forties: '40代', early20s: '20代前半', mid20s: '20代半ば', late20s: '20代後半', thirties: '30代' };
+const STYLE_TAGS: Record<string, string> = {
+  gyaru: 'ギャル',
+  cute: '可愛い',
+  korean: '韓国風',
+  global_elegant: 'グローバル',
+  mode: 'モード',
+  natural: 'ナチュラル',
+  casual: 'カジュアル',
+  office: 'オフィス',
+  sporty: 'スポーティ',
+  elegant: 'エレガント',
+};
+const REGION_TAGS: Record<string, string> = {
+  middle_eastern_style: '中東系',
+  south_asian_style: '南アジア系',
+  southeast_asian_style: '東南アジア系',
+  latina_style: 'ラテン系',
+  black_style: 'ブラック系',
+  japanese_style: '日本風',
+  korean_style: '韓国風',
+  western_style: '洋風',
+  chinese_style: '中国風',
+  global_mixed: 'ハーフ',
+};
+const AGE_TAGS: Record<string, string> = {
+  teens: '10代',
+  forties: '40代',
+  early20s: '20代前半',
+  mid20s: '20代半ば',
+  late20s: '20代後半',
+  thirties: '30代',
+};
 
 // プロンプト生成
 function generatePrompt(style: string, region: string, age: string, hair: string): string {
@@ -57,13 +118,19 @@ function generatePrompt(style: string, region: string, age: string, hair: string
   else hairDesc = 'medium-length hair';
 
   let styleDesc = '';
-  if (style === 'gyaru') styleDesc = 'wearing trendy colorful street fashion, with stylish makeup, looking confident';
-  else if (style === 'cute') styleDesc = 'wearing a cute pastel outfit, smiling brightly, idol-like style';
-  else if (style === 'korean') styleDesc = 'wearing trendy modern Korean casual clothing, chic and aesthetic';
-  else if (style === 'elegant') styleDesc = 'wearing a sophisticated elegant dress, graceful posture';
+  if (style === 'gyaru')
+    styleDesc = 'wearing trendy colorful street fashion, with stylish makeup, looking confident';
+  else if (style === 'cute')
+    styleDesc = 'wearing a cute pastel outfit, smiling brightly, idol-like style';
+  else if (style === 'korean')
+    styleDesc = 'wearing trendy modern Korean casual clothing, chic and aesthetic';
+  else if (style === 'elegant')
+    styleDesc = 'wearing a sophisticated elegant dress, graceful posture';
   else if (style === 'office') styleDesc = 'wearing stylish office casual suit, intellectual look';
-  else if (style === 'sporty') styleDesc = 'wearing athletic sportswear, energetic and healthy look';
-  else if (style === 'mode') styleDesc = 'wearing avant-garde high-fashion clothing, artistic modeling';
+  else if (style === 'sporty')
+    styleDesc = 'wearing athletic sportswear, energetic and healthy look';
+  else if (style === 'mode')
+    styleDesc = 'wearing avant-garde high-fashion clothing, artistic modeling';
   else if (style === 'casual') styleDesc = 'wearing casual denim jacket and t-shirt, relaxed look';
   else styleDesc = 'wearing simple clean minimalist clothing';
 
@@ -88,58 +155,76 @@ async function callOpenRouterWithRetry(prompt: string, retries = 3, delay = 5000
         {
           model: 'black-forest-labs/flux.2-klein-4b',
           messages: [{ role: 'user', content: prompt }],
-          modalities: ['image']
+          modalities: ['image'],
         },
         {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${API_KEY}`
+            Authorization: `Bearer ${API_KEY}`,
           },
-          timeout: 90000
-        }
+          timeout: 90000,
+        },
       );
       const dataUrl = response.data?.choices?.[0]?.message?.images?.[0]?.image_url?.url;
       if (dataUrl) return dataUrl;
       throw new Error('No image URL in response');
     } catch (e: any) {
-      console.warn(`Attempt ${attempt} failed: ${e.response ? JSON.stringify(e.response.data) : e.message}`);
+      console.warn(
+        `Attempt ${attempt} failed: ${e.response ? JSON.stringify(e.response.data) : e.message}`,
+      );
       if (attempt === retries) throw e;
-      await new Promise(r => setTimeout(r, delay * attempt));
+      await new Promise((r) => setTimeout(r, delay * attempt));
     }
   }
   throw new Error('Retries exhausted');
 }
 
 // スリープ
-const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function main() {
   console.log('Bulk generation started...');
-  
+
   // 生成するIDの配列構築 (合計236枚)
   // 欠番埋め: b24_s02〜b24_s10 (9枚), b25〜b28 (各10枚, 40枚)
   // 新規バッチ: b31〜b48 (各10枚, 180枚), b49_s01〜b49_s07 (7枚)
   const targets: { id: string; batch: string; serial: string }[] = [];
-  
+
   // b24 s02-s10
   for (let s = 2; s <= 10; s++) {
-    targets.push({ id: `tc_diag_b24_s${String(s).padStart(2, '0')}`, batch: '24', serial: String(s).padStart(2, '0') });
+    targets.push({
+      id: `tc_diag_b24_s${String(s).padStart(2, '0')}`,
+      batch: '24',
+      serial: String(s).padStart(2, '0'),
+    });
   }
   // b25-b28
   for (let b = 25; b <= 28; b++) {
     for (let s = 1; s <= 10; s++) {
-      targets.push({ id: `tc_diag_b${b}_s${String(s).padStart(2, '0')}`, batch: String(b), serial: String(s).padStart(2, '0') });
+      targets.push({
+        id: `tc_diag_b${b}_s${String(s).padStart(2, '0')}`,
+        batch: String(b),
+        serial: String(s).padStart(2, '0'),
+      });
     }
   }
   // b31-b48
   for (let b = 31; b <= 48; b++) {
     for (let s = 1; s <= 10; s++) {
-      targets.push({ id: `tc_diag_b${b}_s${String(s).padStart(2, '0')}`, batch: String(b), serial: String(s).padStart(2, '0') });
+      targets.push({
+        id: `tc_diag_b${b}_s${String(s).padStart(2, '0')}`,
+        batch: String(b),
+        serial: String(s).padStart(2, '0'),
+      });
     }
   }
   // b49 s01-s07
   for (let s = 1; s <= 7; s++) {
-    targets.push({ id: `tc_diag_b49_s${String(s).padStart(2, '0')}`, batch: '49', serial: String(s).padStart(2, '0') });
+    targets.push({
+      id: `tc_diag_b49_s${String(s).padStart(2, '0')}`,
+      batch: '49',
+      serial: String(s).padStart(2, '0'),
+    });
   }
 
   console.log(`Planned targets: ${targets.length} images`);
@@ -154,7 +239,7 @@ async function main() {
 
     // 冪等性チェック
     if (fs.existsSync(destWebpPath)) {
-      console.log(`[${i+1}/${targets.length}] SKIP: ${t.id} already exists`);
+      console.log(`[${i + 1}/${targets.length}] SKIP: ${t.id} already exists`);
       continue;
     }
 
@@ -192,7 +277,7 @@ async function main() {
     if (hair === 'curly') tags.push('カーリーヘア');
 
     try {
-      console.log(`[${i+1}/${targets.length}] Generating ${t.id}...`);
+      console.log(`[${i + 1}/${targets.length}] Generating ${t.id}...`);
       const dataUrl = await callOpenRouterWithRetry(promptText);
       const commaIdx = dataUrl.indexOf(',');
       const base64Data = dataUrl.substring(commaIdx + 1);
@@ -219,22 +304,21 @@ async function main() {
     hair_style: '${hair}',
     skin_tone: '${skin}',
     makeup_level: '${makeup}',
-    tags: [${tags.map(x=>`'${x}'`).join(', ')}],
+    tags: [${tags.map((x) => `'${x}'`).join(', ')}],
     popularity_score: 55,
   },`;
 
       generatedMetadata.push(metaCode);
-      
+
       // 定期的にメタデータを一時保存（進捗保存）
       fs.writeFileSync(
         path.join(__dirname, 'temp-metadata-progress.json'),
         JSON.stringify(generatedMetadata, null, 2),
-        'utf8'
+        'utf8',
       );
 
       // OpenRouterへの負荷とRate Limit回避のためのウェイト (5秒)
       await sleep(5000);
-
     } catch (e: any) {
       console.error(`❌ FAILED on ${t.id}:`, e.message);
       // エラーが頻発した場合は一時中断
@@ -256,7 +340,7 @@ async function main() {
       content = content.slice(0, insertIdx) + insertion + content.slice(insertIdx);
       fs.writeFileSync(metaFilePath, content, 'utf8');
       console.log('🎉 Metadata updated successfully!');
-      
+
       // 一時ファイルの削除
       try {
         fs.unlinkSync(path.join(__dirname, 'temp-metadata-progress.json'));

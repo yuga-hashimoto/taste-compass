@@ -1,8 +1,4 @@
 // eventService.ts - 匿名イベント送信サービス
-import { supabase } from '../lib/supabase';
-import { getPlatform } from '../lib/platform';
-import { ENV } from '../lib/env';
-
 export type AppEventName =
   | 'app_open'
   | 'diagnosis_start'
@@ -18,7 +14,7 @@ export type AppEventName =
  * 匿名のアプリ利用イベントを記録する
  */
 export const trackEvent = async (
-  anonymousUserId: string | null,
+  _anonymousUserId: string | null,
   eventName: AppEventName,
   payload?: Record<string, any>,
 ): Promise<void> => {

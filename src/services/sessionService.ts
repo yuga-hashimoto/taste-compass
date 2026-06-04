@@ -50,7 +50,10 @@ export const updateSessionProgress = async (
         .eq('id', sessionId);
 
       if (error) {
-        console.warn('Supabase updateSessionProgress skipped (local fallback mode):', error.message);
+        console.warn(
+          'Supabase updateSessionProgress skipped (local fallback mode):',
+          error.message,
+        );
         return false;
       }
     }

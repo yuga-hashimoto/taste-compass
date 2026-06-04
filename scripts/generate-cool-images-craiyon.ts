@@ -14,14 +14,14 @@ if (!fs.existsSync(OUTPUT_DIR)) {
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const PROMPTS = [
-  "A beautiful Japanese woman in her late 20s, cool expression, wearing a leather jacket and T-shirt, short hair, on a city street, realistic photo, highly detailed, natural lighting",
-  "A beautiful Japanese woman in her mid 20s, serious expression, wearing a simple black knit, long straight hair, in a monotone studio, realistic photo, highly detailed, natural lighting",
-  "A beautiful Japanese woman in her late 20s, smiling with an adult atmosphere, wearing a stylish setup, wavy hair, on a high-rise building terrace, realistic photo, highly detailed, natural lighting",
-  "A beautiful Japanese woman in her late 20s, mysterious expression, wearing dark tone clothes, bob hair, in a modern bar, realistic photo, highly detailed, natural lighting",
-  "A beautiful Japanese woman in her mid 20s, active expression, wearing a sporty jacket, ponytail hair, with a concrete background, realistic photo, highly detailed, natural lighting"
+  'A beautiful Japanese woman in her late 20s, cool expression, wearing a leather jacket and T-shirt, short hair, on a city street, realistic photo, highly detailed, natural lighting',
+  'A beautiful Japanese woman in her mid 20s, serious expression, wearing a simple black knit, long straight hair, in a monotone studio, realistic photo, highly detailed, natural lighting',
+  'A beautiful Japanese woman in her late 20s, smiling with an adult atmosphere, wearing a stylish setup, wavy hair, on a high-rise building terrace, realistic photo, highly detailed, natural lighting',
+  'A beautiful Japanese woman in her late 20s, mysterious expression, wearing dark tone clothes, bob hair, in a modern bar, realistic photo, highly detailed, natural lighting',
+  'A beautiful Japanese woman in her mid 20s, active expression, wearing a sporty jacket, ponytail hair, with a concrete background, realistic photo, highly detailed, natural lighting',
 ];
 
 function getFormattedTimestamp() {
@@ -35,10 +35,14 @@ function getFormattedTimestamp() {
   return `${YYYY}${MM}${DD}_${HH}${mm}${ss}`;
 }
 
-const generateImageViaUI = async (page: Page, prompt: string, index: number): Promise<string | null> => {
+const generateImageViaUI = async (
+  page: Page,
+  prompt: string,
+  index: number,
+): Promise<string | null> => {
   console.log(`[${index + 1}/${PROMPTS.length}] Craiyon画像生成中...`);
   console.log(`📝 Prompt: "${prompt}"`);
-  
+
   try {
     // 1. プロンプト入力欄に入力
     const promptSelector = 'textarea#prompt, input#prompt, textarea[placeholder*="prompt" i]';
@@ -47,15 +51,15 @@ const generateImageViaUI = async (page: Page, prompt: string, index: number): Pr
     if (!promptInput) {
       throw new Error('プロンプト入力欄が見つかりません。');
     }
-    
+
     // 入力欄をクリアしてから入力
     await promptInput.fill('');
     await promptInput.fill(prompt);
 
     // 2. レスポンス待機プロミスを先にセットアップ
     const responsePromise = page.waitForResponse(
-      response => response.url().includes('/api/image/draw') && response.status() === 200,
-      { timeout: 180000 } // 3分タイムアウト
+      (response) => response.url().includes('/api/image/draw') && response.status() === 200,
+      { timeout: 180000 }, // 3分タイムアウト
     );
 
     // 3. Draw ボタンをクリック
@@ -85,8 +89,13 @@ const generateImageViaUI = async (page: Page, prompt: string, index: number): Pr
     // debug-craiyon-request.ts などで確認したい。
     // 元の bulk-generate-craiyon.ts では results[0].url となっていますね。しかし、CraiyonのAPIが返すのはBase64画像の配列かもしれません。
     // 念のため、元の bulk-generate-craiyon.ts の記述を信じます。もし results[0] が文字列（base64等）ならそれをパースします。
-    
-    console.log(`🔗 取得した画像データ情報:`, typeof results[0] === 'object' ? JSON.stringify(results[0]).substring(0, 100) : String(results[0]).substring(0, 100));
+
+    console.log(
+      `🔗 取得した画像データ情報:`,
+      typeof results[0] === 'object'
+        ? JSON.stringify(results[0]).substring(0, 100)
+        : String(results[0]).substring(0, 100),
+    );
 
     let buffer: Buffer;
     if (typeof results[0] === 'string') {
@@ -117,7 +126,7 @@ const generateImageViaUI = async (page: Page, prompt: string, index: number): Pr
       // もし results[0] がBase64ならそのままBufferにします。
       buffer = Buffer.from(results[0], 'base64');
     }
-    
+
     const timestamp = getFormattedTimestamp();
     const rand = Math.floor(100 + Math.random() * 900);
     const filename = `gemini_${timestamp}_${rand}.png`;
@@ -143,18 +152,19 @@ const main = async () => {
   // 必要に応じて headless: true に変更してください。
   const browser = await chromium.launch({
     headless: false,
-    args: ['--disable-blink-features=AutomationControlled']
+    args: ['--disable-blink-features=AutomationControlled'],
   });
-  
+
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     locale: 'ja-JP',
-    timezoneId: 'Asia/Tokyo'
+    timezoneId: 'Asia/Tokyo',
   });
-  
+
   const page = await context.newPage();
-  page.setDefaultTimeout(180000); 
+  page.setDefaultTimeout(180000);
 
   const generatedFiles: string[] = [];
 
@@ -177,7 +187,7 @@ const main = async () => {
           generatedFiles.push(retryFilename);
         }
       }
-      
+
       // 生成間のウェイト
       if (i < PROMPTS.length - 1) {
         console.log('⏳ 次の生成まで10秒待機します...');
@@ -194,10 +204,14 @@ const main = async () => {
   console.log('====================================');
   console.log('🎉 すべての画像生成処理が完了しました！');
   console.log('生成されたファイル一覧:');
-  generatedFiles.forEach(file => console.log(`- ${file}`));
+  generatedFiles.forEach((file) => console.log(`- ${file}`));
   console.log('====================================');
 
-  fs.writeFileSync(path.resolve(__dirname, 'last_generated_cool_images.json'), JSON.stringify(generatedFiles, null, 2), 'utf8');
+  fs.writeFileSync(
+    path.resolve(__dirname, 'last_generated_cool_images.json'),
+    JSON.stringify(generatedFiles, null, 2),
+    'utf8',
+  );
 };
 
 main();

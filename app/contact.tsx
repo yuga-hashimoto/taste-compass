@@ -170,6 +170,8 @@ export default function ContactScreen() {
           ]}
           onPress={handleSubmit}
           disabled={submitting}
+          accessibilityRole="button"
+          accessibilityLabel={t.contact.submit}
         >
           {submitting ? (
             <ActivityIndicator color="#FFF" />

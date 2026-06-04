@@ -72,7 +72,11 @@ export default function HistoryScreen() {
         </View>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 }}>
           {item.preference_type_emoji ? (
-            <ThemeIcon themeId={item.preference_type_emoji} size={18} color={THEME.colors.primary} />
+            <ThemeIcon
+              themeId={item.preference_type_emoji}
+              size={18}
+              color={THEME.colors.primary}
+            />
           ) : null}
           <Text style={[styles.prefTypeText, { marginBottom: 0 }]}>{item.preference_type}</Text>
         </View>
@@ -104,7 +108,12 @@ export default function HistoryScreen() {
         contentContainerStyle={styles.listContainer}
         ListEmptyComponent={
           <View style={styles.emptyContainer}>
-            <Feather name="bar-chart-2" size={48} color={THEME.colors.textMuted} style={styles.emptyIcon} />
+            <Feather
+              name="bar-chart-2"
+              size={48}
+              color={THEME.colors.textMuted}
+              style={styles.emptyIcon}
+            />
             <Text style={styles.emptyText}>{t.history.emptyTitle}</Text>
             <Text style={styles.emptySub}>{t.history.emptySub}</Text>
             <Pressable style={styles.startButton} onPress={() => router.push('/setup')}>

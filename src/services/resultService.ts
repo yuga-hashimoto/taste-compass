@@ -26,6 +26,11 @@ export interface DiagnosisResultItem {
   meters?: any;
 }
 
+const normalizeResultItem = (item: DiagnosisResultItem): DiagnosisResultItem => ({
+  ...item,
+  preference_type_emoji: item.preference_type_emoji || item.summary_json?.preference_type_emoji,
+});
+
 /**
  * 診断結果を保存する (Supabase & ローカルの AsyncStorage)
  */
@@ -39,11 +44,11 @@ export const saveDiagnosisResult = async (
     session_id: sessionId,
     compatibility_score: scoringResult.compatibility_score,
     preference_type: scoringResult.preference_type,
-    preference_type_emoji: scoringResult.preference_type_emoji,
     mainstream_score: scoringResult.mainstream_score,
     uniqueness_score: scoringResult.uniqueness_score,
     summary_json: {
       ...scoringResult.summary_json,
+      preference_type_emoji: scoringResult.preference_type_emoji,
       country_affinity: scoringResult.country_affinity,
       body_preference: scoringResult.body_preference,
       age_preference: scoringResult.age_preference,
@@ -63,7 +68,12 @@ export const saveDiagnosisResult = async (
       if (error) {
         console.warn('Supabase saveResult skipped (local fallback mode):', error.message);
       } else if (data) {
-        savedItem = data as DiagnosisResultItem;
+        savedItem = normalizeResultItem({
+          ...(data as DiagnosisResultItem),
+          preference_type_emoji:
+            (data as DiagnosisResultItem).preference_type_emoji ||
+            scoringResult.preference_type_emoji,
+        });
       }
     }
   } catch (error) {
@@ -75,6 +85,7 @@ export const saveDiagnosisResult = async (
     savedItem = {
       id: 'local_' + Math.random().toString(36).substring(2, 15) + '_' + Date.now(),
       created_at: new Date().toISOString(),
+      preference_type_emoji: scoringResult.preference_type_emoji,
       ...resultData,
     };
   }
@@ -127,7 +138,7 @@ export const getDiagnosisHistory = async (
         .order('created_at', { ascending: false });
 
       if (!error && data) {
-        serverList = data as DiagnosisResultItem[];
+        serverList = (data as DiagnosisResultItem[]).map(normalizeResultItem);
       }
     }
   } catch (err) {
@@ -171,7 +182,7 @@ export const getDiagnosisResultBySession = async (
     if (localRaw) {
       const localList: DiagnosisResultItem[] = JSON.parse(localRaw);
       const cached = localList.find((item) => item.session_id === sessionId);
-      if (cached) return cached;
+      if (cached) return normalizeResultItem(cached);
     }
   } catch (err) {
     console.error('Failed to search result in local cache:', err);
@@ -188,7 +199,7 @@ export const getDiagnosisResultBySession = async (
         .maybeSingle();
 
       if (!error && data) {
-        return data as DiagnosisResultItem;
+        return normalizeResultItem(data as DiagnosisResultItem);
       }
     }
   } catch (err) {
@@ -225,7 +236,11 @@ export const deleteUserHistory = async (anonymousUserId: string): Promise<boolea
         .eq('anonymous_user_id', anonymousUserId);
 
       if (resultErr || sessionErr || voteErr) {
-        console.warn('Error clearing data on Supabase (local cleared):', { resultErr, sessionErr, voteErr });
+        console.warn('Error clearing data on Supabase (local cleared):', {
+          resultErr,
+          sessionErr,
+          voteErr,
+        });
         return false;
       }
     }

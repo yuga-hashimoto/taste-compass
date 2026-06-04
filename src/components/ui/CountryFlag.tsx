@@ -25,8 +25,7 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
     else if (norm === 'ru') flagKey = 'russia';
     else if (norm === 'pt') flagKey = 'portugal';
     else flagKey = 'europe';
-  }
-  else if (['zh-cn', 'cn', 'china'].includes(norm)) flagKey = 'china';
+  } else if (['zh-cn', 'cn', 'china'].includes(norm)) flagKey = 'china';
   else if (['zh-tw', 'tw', 'taiwan'].includes(norm)) flagKey = 'taiwan';
   else if (['br', 'brazil'].includes(norm)) flagKey = 'brazil';
   else if (['ar', 'middle_east', 'me', 'sa', 'saudi'].includes(norm)) flagKey = 'middle_east';
@@ -47,23 +46,91 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
     switch (flagKey) {
       case 'japan':
         return (
-          <View style={[styles.full, { backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' }]}>
-            <View style={{ width: size * 0.55, height: size * 0.55, borderRadius: (size * 0.55) / 2, backgroundColor: '#BC002D' }} />
+          <View
+            style={[
+              styles.full,
+              { backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' },
+            ]}
+          >
+            <View
+              style={{
+                width: size * 0.55,
+                height: size * 0.55,
+                borderRadius: (size * 0.55) / 2,
+                backgroundColor: '#BC002D',
+              }}
+            />
           </View>
         );
 
       case 'korea':
         return (
-          <View style={[styles.full, { backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center', position: 'relative' }]}>
+          <View
+            style={[
+              styles.full,
+              {
+                backgroundColor: '#FFFFFF',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+              },
+            ]}
+          >
             {/* 太極図の簡易版（赤と青の半円の組み合わせ） */}
-            <View style={{ width: size * 0.48, height: size * 0.48, borderRadius: (size * 0.48) / 2, backgroundColor: '#C60C30', overflow: 'hidden', justifyContent: 'flex-end', transform: [{ rotate: '-30deg' }] }}>
+            <View
+              style={{
+                width: size * 0.48,
+                height: size * 0.48,
+                borderRadius: (size * 0.48) / 2,
+                backgroundColor: '#C60C30',
+                overflow: 'hidden',
+                justifyContent: 'flex-end',
+                transform: [{ rotate: '-30deg' }],
+              }}
+            >
               <View style={{ width: '100%', height: '50%', backgroundColor: '#0047A0' }} />
             </View>
             {/* 四隅の卦（簡易的な黒いドット） */}
-            <View style={{ position: 'absolute', top: '15%', left: '15%', width: 2, height: 2, backgroundColor: '#000' }} />
-            <View style={{ position: 'absolute', bottom: '15%', right: '15%', width: 2, height: 2, backgroundColor: '#000' }} />
-            <View style={{ position: 'absolute', top: '15%', right: '15%', width: 2, height: 2, backgroundColor: '#000' }} />
-            <View style={{ position: 'absolute', bottom: '15%', left: '15%', width: 2, height: 2, backgroundColor: '#000' }} />
+            <View
+              style={{
+                position: 'absolute',
+                top: '15%',
+                left: '15%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#000',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                bottom: '15%',
+                right: '15%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#000',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                top: '15%',
+                right: '15%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#000',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                bottom: '15%',
+                left: '15%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#000',
+              }}
+            />
           </View>
         );
 
@@ -73,11 +140,25 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
             {/* 赤白ストライプ */}
             <View style={{ flex: 1, flexDirection: 'column' }}>
               {[...Array(7)].map((_, i) => (
-                <View key={i} style={{ flex: 1, backgroundColor: i % 2 === 0 ? '#B22234' : '#FFFFFF' }} />
+                <View
+                  key={i}
+                  style={{ flex: 1, backgroundColor: i % 2 === 0 ? '#B22234' : '#FFFFFF' }}
+                />
               ))}
             </View>
             {/* 左上の青ブロック */}
-            <View style={{ position: 'absolute', top: 0, left: 0, width: '50%', height: '55%', backgroundColor: '#3C3B6E', justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '50%',
+                height: '55%',
+                backgroundColor: '#3C3B6E',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               {/* 星の表現（白ドット） */}
               <View style={{ flexDirection: 'row', gap: 2 }}>
                 <View style={{ width: 2, height: 2, borderRadius: 1, backgroundColor: '#FFF' }} />
@@ -93,9 +174,28 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
 
       case 'europe':
         return (
-          <View style={[styles.full, { backgroundColor: '#003399', justifyContent: 'center', alignItems: 'center', position: 'relative' }]}>
+          <View
+            style={[
+              styles.full,
+              {
+                backgroundColor: '#003399',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+              },
+            ]}
+          >
             {/* 黄色の星の環（簡易版：黄色の極小円で輪を描く） */}
-            <View style={{ width: size * 0.6, height: size * 0.6, borderRadius: (size * 0.6) / 2, borderWidth: 1.5, borderColor: '#FFCC00', borderStyle: 'dashed' }} />
+            <View
+              style={{
+                width: size * 0.6,
+                height: size * 0.6,
+                borderRadius: (size * 0.6) / 2,
+                borderWidth: 1.5,
+                borderColor: '#FFCC00',
+                borderStyle: 'dashed',
+              }}
+            />
           </View>
         );
 
@@ -130,9 +230,23 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
         return (
           <View style={[styles.full, { flexDirection: 'column' }]}>
             <View style={{ flex: 1, backgroundColor: '#AA151B' }} />
-            <View style={{ flex: 2, backgroundColor: '#F1BF00', justifyContent: 'center', paddingLeft: 3 }}>
+            <View
+              style={{
+                flex: 2,
+                backgroundColor: '#F1BF00',
+                justifyContent: 'center',
+                paddingLeft: 3,
+              }}
+            >
               {/* 簡易的な紋章（赤い小さなドット） */}
-              <View style={{ width: size * 0.2, height: size * 0.25, backgroundColor: '#AA151B', borderRadius: 1 }} />
+              <View
+                style={{
+                  width: size * 0.2,
+                  height: size * 0.25,
+                  backgroundColor: '#AA151B',
+                  borderRadius: 1,
+                }}
+              />
             </View>
             <View style={{ flex: 1, backgroundColor: '#AA151B' }} />
           </View>
@@ -153,7 +267,19 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
             <View style={{ flex: 2, backgroundColor: '#006600' }} />
             <View style={{ flex: 3, backgroundColor: '#FF0000' }} />
             {/* 国章（簡易的な黄色丸） */}
-            <View style={{ position: 'absolute', left: '25%', top: '25%', width: size * 0.3, height: size * 0.3, borderRadius: (size * 0.3) / 2, backgroundColor: '#FFCC00', borderWidth: 1, borderColor: '#002395' }} />
+            <View
+              style={{
+                position: 'absolute',
+                left: '25%',
+                top: '25%',
+                width: size * 0.3,
+                height: size * 0.3,
+                borderRadius: (size * 0.3) / 2,
+                backgroundColor: '#FFCC00',
+                borderWidth: 1,
+                borderColor: '#002395',
+              }}
+            />
           </View>
         );
 
@@ -161,12 +287,59 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
         return (
           <View style={[styles.full, { backgroundColor: '#EE1C25', position: 'relative' }]}>
             {/* 左上の大きい星（簡易黄色四角/丸） */}
-            <View style={{ position: 'absolute', top: '15%', left: '15%', width: size * 0.22, height: size * 0.22, borderRadius: 1, backgroundColor: '#FFFF00', transform: [{ rotate: '15deg' }] }} />
+            <View
+              style={{
+                position: 'absolute',
+                top: '15%',
+                left: '15%',
+                width: size * 0.22,
+                height: size * 0.22,
+                borderRadius: 1,
+                backgroundColor: '#FFFF00',
+                transform: [{ rotate: '15deg' }],
+              }}
+            />
             {/* 周囲の小星（簡易黄色ドット） */}
-            <View style={{ position: 'absolute', top: '8%', left: '42%', width: 2, height: 2, backgroundColor: '#FFFF00' }} />
-            <View style={{ position: 'absolute', top: '22%', left: '50%', width: 2, height: 2, backgroundColor: '#FFFF00' }} />
-            <View style={{ position: 'absolute', top: '38%', left: '46%', width: 2, height: 2, backgroundColor: '#FFFF00' }} />
-            <View style={{ position: 'absolute', top: '48%', left: '34%', width: 2, height: 2, backgroundColor: '#FFFF00' }} />
+            <View
+              style={{
+                position: 'absolute',
+                top: '8%',
+                left: '42%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#FFFF00',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                top: '22%',
+                left: '50%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#FFFF00',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                top: '38%',
+                left: '46%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#FFFF00',
+              }}
+            />
+            <View
+              style={{
+                position: 'absolute',
+                top: '48%',
+                left: '34%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#FFFF00',
+              }}
+            />
           </View>
         );
 
@@ -174,22 +347,76 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
         return (
           <View style={[styles.full, { backgroundColor: '#FE0000', position: 'relative' }]}>
             {/* 左上の青地 */}
-            <View style={{ position: 'absolute', top: 0, left: 0, width: '50%', height: '50%', backgroundColor: '#000095', justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '50%',
+                height: '50%',
+                backgroundColor: '#000095',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               {/* 白い太陽の簡易版 */}
-              <View style={{ width: size * 0.22, height: size * 0.22, borderRadius: (size * 0.22) / 2, backgroundColor: '#FFFFFF' }} />
+              <View
+                style={{
+                  width: size * 0.22,
+                  height: size * 0.22,
+                  borderRadius: (size * 0.22) / 2,
+                  backgroundColor: '#FFFFFF',
+                }}
+              />
             </View>
           </View>
         );
 
       case 'brazil':
         return (
-          <View style={[styles.full, { backgroundColor: '#009739', justifyContent: 'center', alignItems: 'center', padding: size * 0.1 }]}>
+          <View
+            style={[
+              styles.full,
+              {
+                backgroundColor: '#009739',
+                justifyContent: 'center',
+                alignItems: 'center',
+                padding: size * 0.1,
+              },
+            ]}
+          >
             {/* 黄色いひし形 */}
-            <View style={{ width: '100%', height: '100%', backgroundColor: '#FFDF00', transform: [{ rotate: '45deg' }], justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                width: '100%',
+                height: '100%',
+                backgroundColor: '#FFDF00',
+                transform: [{ rotate: '45deg' }],
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               {/* 中央の青い円 */}
-              <View style={{ width: '65%', height: '65%', borderRadius: 999, backgroundColor: '#002776', transform: [{ rotate: '-45deg' }], justifyContent: 'center', alignItems: 'center' }}>
+              <View
+                style={{
+                  width: '65%',
+                  height: '65%',
+                  borderRadius: 999,
+                  backgroundColor: '#002776',
+                  transform: [{ rotate: '-45deg' }],
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
                 {/* 白い帯（簡易白ライン） */}
-                <View style={{ width: '110%', height: 1.5, backgroundColor: '#FFFFFF', transform: [{ rotate: '-15deg' }] }} />
+                <View
+                  style={{
+                    width: '110%',
+                    height: 1.5,
+                    backgroundColor: '#FFFFFF',
+                    transform: [{ rotate: '-15deg' }],
+                  }}
+                />
               </View>
             </View>
           </View>
@@ -197,13 +424,51 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
 
       case 'middle_east':
         return (
-          <View style={[styles.full, { backgroundColor: '#006C35', justifyContent: 'center', alignItems: 'center', position: 'relative' }]}>
+          <View
+            style={[
+              styles.full,
+              {
+                backgroundColor: '#006C35',
+                justifyContent: 'center',
+                alignItems: 'center',
+                position: 'relative',
+              },
+            ]}
+          >
             {/* 三日月と星のアラビックマーク（簡易白円と緑円によるクリップ） */}
-            <View style={{ width: size * 0.45, height: size * 0.45, borderRadius: (size * 0.45) / 2, backgroundColor: '#FFFFFF', position: 'relative', overflow: 'hidden' }}>
-              <View style={{ position: 'absolute', top: -1, right: -3, width: size * 0.45, height: size * 0.45, borderRadius: (size * 0.45) / 2, backgroundColor: '#006C35' }} />
+            <View
+              style={{
+                width: size * 0.45,
+                height: size * 0.45,
+                borderRadius: (size * 0.45) / 2,
+                backgroundColor: '#FFFFFF',
+                position: 'relative',
+                overflow: 'hidden',
+              }}
+            >
+              <View
+                style={{
+                  position: 'absolute',
+                  top: -1,
+                  right: -3,
+                  width: size * 0.45,
+                  height: size * 0.45,
+                  borderRadius: (size * 0.45) / 2,
+                  backgroundColor: '#006C35',
+                }}
+              />
             </View>
             {/* 小さな星 */}
-            <View style={{ position: 'absolute', right: '25%', top: '40%', width: 2, height: 2, backgroundColor: '#FFFFFF' }} />
+            <View
+              style={{
+                position: 'absolute',
+                right: '25%',
+                top: '40%',
+                width: 2,
+                height: 2,
+                backgroundColor: '#FFFFFF',
+              }}
+            />
           </View>
         );
 
@@ -211,9 +476,24 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
         return (
           <View style={[styles.full, { flexDirection: 'column' }]}>
             <View style={{ flex: 1, backgroundColor: '#FF9933' }} />
-            <View style={{ flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'center', alignItems: 'center' }}>
+            <View
+              style={{
+                flex: 1,
+                backgroundColor: '#FFFFFF',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
               {/* アショカ・チャクラの簡易版（青い丸） */}
-              <View style={{ width: size * 0.22, height: size * 0.22, borderRadius: (size * 0.22) / 2, borderWidth: 1, borderColor: '#000080' }} />
+              <View
+                style={{
+                  width: size * 0.22,
+                  height: size * 0.22,
+                  borderRadius: (size * 0.22) / 2,
+                  borderWidth: 1,
+                  borderColor: '#000080',
+                }}
+              />
             </View>
             <View style={{ flex: 1, backgroundColor: '#138808' }} />
           </View>
@@ -240,16 +520,33 @@ export function CountryFlag({ code, size = 20, style }: CountryFlagProps) {
 
       case 'vietnam':
         return (
-          <View style={[styles.full, { backgroundColor: '#DA251D', justifyContent: 'center', alignItems: 'center' }]}>
+          <View
+            style={[
+              styles.full,
+              { backgroundColor: '#DA251D', justifyContent: 'center', alignItems: 'center' },
+            ]}
+          >
             {/* 中央の金色の星（簡易黄色十字/丸） */}
-            <View style={{ width: size * 0.4, height: size * 0.4, borderRadius: 2, backgroundColor: '#FFFF00' }} />
+            <View
+              style={{
+                width: size * 0.4,
+                height: size * 0.4,
+                borderRadius: 2,
+                backgroundColor: '#FFFF00',
+              }}
+            />
           </View>
         );
 
       default:
         // 不明なコードの場合は、地球儀風のアバターを表示
         return (
-          <View style={[styles.full, { backgroundColor: '#E2E8F0', justifyContent: 'center', alignItems: 'center' }]}>
+          <View
+            style={[
+              styles.full,
+              { backgroundColor: '#E2E8F0', justifyContent: 'center', alignItems: 'center' },
+            ]}
+          >
             <Text style={{ fontSize: size * 0.5, color: '#64748B', fontWeight: 'bold' }}>
               {flagKey.substring(0, 2).toUpperCase()}
             </Text>

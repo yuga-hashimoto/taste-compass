@@ -1,4 +1,5 @@
 // tests/unit/i18n.test.ts - i18nの多言語自動検出およびURLパラメータ同期のテスト
+/* eslint-disable @typescript-eslint/no-require-imports */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // AsyncStorage の Jest モック設定
@@ -43,7 +44,7 @@ describe('i18n tests', () => {
       href: 'http://localhost:8081/',
       search: '?lang=ko',
     };
-    
+
     global.window = {
       history: {
         replaceState: replaceStateMock,
@@ -72,7 +73,7 @@ describe('i18n tests', () => {
       href: 'http://localhost:8081/?lang=invalid',
       search: '?lang=invalid',
     };
-    
+
     global.window = {
       history: {
         replaceState: replaceStateMock,
@@ -98,7 +99,7 @@ describe('i18n tests', () => {
       href: 'http://localhost:8081/',
       search: '',
     };
-    
+
     global.window = {
       history: {
         replaceState: replaceStateMock,
@@ -107,14 +108,18 @@ describe('i18n tests', () => {
       addEventListener: jest.fn(),
     } as any;
 
-    const { initI18n: dynamicInit, setLanguage: dynamicSetLang, getCurrentLang: dynamicGetLang } = require('../../src/i18n');
+    const {
+      initI18n: dynamicInit,
+      setLanguage: dynamicSetLang,
+      getCurrentLang: dynamicGetLang,
+    } = require('../../src/i18n');
 
     await dynamicInit();
     replaceStateMock.mockClear();
 
     await dynamicSetLang('ko');
     expect(dynamicGetLang()).toBe('ko');
-    
+
     // URLパラメータに ko が設定された replaceState が呼ばれたか確認
     expect(replaceStateMock).toHaveBeenCalled();
     const calledUrl = replaceStateMock.mock.calls[0][2];

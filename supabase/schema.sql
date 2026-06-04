@@ -65,6 +65,7 @@ CREATE TABLE IF NOT EXISTS public.results (
   session_id text NOT NULL REFERENCES public.diagnosis_sessions(id) ON DELETE CASCADE,
   compatibility_score integer NOT NULL,
   preference_type text NOT NULL,
+  preference_type_emoji text,
   mainstream_score integer,
   uniqueness_score integer,
   summary_json jsonb NOT NULL,

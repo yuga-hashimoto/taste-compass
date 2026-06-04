@@ -36,14 +36,15 @@ const generationState = {
   isRunning: false,
   total: 0,
   current: 0,
-  error: null as string | null
+  error: null as string | null,
 };
 
 // 一時画像一覧の取得
 app.get('/api/images', (req, res) => {
   try {
-    const files = fs.readdirSync(TMP_DIR)
-      .filter(file => /\.(png|webp|jpg|jpeg)$/i.test(file))
+    const files = fs
+      .readdirSync(TMP_DIR)
+      .filter((file) => /\.(png|webp|jpg|jpeg)$/i.test(file))
       .sort((a, b) => {
         const statA = fs.statSync(path.join(TMP_DIR, a));
         const statB = fs.statSync(path.join(TMP_DIR, b));
@@ -94,8 +95,8 @@ app.post('/api/approve', async (req, res) => {
     const files = fs.readdirSync(DEST_DIR);
     let maxNum = 0;
     const idRegex = /^tc_diag_b30_s(\d+)\.webp$/;
-    
-    files.forEach(f => {
+
+    files.forEach((f) => {
       const match = f.match(idRegex);
       if (match) {
         const num = parseInt(match[1], 10);
@@ -121,14 +122,17 @@ app.post('/api/approve', async (req, res) => {
     // 3. メタデータファイルの読み込みと追記
     if (fs.existsSync(METADATA_PATH)) {
       let metadataContent = fs.readFileSync(METADATA_PATH, 'utf8');
-      
+
       if (metadataContent.includes(`id: '${newId}'`)) {
-        return res.status(500).json({ error: `ID ${newId} is already registered in imageMetadata.ts` });
+        return res
+          .status(500)
+          .json({ error: `ID ${newId} is already registered in imageMetadata.ts` });
       }
 
       const formattedTags = Array.isArray(tags) ? tags : [];
 
-      const addString = `  {\n` +
+      const addString =
+        `  {\n` +
         `    id: '${newId}',\n` +
         `    image_url: '/images/diagnosis/b30/${destFilename}',\n` +
         `    style_group: '${style_group}',\n` +
@@ -142,7 +146,7 @@ app.post('/api/approve', async (req, res) => {
         `    hair_style: '${hair_style || 'long_straight'}',\n` +
         `    skin_tone: 'fair',\n` +
         `    makeup_level: 'natural',\n` +
-        `    tags: [${formattedTags.map(t => `'${t}'`).join(', ')}],\n` +
+        `    tags: [${formattedTags.map((t) => `'${t}'`).join(', ')}],\n` +
         `    popularity_score: 55,\n` +
         `  },\n`;
 
@@ -151,7 +155,8 @@ app.post('/api/approve', async (req, res) => {
         throw new Error('Could not find the end of LOCAL_IMAGES array (];) in imageMetadata.ts');
       }
 
-      const updatedContent = metadataContent.substring(0, lastIndex) + addString + metadataContent.substring(lastIndex);
+      const updatedContent =
+        metadataContent.substring(0, lastIndex) + addString + metadataContent.substring(lastIndex);
       fs.writeFileSync(METADATA_PATH, updatedContent, 'utf8');
       console.log(`📝 Added metadata for ${newId} to imageMetadata.ts`);
     } else {
@@ -170,16 +175,41 @@ app.post('/api/approve', async (req, res) => {
 });
 
 // プロンプト多様化のためのランダム要素
-const HAIRSTYLES = ['ボブカットの髪型', 'ストレートロングヘア', 'ウェーブのかかったロングヘア', 'ポニーテール', 'ショートカット', 'ハーフアップスタイル'];
-const EXPRESSIONS = ['笑顔', '優しい微笑み', '楽しそうな笑顔', 'カメラを見つめる自然な表情', 'いたずらっぽいウインク'];
-const OUTFITS = ['カジュアルなTシャツ', 'ニットのセーター', 'デニムジャケット', 'サマードレス', 'オフィス風の白ブラウス'];
-const BACKGROUNDS = ['おしゃれなカフェの中', '日当たりの良い公園の中', '都会のストリート', '本に囲まれた図書館の中', '窓から光が差し込む明るい部屋'];
+const HAIRSTYLES = [
+  'ボブカットの髪型',
+  'ストレートロングヘア',
+  'ウェーブのかかったロングヘア',
+  'ポニーテール',
+  'ショートカット',
+  'ハーフアップスタイル',
+];
+const EXPRESSIONS = [
+  '笑顔',
+  '優しい微笑み',
+  '楽しそうな笑顔',
+  'カメラを見つめる自然な表情',
+  'いたずらっぽいウインク',
+];
+const OUTFITS = [
+  'カジュアルなTシャツ',
+  'ニットのセーター',
+  'デニムジャケット',
+  'サマードレス',
+  'オフィス風の白ブラウス',
+];
+const BACKGROUNDS = [
+  'おしゃれなカフェの中',
+  '日当たりの良い公園の中',
+  '都会のストリート',
+  '本に囲まれた図書館の中',
+  '窓から光が差し込む明るい部屋',
+];
 const AGES = ['21歳前後', '24歳前後', '27歳前後'];
 
 const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
 
 const generatePrompt = (basePrompt: string): string => {
-  if (basePrompt !== "可愛い日本人") {
+  if (basePrompt !== '可愛い日本人') {
     return basePrompt;
   }
   const age = getRandomElement(AGES);
@@ -195,7 +225,7 @@ const generatePrompt = (basePrompt: string): string => {
 app.post('/api/generate', (req, res) => {
   const { count, prompt } = req.body;
   const targetCount = parseInt(count, 10) || 10;
-  const searchPrompt = prompt || "可愛い日本人";
+  const searchPrompt = prompt || '可愛い日本人';
 
   if (generationState.isRunning) {
     return res.status(400).json({ error: '画像生成タスクが既に実行中です。' });
@@ -212,7 +242,7 @@ app.post('/api/generate', (req, res) => {
   (async () => {
     console.log(`🚀 Qwen Chat Gatewayを用いた画像生成開始 (目標: ${targetCount}枚)`);
     const GATEWAY_URL = 'http://127.0.0.1:8787/v1/images/generations';
-    
+
     for (let i = 0; i < targetCount; i++) {
       if (!generationState.isRunning) break;
 
@@ -221,14 +251,18 @@ app.post('/api/generate', (req, res) => {
         console.log(`[${i + 1}/${targetCount}] Qwenで画像生成中...`);
         console.log(`📝 Prompt: "${finalPrompt}"`);
 
-        const response = await axios.post(GATEWAY_URL, {
-          prompt: finalPrompt
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
+        const response = await axios.post(
+          GATEWAY_URL,
+          {
+            prompt: finalPrompt,
           },
-          timeout: 180000 // 3分タイムアウト (Qwenの画像生成に余裕を持たせる)
-        });
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            timeout: 180000, // 3分タイムアウト (Qwenの画像生成に余裕を持たせる)
+          },
+        );
 
         const imageUrl = response.data?.data?.[0]?.url;
         if (!imageUrl) {
@@ -250,18 +284,18 @@ app.post('/api/generate', (req, res) => {
       } catch (err: any) {
         console.error(`❌ 生成失敗 [${i + 1}枚目]:`, err.message || err);
         generationState.error = `生成失敗 (${i + 1}枚目): ${err.message || err}`;
-        
+
         // Qwen Gatewayに何かしらのエラー（タイムアウト等）が発生した場合、少し長めに待機
-        await new Promise(resolve => setTimeout(resolve, 8000));
+        await new Promise((resolve) => setTimeout(resolve, 8000));
       }
 
       // 生成後のインターバル (Qwenアカウント保護のため5秒待機)
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
 
     console.log(`🏁 Qwen画像生成タスク終了 (完了: ${generationState.current}/${targetCount}枚)`);
     generationState.isRunning = false;
-  })().catch(err => {
+  })().catch((err) => {
     console.error('致命的な生成エラー:', err);
     generationState.isRunning = false;
     generationState.error = err.message;

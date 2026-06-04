@@ -1,9 +1,15 @@
 // result/[sessionId].tsx - 診断結果画面（モダンリデザイン版）
 // 世間スコア・国別比較・体型傾向・レアリティ・メーターを全表示
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import {
-  StyleSheet, Text, View, Pressable, ScrollView,
-  Platform, Share, Animated,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  ScrollView,
+  Platform,
+  Share,
+  Animated,
 } from 'react-native';
 import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { useDiagnosisStore } from '../../src/stores/useDiagnosisStore';
@@ -18,10 +24,10 @@ import { CountryFlag } from '../../src/components/ui/CountryFlag';
 
 // ── メーターコンポーネント ──────────────────────────────
 function Meter({ label, value, color }: { label: string; value: number; color: string }) {
-  const anim = useRef(new Animated.Value(0)).current;
+  const anim = useMemo(() => new Animated.Value(0), []);
   useEffect(() => {
     Animated.timing(anim, { toValue: value / 100, duration: 1000, useNativeDriver: false }).start();
-  }, [value]);
+  }, [anim, value]);
 
   return (
     <View style={meterStyles.row}>
@@ -75,14 +81,14 @@ const meterStyles = StyleSheet.create({
 
 // ── スコアサークル ──────────────────────────────────────
 function ScoreCircle({ score, label }: { score: number; label: string }) {
-  const anim = useRef(new Animated.Value(0)).current;
+  const anim = useMemo(() => new Animated.Value(0), []);
   const [display, setDisplay] = useState(0);
 
   useEffect(() => {
     Animated.timing(anim, { toValue: score, duration: 1200, useNativeDriver: false }).start();
     anim.addListener(({ value }) => setDisplay(Math.round(value)));
     return () => anim.removeAllListeners();
-  }, [score]);
+  }, [anim, score]);
 
   const getColor = () => {
     if (score >= 70) return '#3E7B5E';
@@ -97,9 +103,14 @@ function ScoreCircle({ score, label }: { score: number; label: string }) {
         <Text style={circleStyles.pct}>%</Text>
         <Text style={circleStyles.label}>{label}</Text>
       </View>
-      <View style={[circleStyles.glow, {
-        ...Platform.select({ web: { boxShadow: `0 0 40px ${getColor()}40` } })
-      }]} />
+      <View
+        style={[
+          circleStyles.glow,
+          {
+            ...Platform.select({ web: { boxShadow: `0 0 40px ${getColor()}40` } }),
+          },
+        ]}
+      />
     </View>
   );
 }
@@ -144,11 +155,21 @@ const circleStyles = StyleSheet.create({
 });
 
 // ── 国別バー ────────────────────────────────────────────
-function CountryBar({ code, label, score, isTop }: { code: string; label: string; score: number; isTop: boolean }) {
-  const anim = useRef(new Animated.Value(0)).current;
+function CountryBar({
+  code,
+  label,
+  score,
+  isTop,
+}: {
+  code: string;
+  label: string;
+  score: number;
+  isTop: boolean;
+}) {
+  const anim = useMemo(() => new Animated.Value(0), []);
   useEffect(() => {
     Animated.timing(anim, { toValue: score / 100, duration: 900, useNativeDriver: false }).start();
-  }, [score]);
+  }, [anim, score]);
 
   return (
     <View style={countryStyles.row}>
@@ -165,9 +186,7 @@ function CountryBar({ code, label, score, isTop }: { code: string; label: string
           ]}
         />
       </View>
-      <Text style={[countryStyles.score, isTop && { color: THEME.colors.primary }]}>
-        {score}%
-      </Text>
+      <Text style={[countryStyles.score, isTop && { color: THEME.colors.primary }]}>{score}%</Text>
     </View>
   );
 }
@@ -175,9 +194,21 @@ const countryStyles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center', marginBottom: 8, gap: 8 },
   flag: { fontSize: 16, width: 24 },
   label: { width: 60, fontSize: 12, color: THEME.colors.textSub, fontWeight: '600' },
-  track: { flex: 1, height: 6, backgroundColor: THEME.colors.surfaceHigh, borderRadius: 3, overflow: 'hidden' },
+  track: {
+    flex: 1,
+    height: 6,
+    backgroundColor: THEME.colors.surfaceHigh,
+    borderRadius: 3,
+    overflow: 'hidden',
+  },
   fill: { height: '100%', borderRadius: 3 },
-  score: { width: 36, fontSize: 12, fontWeight: '700', color: THEME.colors.textSub, textAlign: 'right' },
+  score: {
+    width: 36,
+    fontSize: 12,
+    fontWeight: '700',
+    color: THEME.colors.textSub,
+    textAlign: 'right',
+  },
 });
 
 // ── メイン画面 ─────────────────────────────────────────
@@ -185,11 +216,11 @@ export default function ResultScreen() {
   const { sessionId } = useLocalSearchParams<{ sessionId: string }>();
   const router = useRouter();
   const anonymousUserId = useDiagnosisStore((s) => s.anonymousUserId);
-  const { t, lang, changeLanguage, allLangs, i } = useI18n();
+  const { t, i } = useI18n();
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<any>(null);
-  const fadeAnim  = useMemo(() => new Animated.Value(0), []);
+  const fadeAnim = useMemo(() => new Animated.Value(0), []);
   const slideAnim = useMemo(() => new Animated.Value(30), []);
 
   useEffect(() => {
@@ -200,17 +231,21 @@ export default function ResultScreen() {
       setResult(data);
       setLoading(false);
       Animated.parallel([
-        Animated.timing(fadeAnim,  { toValue: 1, duration: 600, useNativeDriver: true }),
-        Animated.spring(slideAnim, { toValue: 0, tension: 60, friction: 10, useNativeDriver: true }),
+        Animated.timing(fadeAnim, { toValue: 1, duration: 600, useNativeDriver: true }),
+        Animated.spring(slideAnim, {
+          toValue: 0,
+          tension: 60,
+          friction: 10,
+          useNativeDriver: true,
+        }),
       ]).start();
     })();
-  }, [sessionId, anonymousUserId]);
+  }, [anonymousUserId, fadeAnim, sessionId, slideAnim]);
 
   const handleShare = async () => {
     if (!result) return;
     trackEvent(anonymousUserId, 'result_share_click', { session_id: sessionId });
-    const { preference_type, compatibility_score,
-      country_affinity, rarity, summary_json } = result;
+    const { preference_type, compatibility_score, country_affinity, rarity, summary_json } = result;
     const text = [
       `【好みズレ診断】${preference_type}`,
       `世間との一致度: ${compatibility_score}%`,
@@ -225,7 +260,9 @@ export default function ResultScreen() {
     if (Platform.OS === 'web') {
       window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, '_blank');
     } else {
-      try { await Share.share({ message: text }); } catch {}
+      try {
+        await Share.share({ message: text });
+      } catch {}
     }
   };
 
@@ -251,13 +288,16 @@ export default function ResultScreen() {
   }
 
   const {
-    compatibility_score, preference_type, preference_type_emoji,
-    mainstream_score, uniqueness_score, summary_json,
+    compatibility_score,
+    preference_type,
+    preference_type_emoji,
+    mainstream_score,
+    uniqueness_score,
+    summary_json,
   } = result;
 
   // 以前のコードと互換性を保ちつつ、summary_json から拡張データを復元
   const country_affinity = result.country_affinity || summary_json?.country_affinity;
-  const body_preference = result.body_preference || summary_json?.body_preference;
   const age_preference = result.age_preference || summary_json?.age_preference;
   const vibe_preference = result.vibe_preference || summary_json?.vibe_preference;
   const rarity = result.rarity || summary_json?.rarity;
@@ -266,10 +306,7 @@ export default function ResultScreen() {
   const top3Countries = (country_affinity?.rankings || []).slice(0, 5);
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.container}
-      showsVerticalScrollIndicator={false}
-    >
+    <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
       {/* ─── 動的メタデータ（SEO・Webタイトル） ─── */}
       <Stack.Screen
         options={{
@@ -280,7 +317,9 @@ export default function ResultScreen() {
       <View style={styles.bgBlob} pointerEvents="none" />
 
       {/* ─── ヒーロー：タイプ名 + スコア ─── */}
-      <Animated.View style={[styles.heroCard, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}>
+      <Animated.View
+        style={[styles.heroCard, { opacity: fadeAnim, transform: [{ translateY: slideAnim }] }]}
+      >
         <View style={styles.typeRow}>
           <ThemeIcon themeId={preference_type_emoji} size={36} color={THEME.colors.primary} />
           <View>
@@ -295,13 +334,17 @@ export default function ResultScreen() {
         <View style={styles.dualBar}>
           <View style={styles.dualBarLeft}>
             <Text style={styles.dualBarLabel}>{t.result.mainstream}</Text>
-            <Text style={[styles.dualBarValue, { color: THEME.colors.accentBlue }]}>{mainstream_score}%</Text>
+            <Text style={[styles.dualBarValue, { color: THEME.colors.accentBlue }]}>
+              {mainstream_score}%
+            </Text>
           </View>
           <View style={styles.dualBarTrack}>
             <View style={[styles.dualBarFillLeft, { width: `${mainstream_score}%` as any }]} />
           </View>
           <View style={styles.dualBarRight}>
-            <Text style={[styles.dualBarValue, { color: THEME.colors.accent }]}>{uniqueness_score}%</Text>
+            <Text style={[styles.dualBarValue, { color: THEME.colors.accent }]}>
+              {uniqueness_score}%
+            </Text>
             <Text style={styles.dualBarLabel}>{t.result.unique}</Text>
           </View>
         </View>
@@ -328,7 +371,10 @@ export default function ResultScreen() {
           <CountryFlag code={country_affinity?.top_country} size={32} />
           <View>
             <Text style={styles.topCountryCaption}>{t.result.countryAffinity}</Text>
-            <Text style={styles.topCountryName}>{country_affinity?.top_country_label}{t.result.countrySuffix}</Text>
+            <Text style={styles.topCountryName}>
+              {country_affinity?.top_country_label}
+              {t.result.countrySuffix}
+            </Text>
             <Text style={styles.topCountryScore}>
               {i(t.result.countryMatch, { score: country_affinity?.top_country_score })}
             </Text>
@@ -343,9 +389,7 @@ export default function ResultScreen() {
             isTop={i === 0}
           />
         ))}
-        <Text style={styles.countryNote}>
-          {summary_json?.country_analysis || ''}
-        </Text>
+        <Text style={styles.countryNote}>{summary_json?.country_analysis || ''}</Text>
       </Animated.View>
 
       {/* ─── 各種メーター ─── */}
@@ -355,12 +399,16 @@ export default function ResultScreen() {
             <Feather name="bar-chart-2" size={14} color={THEME.colors.text} />
             <Text style={styles.sectionTitle}>{t.result.meterSection}</Text>
           </View>
-          <Meter label={t.result.meters.gyaru}   value={meters.gyaru_level}        color="#FB923C" />
-          <Meter label={t.result.meters.pure}     value={meters.pure_level}         color="#34D399" />
-          <Meter label={t.result.meters.sexy} value={meters.sexy_level}         color="#F87171" />
-          <Meter label={t.result.meters.mature}     value={meters.mature_level}       color="#C084FC" />
-          <Meter label={t.result.meters.intellectual} value={meters.intellectual_level} color="#60A5FA" />
-          <Meter label={t.result.meters.global} value={meters.global_level}       color="#FBBF24" />
+          <Meter label={t.result.meters.gyaru} value={meters.gyaru_level} color="#FB923C" />
+          <Meter label={t.result.meters.pure} value={meters.pure_level} color="#34D399" />
+          <Meter label={t.result.meters.sexy} value={meters.sexy_level} color="#F87171" />
+          <Meter label={t.result.meters.mature} value={meters.mature_level} color="#C084FC" />
+          <Meter
+            label={t.result.meters.intellectual}
+            value={meters.intellectual_level}
+            color="#60A5FA"
+          />
+          <Meter label={t.result.meters.global} value={meters.global_level} color="#FBBF24" />
         </Animated.View>
       )}
 
@@ -483,7 +531,7 @@ const styles = StyleSheet.create({
       web: {
         animationKeyframes: {
           from: { transform: [{ rotate: '0deg' }] },
-          to:   { transform: [{ rotate: '360deg' }] },
+          to: { transform: [{ rotate: '360deg' }] },
         },
         animationDuration: '0.8s',
         animationTimingFunction: 'linear',

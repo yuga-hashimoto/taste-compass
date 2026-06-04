@@ -15,7 +15,9 @@ async function main() {
   for (let i = 1; i <= count; i++) {
     const num = String(i).padStart(2, '0');
     const prefix = `tc_diag_b${batchNum}_s${num}_`;
-    const files = fs.readdirSync(brainDir).filter(f => f.startsWith(prefix) && f.endsWith('.png'));
+    const files = fs
+      .readdirSync(brainDir)
+      .filter((f) => f.startsWith(prefix) && f.endsWith('.png'));
     if (files.length === 0) {
       console.log(`SKIP: ${prefix}*.png not found`);
       continue;

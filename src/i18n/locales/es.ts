@@ -26,7 +26,8 @@ export const es: TranslationKeys = {
     badge: '✦ Quiz Visual con IA',
     title: '¿Tu gusto\n',
     titleAccent: 'difiere del mundo?',
-    subtitle: 'Desliza para analizar tus preferencias.\nCompara con otros países, tendencias de cuerpo y edad.',
+    subtitle:
+      'Desliza para analizar tus preferencias.\nCompara con otros países, tendencias de cuerpo y edad.',
     startBtn: 'Empezar Quiz',
     feature1Label: 'Desliza y vota',
     feature1Desc: 'Solo desliza izquierda o derecha',
@@ -56,15 +57,15 @@ export const es: TranslationKeys = {
     approx15min: '~15 min',
     startBtn: 'Empezar',
     themes: {
-      all:     { label: 'Todos',         desc: 'Estilos diversos para análisis amplio' },
-      natural: { label: 'Natural',       desc: 'Look limpio, natural, fresco' },
-      cool:    { label: 'Cool',          desc: 'Urbano, moderno, intelectual' },
-      cute:    { label: 'Tierna',        desc: 'Idol, femenina, chica dulce' },
-      sexy:    { label: 'Sexy',          desc: 'Glamurosa, atrevida, sensual' },
-      korean:  { label: 'K-Style',       desc: 'K-beauty y tendencias coreanas' },
-      global:  { label: 'Global',        desc: 'Multicultural y looks occidentales' },
-      mature:  { label: 'Madura',        desc: 'Elegante, intelectual, sofisticada' },
-      casual:  { label: 'Casual',        desc: 'Deportivo, casual, cercano' },
+      all: { label: 'Todos', desc: 'Estilos diversos para análisis amplio' },
+      natural: { label: 'Natural', desc: 'Look limpio, natural, fresco' },
+      cool: { label: 'Cool', desc: 'Urbano, moderno, intelectual' },
+      cute: { label: 'Tierna', desc: 'Idol, femenina, chica dulce' },
+      sexy: { label: 'Sexy', desc: 'Glamurosa, atrevida, sensual' },
+      korean: { label: 'K-Style', desc: 'K-beauty y tendencias coreanas' },
+      global: { label: 'Global', desc: 'Multicultural y looks occidentales' },
+      mature: { label: 'Madura', desc: 'Elegante, intelectual, sofisticada' },
+      casual: { label: 'Casual', desc: 'Deportivo, casual, cercano' },
     },
   },
   diagnosis: {
@@ -97,12 +98,12 @@ export const es: TranslationKeys = {
     shareText:
       '[Taste Compass] {{type}}\nCoincidencia: {{score}}%\nPaís más cercano: {{country}}\nRareza: {{rarity}}\n\n{{analysis}}\n\n#TasteCompass',
     meters: {
-      gyaru:        'Gyaru',
-      pure:         'Pureza',
-      sexy:         'Sexy',
-      mature:       'Madurez',
+      gyaru: 'Gyaru',
+      pure: 'Pureza',
+      sexy: 'Sexy',
+      mature: 'Madurez',
       intellectual: 'Intelectual',
-      global:       'Global',
+      global: 'Global',
     },
   },
   nav: {
@@ -122,12 +123,15 @@ export const es: TranslationKeys = {
     anonymousInfo: 'Información de Usuario Anónimo',
     yourAnonymousId: 'Tu ID Anónimo',
     anonymousIdLoading: 'Cargando...',
-    anonymousSub: '※No se vincula información personal. Se cifra de forma segura y se almacena localmente en tu dispositivo.',
+    anonymousSub:
+      '※No se vincula información personal. Se cifra de forma segura y se almacena localmente en tu dispositivo.',
     aboutService: 'Sobre el Servicio',
     aboutImagesTitle: 'Sobre las Imágenes de Diagnóstico',
-    aboutImagesText: 'Todos los elementos visuales utilizados en este servicio son mujeres adultas ficticias (20+) generadas por IA. No hay modelos ni personas reales. Excluimos estrictamente las imágenes que parezcan ser de menores y evitamos expresiones sensibles como exposición excesiva o énfasis corporal.',
+    aboutImagesText:
+      'Todos los elementos visuales utilizados en este servicio son mujeres adultas ficticias (20+) generadas por IA. No hay modelos ni personas reales. Excluimos estrictamente las imágenes que parezcan ser de menores y evitamos expresiones sensibles como exposición excesiva o énfasis corporal.',
     adsPrivacyTitle: 'Anuncios y Privacidad',
-    adsPrivacyText: 'Este servicio se opera a bajo costo a través de la entrega de anuncios. No se muestran anuncios durante el diagnóstico para evitar clics accidentales. Además, no realizamos un seguimiento para identificar a las personas.',
+    adsPrivacyText:
+      'Este servicio se opera a bajo costo a través de la entrega de anuncios. No se muestran anuncios durante el diagnóstico para evitar clics accidentales. Además, no realizamos un seguimiento para identificar a las personas.',
     docsContact: 'Documentación y Contacto',
     termsOfService: 'Condiciones de Servicio',
     privacyPolicy: 'Política de Privacidad',
@@ -136,12 +140,15 @@ export const es: TranslationKeys = {
     regenerateId: 'Regenerar ID Anónimo',
     regenerateIdDesc: 'Emite un ID completamente nuevo sin heredar el historial de diagnóstico.',
     deleteAllData: 'Eliminar Todo el Historial y Datos',
-    deleteAllDataDesc: 'Elimina permanentemente el historial almacenado en este dispositivo y todos los datos de votación en la base de datos.',
+    deleteAllDataDesc:
+      'Elimina permanentemente el historial almacenado en este dispositivo y todos los datos de votación en la base de datos.',
     regenerateModalTitle: '¿Regenerar ID Anónimo?',
-    regenerateModalDesc: 'Una vez que cambies a un nuevo ID, no se podrán cargar los datos de historial anteriores. Esta acción no se puede deshacer.',
+    regenerateModalDesc:
+      'Una vez que cambies a un nuevo ID, no se podrán cargar los datos de historial anteriores. Esta acción no se puede deshacer.',
     regenerateConfirm: 'Regenerar',
     deleteModalTitle: '¿Eliminar Todos los Datos?',
-    deleteModalDesc: 'Todos los historiales, sesiones y datos de votación almacenados en este dispositivo y en la base de datos en la nube se eliminarán de forma permanente.',
+    deleteModalDesc:
+      'Todos los historiales, sesiones y datos de votación almacenados en este dispositivo y en la base de datos en la nube se eliminarán de forma permanente.',
     deleteConfirm: 'Eliminar Permanentemente',
   },
 
@@ -163,22 +170,22 @@ export const es: TranslationKeys = {
     emptyDataSub: 'Completa más diagnósticos para calcular estadísticas',
     votesCount: '{{count}} votos',
     countries: {
-      'all': '🌏 Global',
-      'ja': '🇯🇵 Japón',
-      'ko': '🇰🇷 Corea',
-      'en': '🇺🇸 Angloparlante',
-      'zhCN': '🇨🇳 China',
-      'zhTW': '🇹🇼 Taiwán',
-      'es': '🇪🇸 Hispanohablante',
-      'pt': '🇵🇹 Lusohablante',
-      'fr': '🇫🇷 Francia',
-      'de': '🇩🇪 Alemania',
-      'id': '🇮🇩 Indonesia',
-      'th': '🇹🇭 Tailandia',
-      'vi': '🇻🇳 Vietnam',
-      'ar': '🇸🇦 Mundo Árabe',
-      'hi': '🇮🇳 India'
-},
+      all: '🌏 Global',
+      ja: '🇯🇵 Japón',
+      ko: '🇰🇷 Corea',
+      en: '🇺🇸 Angloparlante',
+      zhCN: '🇨🇳 China',
+      zhTW: '🇹🇼 Taiwán',
+      es: '🇪🇸 Hispanohablante',
+      pt: '🇵🇹 Lusohablante',
+      fr: '🇫🇷 Francia',
+      de: '🇩🇪 Alemania',
+      id: '🇮🇩 Indonesia',
+      th: '🇹🇭 Tailandia',
+      vi: '🇻🇳 Vietnam',
+      ar: '🇸🇦 Mundo Árabe',
+      hi: '🇮🇳 India',
+    },
 
     title: 'Datos Estadísticos',
     loading: 'Compilando estadísticas...',
@@ -208,23 +215,27 @@ export const es: TranslationKeys = {
   },
   contact: {
     title: 'Reportar / Contáctenos',
-    subtitle: 'Por favor, reporte aquí cualquier imagen que se parezca mucho a personas reales o contenga expresiones inapropiadas.',
+    subtitle:
+      'Por favor, reporte aquí cualquier imagen que se parezca mucho a personas reales o contenga expresiones inapropiadas.',
     labelType: 'Tipo de Contacto',
     labelImageId: 'ID de la Imagen Objetivo (Opcional / Si se conoce)',
     labelMessage: 'Contenido del Mensaje (Requerido)',
     placeholderImageId: 'ej., 00000000-0000-0000-0000-000000000001',
-    placeholderMessage: 'Por favor, describa detalladamente el problema específico o las razones de la solicitud de eliminación.',
+    placeholderMessage:
+      'Por favor, describa detalladamente el problema específico o las razones de la solicitud de eliminación.',
     errorRequired: 'Por favor, ingrese el cuerpo del mensaje.',
     errorSubmit: 'Error al enviar. Por favor, inténtelo de nuevo más tarde.',
     successTitle: 'Envío Completado',
-    successDesc: 'Gracias por su reporte/consulta. Revisaremos el contenido y tomaremos las acciones apropiadas (como desactivar o eliminar imágenes) lo antes posible.',
+    successDesc:
+      'Gracias por su reporte/consulta. Revisaremos el contenido y tomaremos las acciones apropiadas (como desactivar o eliminar imágenes) lo antes posible.',
     submitting: 'Enviando...',
     submit: 'Enviar',
     types: {
       inappropriate: 'Reportar Imagen Inapropiada',
       inappropriateDesc: 'Contiene alta exposición o elementos visuales inapropiados',
       resemblance: 'Reportar Parecido con Persona Real',
-      resemblanceDesc: 'Se parece mucho a un individuo real o celebridad específico y solicita su eliminación',
+      resemblanceDesc:
+        'Se parece mucho a un individuo real o celebridad específico y solicita su eliminación',
       other: 'Otras Consultas',
       otherDesc: 'Comentarios, informes de errores u otras consultas generales de operación',
     },
@@ -232,8 +243,7 @@ export const es: TranslationKeys = {
   documents: {
     termsTitle: 'Condiciones de Servicio',
     privacyTitle: 'Política de Privacidad',
-    termsContent: "",
-    privacyContent: "",
-  }
-
+    termsContent: '',
+    privacyContent: '',
+  },
 };

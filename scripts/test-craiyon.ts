@@ -14,15 +14,16 @@ if (!fs.existsSync(OUTPUT_DIR)) {
 
 async function main() {
   console.log('🌐 ヘッドレス Chromiumブラウザを起動しています...');
-  const browser = await chromium.launch({ 
+  const browser = await chromium.launch({
     headless: true,
-    args: ['--disable-blink-features=AutomationControlled']
+    args: ['--disable-blink-features=AutomationControlled'],
   });
   const context = await browser.newContext({
     viewport: { width: 1280, height: 800 },
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     locale: 'ja-JP',
-    timezoneId: 'Asia/Tokyo'
+    timezoneId: 'Asia/Tokyo',
   });
   const page = await context.newPage();
   page.setDefaultTimeout(120000); // 2分タイムアウト
@@ -38,15 +39,16 @@ async function main() {
     if (!promptInput) {
       throw new Error('プロンプト入力欄が見つかりません。');
     }
-    
-    const prompt = "A beautiful and cute Japanese woman, 20s, smiling, wearing casual t-shirt, bob cut hair, inside a cozy cafe, realistic photo, highly detailed, natural lighting";
+
+    const prompt =
+      'A beautiful and cute Japanese woman, 20s, smiling, wearing casual t-shirt, bob cut hair, inside a cozy cafe, realistic photo, highly detailed, natural lighting';
     await promptInput.fill(prompt);
     console.log(`✍️ プロンプトを入力しました: ${prompt}`);
 
     // レスポンス待機プロミスを先にセットアップ
     const responsePromise = page.waitForResponse(
-      response => response.url().includes('/api/image/draw') && response.status() === 200,
-      { timeout: 120000 }
+      (response) => response.url().includes('/api/image/draw') && response.status() === 200,
+      { timeout: 120000 },
     );
 
     const drawButtonSelector = 'button:has-text("Draw"), button#generate, button[type="submit"]';
@@ -91,13 +93,14 @@ async function main() {
 
     fs.writeFileSync(filepath, buffer);
     console.log(`✅ 保存完了: ${filename}`);
-
   } catch (err: any) {
     console.error('❌ エラーが発生しました:', err.message || err);
     // エラー時のスクリーンショットを撮ってデバッグに役立てる
     try {
       await page.screenshot({ path: path.join(__dirname, 'error_screenshot.png') });
-      console.log('📸 エラー時のスクリーンショットを scripts/error_screenshot.png に保存しました。');
+      console.log(
+        '📸 エラー時のスクリーンショットを scripts/error_screenshot.png に保存しました。',
+      );
     } catch (ssErr) {
       console.error('❌ スクリーンショット保存失敗:', ssErr);
     }

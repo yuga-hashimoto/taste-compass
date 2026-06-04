@@ -66,7 +66,7 @@ test.describe('Taste Compass E2E Diagnosis Flow', () => {
     await expect(page).toHaveURL(/.*result\/sess_.*/, { timeout: 15000 });
     await expect(page.locator('text=あなたの好みタイプ')).toBeVisible();
     await expect(page.locator('text=世間との一致度')).toBeVisible();
-    await expect(page.locator('text=王道派')).toBeVisible();
+    await expect(page.getByText('王道派').first()).toBeVisible();
 
     // ホームに戻るをクリック
     const backHomeBtn = page.locator('text=ホームに戻る');

@@ -7,57 +7,57 @@ import { Platform } from 'react-native';
 export const THEME = {
   colors: {
     // ─── ベース（ライトモード） ───
-    background:   '#FAF7F5',   // 温かみのあるウォームベージュ（生成り色）
-    surface:      '#FFFFFF',   // 純白カード
-    surfaceHigh:  '#F2EDE9',   // 少し濃いベージュ（ホバー・セカンダリ）
+    background: '#FAF7F5', // 温かみのあるウォームベージュ（生成り色）
+    surface: '#FFFFFF', // 純白カード
+    surfaceHigh: '#F2EDE9', // 少し濃いベージュ（ホバー・セカンダリ）
     surfaceGlass: 'rgba(255,255,255,0.85)', // グラスモーフィズム
 
     // ─── ブランドカラー ───
-    primary:        '#AF5239',               // ディープテラコッタ（落ち着いた煉瓦色）
-    primaryLight:   '#C96E54',               // 明るいテラコッタ
+    primary: '#AF5239', // ディープテラコッタ（落ち着いた煉瓦色）
+    primaryLight: '#C96E54', // 明るいテラコッタ
     primaryGradient: ['#AF5239', '#AF5239'], // グラデーション廃止（同色ソリッド）
-    accent:         '#4F6B58',               // セージグリーン（落ち着いたアースグリーン）
-    accentBlue:     '#2E4C6D',               // スレートブルー
+    accent: '#4F6B58', // セージグリーン（落ち着いたアースグリーン）
+    accentBlue: '#2E4C6D', // スレートブルー
 
     // ─── テキスト（コントラスト比4.5:1以上確保） ───
-    text:        '#2B2523',   // 温かみのあるチャコールブラウン（炭黒）
-    textSub:     '#5C524F',   // サブテキスト
-    textMuted:   '#9E928E',   // 弱テキスト
+    text: '#2B2523', // 温かみのあるチャコールブラウン（炭黒）
+    textSub: '#5C524F', // サブテキスト
+    textMuted: '#9E928E', // 弱テキスト
 
     // ─── ボーダー・分割線 ───
-    border:        'rgba(175,82,57,0.12)',
-    borderActive:  'rgba(175,82,57,0.50)',
-    borderHover:   'rgba(175,82,57,0.25)',
+    border: 'rgba(175,82,57,0.12)',
+    borderActive: 'rgba(175,82,57,0.50)',
+    borderHover: 'rgba(175,82,57,0.25)',
 
     // ─── アクション ───
-    like:   '#3E7B5E',  // 落ち着いたエメラルドグリーン
-    skip:   '#C24B4B',  // 落ち着いたアンティークレッド
+    like: '#3E7B5E', // 落ち着いたエメラルドグリーン
+    skip: '#C24B4B', // 落ち着いたアンティークレッド
 
     // ─── セマンティック ───
     success: '#3E7B5E',
     warning: '#D97706',
-    error:   '#C24B4B',
+    error: '#C24B4B',
 
     // 国別カラー（落ち着いたトーン）
-    japan:   '#AF5239',
-    korea:   '#6B5B95',
-    usa:     '#2E4C6D',
-    europe:  '#4F6B58',
-    china:   '#D97706',
-    brazil:  '#E07A5F',
+    japan: '#AF5239',
+    korea: '#6B5B95',
+    usa: '#2E4C6D',
+    europe: '#4F6B58',
+    china: '#D97706',
+    brazil: '#E07A5F',
   },
 
   fonts: {
     regular: 'System',
-    bold:    'System',
+    bold: 'System',
   },
 
   radius: {
-    xs:  6,
-    sm:  10,
-    md:  14,
-    lg:  20,
-    xl:  28,
+    xs: 6,
+    sm: 10,
+    md: 14,
+    lg: 20,
+    xl: 28,
     full: 9999,
   },
 

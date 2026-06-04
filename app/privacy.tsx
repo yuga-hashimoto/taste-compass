@@ -8,7 +8,8 @@ export default function PrivacyScreen() {
   const { t, lang } = useI18n();
 
   // 日本語以外は英語のプライバシーポリシーテキストを表示
-  const privacyText = lang === 'ja' ? t.documents.privacyContent : LOCALES['en'].documents.privacyContent;
+  const privacyText =
+    lang === 'ja' ? t.documents.privacyContent : LOCALES['en'].documents.privacyContent;
 
   return (
     <ScrollView contentContainerStyle={styles.container}>

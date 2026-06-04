@@ -29,7 +29,9 @@ const makeupLevel = args.makeup || 'natural';
 const tagsStr = args.tags || '';
 
 if (!id || !prompt) {
-  console.error('Usage: npx ts-node scripts/generate-openrouter.ts --id <id> --prompt "<prompt>" [options]');
+  console.error(
+    'Usage: npx ts-node scripts/generate-openrouter.ts --id <id> --prompt "<prompt>" [options]',
+  );
   process.exit(1);
 }
 
@@ -59,22 +61,27 @@ async function generate() {
         messages: [
           {
             role: 'user',
-            content: prompt
-          }
+            content: prompt,
+          },
         ],
-        modalities: ['image']
+        modalities: ['image'],
       },
       {
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${API_KEY}`
+          Authorization: `Bearer ${API_KEY}`,
         },
-        timeout: 90000 // 90秒
-      }
+        timeout: 90000, // 90秒
+      },
     );
 
     const choice = response.data?.choices?.[0];
-    if (!choice || !choice.message || !choice.message.images || choice.message.images.length === 0) {
+    if (
+      !choice ||
+      !choice.message ||
+      !choice.message.images ||
+      choice.message.images.length === 0
+    ) {
       console.error('Failed to generate image. No image data in response.');
       console.error('Response:', JSON.stringify(response.data, null, 2));
       process.exit(1);
@@ -103,7 +110,7 @@ async function generate() {
     console.log(`\n🎉 OK: Image saved to ${destWebpPath}`);
 
     // メタデータコードの生成
-    const tags = tagsStr ? tagsStr.split(',').map(t => `'${t.trim()}'`) : [];
+    const tags = tagsStr ? tagsStr.split(',').map((t) => `'${t.trim()}'`) : [];
     const metaCode = `  {
     id: '${id}',
     image_url: '/images/diagnosis/b${batchNum}/${id}.webp',
@@ -125,7 +132,6 @@ async function generate() {
     console.log('\n--- Metadata Code to insert: ---');
     console.log(metaCode);
     console.log('--------------------------------\n');
-
   } catch (error: any) {
     console.error('Error during generation:', error.response ? error.response.data : error.message);
     process.exit(1);

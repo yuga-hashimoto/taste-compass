@@ -31,17 +31,42 @@ if (fs.existsSync(STATUS_FILE)) {
   }
 }
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const saveStatus = () => {
   fs.writeFileSync(STATUS_FILE, JSON.stringify(status, null, 2), 'utf8');
 };
 
 // プロンプト多様化のためのランダム要素定義
-const HAIRSTYLES = ['bob cut hair', 'long straight hair', 'wavy long hair', 'ponytail hair', 'short hair', 'half-up hairstyle'];
-const EXPRESSIONS = ['smiling', 'gentle smile', 'cheerful laughing', 'calm looking at camera', 'winking playfully'];
-const OUTFITS = ['casual t-shirt', 'cozy knitted sweater', 'stylish denim jacket', 'elegant summer dress', 'office white blouse'];
-const BACKGROUNDS = ['inside a cozy cafe', 'in a sunny green park', 'on a modern city street', 'in a library surrounded by books', 'in a bright room with soft window light'];
+const HAIRSTYLES = [
+  'bob cut hair',
+  'long straight hair',
+  'wavy long hair',
+  'ponytail hair',
+  'short hair',
+  'half-up hairstyle',
+];
+const EXPRESSIONS = [
+  'smiling',
+  'gentle smile',
+  'cheerful laughing',
+  'calm looking at camera',
+  'winking playfully',
+];
+const OUTFITS = [
+  'casual t-shirt',
+  'cozy knitted sweater',
+  'stylish denim jacket',
+  'elegant summer dress',
+  'office white blouse',
+];
+const BACKGROUNDS = [
+  'inside a cozy cafe',
+  'in a sunny green park',
+  'on a modern city street',
+  'in a library surrounded by books',
+  'in a bright room with soft window light',
+];
 const AGES = ['21 years old', '24 years old', '27 years old'];
 
 const getRandomElement = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
@@ -67,7 +92,7 @@ const downloadImage = async (index: number): Promise<boolean> => {
   try {
     const response = await axios.get(url, {
       responseType: 'arraybuffer',
-      timeout: 45000 // 45秒タイムアウト
+      timeout: 45000, // 45秒タイムアウト
     });
 
     const timestamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 15);

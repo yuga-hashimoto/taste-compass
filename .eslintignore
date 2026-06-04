@@ -6,3 +6,5 @@ dist
 scripts/reset-project.js
 playwright-report
 test-results
+scratch
+scripts

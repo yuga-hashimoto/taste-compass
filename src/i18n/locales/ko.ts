@@ -56,15 +56,15 @@ export const ko: TranslationKeys = {
     approx15min: '약 15분',
     startBtn: '진단 시작',
     themes: {
-      all:     { label: '전체 장르',   desc: '다양한 스타일로 폭넓게 진단' },
+      all: { label: '전체 장르', desc: '다양한 스타일로 폭넓게 진단' },
       natural: { label: '내추럴 계열', desc: '청순·내추럴·청결한 느낌' },
-      cool:    { label: '쿨 계열',     desc: '도시적·모던·지적인 느낌' },
-      cute:    { label: '귀여운 계열', desc: '아이돌·페미닌·걸리시 스타일' },
-      sexy:    { label: '섹시 계열',   desc: '글래머·야마가루·매력적인 느낌' },
-      korean:  { label: '한국풍',      desc: 'K-뷰티·트렌드 계열' },
-      global:  { label: '글로벌 계열', desc: '다국적·서양풍·다양성 계열' },
-      mature:  { label: '어른스러운',  desc: '지적·엘레강스·성숙한 느낌' },
-      casual:  { label: '캐주얼 계열', desc: '스포티·캐주얼·친근한 스타일' },
+      cool: { label: '쿨 계열', desc: '도시적·모던·지적인 느낌' },
+      cute: { label: '귀여운 계열', desc: '아이돌·페미닌·걸리시 스타일' },
+      sexy: { label: '섹시 계열', desc: '글래머·야마가루·매력적인 느낌' },
+      korean: { label: '한국풍', desc: 'K-뷰티·트렌드 계열' },
+      global: { label: '글로벌 계열', desc: '다국적·서양풍·다양성 계열' },
+      mature: { label: '어른스러운', desc: '지적·엘레강스·성숙한 느낌' },
+      casual: { label: '캐주얼 계열', desc: '스포티·캐주얼·친근한 스타일' },
     },
   },
   diagnosis: {
@@ -97,12 +97,12 @@ export const ko: TranslationKeys = {
     shareText:
       '[취향 이탈 진단] {{type}}\n세상과의 일치도: {{score}}%\n가장 가까운 나라: {{country}}\n희귀도: {{rarity}}\n\n{{analysis}}\n\n#취향이탈진단 #TasteCompass',
     meters: {
-      gyaru:        '갸루도',
-      pure:         '청순도',
-      sexy:         '섹시도',
-      mature:       '어른스러움',
+      gyaru: '갸루도',
+      pure: '청순도',
+      sexy: '섹시도',
+      mature: '어른스러움',
       intellectual: '지적도',
-      global:       '글로벌',
+      global: '글로벌',
     },
   },
   nav: {
@@ -125,9 +125,11 @@ export const ko: TranslationKeys = {
     anonymousSub: '※개인 정보는 연결되지 않습니다. 장치에 안전하게 암호화되어 로컬로 저장됩니다.',
     aboutService: '서비스 안내',
     aboutImagesTitle: '진단 이미지에 대하여',
-    aboutImagesText: '본 서비스에 사용되는 모든 이미지는 AI가 생성한 가상의 성인 여성(20세 이상)이며 실존 인물이나 모델이 아닙니다. 미성년자로 보이는 이미지는 철저히 배제하고 과도한 노출이나 신체 강조 등 민감한 표현을 방지하고 있습니다.',
+    aboutImagesText:
+      '본 서비스에 사용되는 모든 이미지는 AI가 생성한 가상의 성인 여성(20세 이상)이며 실존 인물이나 모델이 아닙니다. 미성년자로 보이는 이미지는 철저히 배제하고 과도한 노출이나 신체 강조 등 민감한 표현을 방지하고 있습니다.',
     adsPrivacyTitle: '광고 및 개인정보 보호',
-    adsPrivacyText: '본 서비스는 광고 게재를 통해 저비용으로 운영됩니다. 오작동 방지를 위해 진단 중에는 광고를 표시하지 않습니다. 또한 개인을 식별하기 위한 추적은 하지 않습니다.',
+    adsPrivacyText:
+      '본 서비스는 광고 게재를 통해 저비용으로 운영됩니다. 오작동 방지를 위해 진단 중에는 광고를 표시하지 않습니다. 또한 개인을 식별하기 위한 추적은 하지 않습니다.',
     docsContact: '문서 및 문의',
     termsOfService: '이용약관',
     privacyPolicy: '개인정보처리방침',
@@ -136,12 +138,15 @@ export const ko: TranslationKeys = {
     regenerateId: '익명 ID 재 생성',
     regenerateIdDesc: '진단 내역을 이어받지 않고 완전히 새로운 ID를 발급합니다.',
     deleteAllData: '모든 기록 및 데이터 삭제',
-    deleteAllDataDesc: '이 기기에 저장된 기록과 데이터베이스의 모든 투표 데이터를 영구적으로 삭제합니다.',
+    deleteAllDataDesc:
+      '이 기기에 저장된 기록과 데이터베이스의 모든 투표 데이터를 영구적으로 삭제합니다.',
     regenerateModalTitle: '익명 ID를 재 생성하시겠습니까?',
-    regenerateModalDesc: '새로운 ID로 변경하면 이전 기록 데이터를 불러올 수 없습니다. 이 작업은 취소할 수 없습니다.',
+    regenerateModalDesc:
+      '새로운 ID로 변경하면 이전 기록 데이터를 불러올 수 없습니다. 이 작업은 취소할 수 없습니다.',
     regenerateConfirm: '재생성',
     deleteModalTitle: '모든 데이터를 삭제하시겠습니까?',
-    deleteModalDesc: '이 기기 및 클라우드 데이터베이스에 저장된 모든 기록, 세션, 투표 데이터가 영구적으로 삭제됩니다.',
+    deleteModalDesc:
+      '이 기기 및 클라우드 데이터베이스에 저장된 모든 기록, 세션, 투표 데이터가 영구적으로 삭제됩니다.',
     deleteConfirm: '영구 삭제',
   },
 
@@ -163,22 +168,22 @@ export const ko: TranslationKeys = {
     emptyDataSub: '더 많은 진단을 진행하면 통계가 산출됩니다',
     votesCount: '{{count}} 표',
     countries: {
-      'all': '🌏 전체',
-      'ja': '🇯🇵 일본',
-      'ko': '🇰🇷 한국',
-      'en': '🇺🇸 영어권',
-      'zhCN': '🇨🇳 중국',
-      'zhTW': '🇹🇼 대만',
-      'es': '🇪🇸 스페인어권',
-      'pt': '🇵🇹 포르투갈어권',
-      'fr': '🇫🇷 프랑스',
-      'de': '🇩🇪 독일',
-      'id': '🇮🇩 인도네시아',
-      'th': '🇹🇭 태국',
-      'vi': '🇻🇳 베트남',
-      'ar': '🇸🇦 아랍권',
-      'hi': '🇮🇳 인도'
-},
+      all: '🌏 전체',
+      ja: '🇯🇵 일본',
+      ko: '🇰🇷 한국',
+      en: '🇺🇸 영어권',
+      zhCN: '🇨🇳 중국',
+      zhTW: '🇹🇼 대만',
+      es: '🇪🇸 스페인어권',
+      pt: '🇵🇹 포르투갈어권',
+      fr: '🇫🇷 프랑스',
+      de: '🇩🇪 독일',
+      id: '🇮🇩 인도네시아',
+      th: '🇹🇭 태국',
+      vi: '🇻🇳 베트남',
+      ar: '🇸🇦 아랍권',
+      hi: '🇮🇳 인도',
+    },
 
     title: '통계 데이터',
     loading: '통계 집계 중...',
@@ -208,7 +213,8 @@ export const ko: TranslationKeys = {
   },
   contact: {
     title: '신고 / 문의하기',
-    subtitle: '실존 인물과 매우 유사하거나 부적절한 표현이 포함된 이미지가 있을 경우 여기로 신고해 주십시오.',
+    subtitle:
+      '실존 인물과 매우 유사하거나 부적절한 표현이 포함된 이미지가 있을 경우 여기로 신고해 주십시오.',
     labelType: '문의 유형',
     labelImageId: '대상 이미지 ID (알고 있는 경우만・선택)',
     labelMessage: '문의 내용 (필수)',
@@ -217,7 +223,8 @@ export const ko: TranslationKeys = {
     errorRequired: '메시지 본문을 입력해 주십시오.',
     errorSubmit: '전송에 실패했습니다. 잠시 후 다시 시도해 주십시오.',
     successTitle: '제출 완료',
-    successDesc: '신고/문의해 주셔서 감사합니다. 내용을 검토한 후 신속하게 조치(이미지 비활성화 또는 삭제 등)를 취하겠습니다.',
+    successDesc:
+      '신고/문의해 주셔서 감사합니다. 내용을 검토한 후 신속하게 조치(이미지 비활성화 또는 삭제 등)를 취하겠습니다.',
     submitting: '전송 중...',
     submit: '제출하기',
     types: {
@@ -232,8 +239,7 @@ export const ko: TranslationKeys = {
   documents: {
     termsTitle: '이용약관',
     privacyTitle: '개인정보처리방침',
-    termsContent: "",
-    privacyContent: "",
-  }
-
+    termsContent: '',
+    privacyContent: '',
+  },
 };

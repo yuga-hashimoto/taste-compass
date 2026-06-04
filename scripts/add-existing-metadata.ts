@@ -80,18 +80,18 @@ const main = () => {
   let content = fs.readFileSync(metadataPath, 'utf8');
 
   // 既に登録されているか確認
-  const alreadyRegistered = targetIds.filter(id => content.includes(`id: '${id}'`));
+  const alreadyRegistered = targetIds.filter((id) => content.includes(`id: '${id}'`));
   if (alreadyRegistered.length > 0) {
     console.log(`⚠️ 以下のIDは既に登録されています: ${alreadyRegistered.join(', ')}`);
     return;
   }
 
   // ターゲットのプランデータを抽出
-  const targets = diagnosisImageSeedPlan.filter(img => targetIds.includes(img.id));
+  const targets = diagnosisImageSeedPlan.filter((img) => targetIds.includes(img.id));
 
   // 追加用テキストの構築
   let addString = '';
-  targets.forEach(img => {
+  targets.forEach((img) => {
     const tags = [
       STYLE_MAP[img.style_group] || img.style_group,
       BACKGROUND_MAP[img.background] || img.background,
@@ -114,7 +114,7 @@ const main = () => {
     addString += `    hair_style: '${img.hair_style}',\n`;
     addString += `    skin_tone: '${img.skin_tone}',\n`;
     addString += `    makeup_level: '${img.makeup_level}',\n`;
-    addString += `    tags: [${tags.map(t => `'${t}'`).join(', ')}],\n`;
+    addString += `    tags: [${tags.map((t) => `'${t}'`).join(', ')}],\n`;
     addString += `    popularity_score: ${img.popularity_score || 50},\n`;
     addString += `  },\n`;
   });
