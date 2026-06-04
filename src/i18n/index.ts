@@ -95,19 +95,71 @@ function notify() {
   _listeners.forEach((fn) => fn());
 }
 
+// ── URL言語パラメータ同期 (Web環境用ヘルパー) ────────────────
+function syncUrlLang(lang: string) {
+  if (typeof window !== 'undefined' && window.history && window.location) {
+    try {
+      const url = new URL(window.location.href);
+      if (url.searchParams.get('lang') === lang) return;
+      url.searchParams.set('lang', lang);
+      window.history.replaceState(null, '', url.toString());
+    } catch (e) {
+      console.warn('[i18n] Failed to sync lang parameter to URL:', e);
+    }
+  }
+}
+
+// ── Web環境における履歴操作(popstate)の監視 ────────────────────
+if (typeof window !== 'undefined' && window.addEventListener) {
+  window.addEventListener('popstate', () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const qLang = params.get('lang');
+      if (qLang && SUPPORTED_LANGS.includes(qLang) && qLang !== _currentLang) {
+        _currentLang = qLang;
+        notify();
+      }
+    } catch {}
+  });
+}
+
 // ── 初期化 ────────────────────────────────────────────────
 export async function initI18n(): Promise<void> {
   if (_initialized) return;
   _initialized = true;
   try {
-    const saved = await AsyncStorage.getItem(LANG_STORAGE_KEY);
-    if (saved && SUPPORTED_LANGS.includes(saved)) {
-      _currentLang = saved;
-    } else {
-      _currentLang = detectDeviceLang();
+    let langToUse: string | null = null;
+
+    // 1. URLパラメータから言語を取得 (最優先)
+    if (typeof window !== 'undefined' && window.location) {
+      const params = new URLSearchParams(window.location.search);
+      const qLang = params.get('lang');
+      if (qLang && SUPPORTED_LANGS.includes(qLang)) {
+        langToUse = qLang;
+      }
     }
+
+    // 2. URLになければ AsyncStorage から取得
+    if (!langToUse) {
+      const saved = await AsyncStorage.getItem(LANG_STORAGE_KEY);
+      if (saved && SUPPORTED_LANGS.includes(saved)) {
+        langToUse = saved;
+      }
+    }
+
+    // 3. それでもなければデバイス言語を検出
+    if (!langToUse) {
+      langToUse = detectDeviceLang();
+    }
+
+    _currentLang = langToUse;
+
+    // ストレージに保存し、URLと同期
+    await AsyncStorage.setItem(LANG_STORAGE_KEY, langToUse);
+    syncUrlLang(langToUse);
   } catch {
     _currentLang = detectDeviceLang();
+    syncUrlLang(_currentLang);
   }
   notify();
 }
@@ -118,6 +170,7 @@ export async function setLanguage(lang: string): Promise<void> {
   _currentLang = lang;
   try {
     await AsyncStorage.setItem(LANG_STORAGE_KEY, lang);
+    syncUrlLang(lang);
   } catch {}
   notify();
 }
