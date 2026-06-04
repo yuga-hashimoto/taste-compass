@@ -13,12 +13,11 @@ SELECT
   COALESCE(SUM(c.skip_count), 0) AS skip_count,
   COALESCE(SUM(c.like_count + c.skip_count), 0) AS total_votes,
   CASE
-    WHEN COALESCE(SUM(c.like_count + c.skip_count), 0) >= 5 THEN
-      (COALESCE(SUM(c.like_count), 0)::float / COALESCE(SUM(c.like_count + c.skip_count), 1)::float) * 100
+    -- 投票数が1票以上の場合は単純なLike比率にする
     WHEN COALESCE(SUM(c.like_count + c.skip_count), 0) > 0 THEN
-      ((COALESCE(SUM(c.like_count), 0)::float / COALESCE(SUM(c.like_count + c.skip_count), 1)::float) * 100 * 0.5) + (i.popularity_score::float * 0.5)
+      (COALESCE(SUM(c.like_count), 0)::float / COALESCE(SUM(c.like_count + c.skip_count), 1)::float) * 100
     ELSE
-      i.popularity_score::float
+      0.0
   END AS like_rate
 FROM public.images i
 LEFT JOIN public.image_country_stats c ON i.id = c.image_id

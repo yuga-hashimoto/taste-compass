@@ -29,12 +29,12 @@ export const ja = {
     badge: '✦ AI ビジュアル診断',
     title: 'あなたの好みは\n',
     titleAccent: '世間とズレてる？',
-    subtitle: 'スワイプするだけで好みを多角的に分析。\n世界7ヵ国との好み比較、体型・年齢傾向まで。',
+    subtitle: 'スワイプするだけで好みを多角的に分析。\n世界各国との好み比較、体型・年齢傾向まで。',
     startBtn: '診断スタート',
     feature1Label: 'スワイプで診断',
     feature1Desc: '左右にスワイプするだけ',
     feature2Label: '多角的な分析',
-    feature2Desc: '7ヵ国比較・体型・年齢傾向',
+    feature2Desc: '世界比較・体型・年齢傾向',
     feature3Label: '世間との比較',
     feature3Desc: '蓄積データで精度が上がる',
     disclaimer:
@@ -171,6 +171,31 @@ export const ja = {
 
   // ── 統計画面 ──────────────────────────────────────
   stats: {
+    everyoneTitle: 'みんなの統計',
+    mySummaryTitle: 'あなたの分析サマリー',
+    rankingTitle: '好みの「好き」比率ランキング (Top 10)',
+    rankingLoading: 'ランキング収集中...',
+    emptyData: 'データが十分に集まっていません',
+    emptyDataSub: '診断を増やすことで統計が算出されます',
+    votesCount: '{{count}} 票',
+    countries: {
+      'all': '🌏 全体',
+      'ja': '🇯🇵 日本',
+      'ko': '🇰🇷 韓国',
+      'en': '🇺🇸 英語圏',
+      'zhCN': '🇨🇳 中国',
+      'zhTW': '🇹🇼 台湾',
+      'es': '🇪🇸 スペイン語圏',
+      'pt': '🇵🇹 ポルトガル語圏',
+      'fr': '🇫🇷 フランス',
+      'de': '🇩🇪 ドイツ',
+      'id': '🇮🇩 インドネシア',
+      'th': '🇹🇭 タイ',
+      'vi': '🇻🇳 ベトナム',
+      'ar': '🇸🇦 アラブ圏',
+      'hi': '🇮🇳 インド'
+},
+
     title: '統計データ',
     loading: '統計データを集計中...',
     compareTitle: 'あなたの好み傾向（平均）',

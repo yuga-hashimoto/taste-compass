@@ -182,6 +182,18 @@ export const SwipeCard: React.FC<SwipeCardProps> = ({
           </View>
         )}
 
+        {/* LIKE カラーオーバーレイ */}
+        <Animated.View
+          style={[styles.colorOverlay, { backgroundColor: THEME.colors.like, opacity: Animated.multiply(likeOpacity, 0.2) }]}
+          pointerEvents="none"
+        />
+
+        {/* SKIP カラーオーバーレイ */}
+        <Animated.View
+          style={[styles.colorOverlay, { backgroundColor: THEME.colors.skip, opacity: Animated.multiply(skipOpacity, 0.2) }]}
+          pointerEvents="none"
+        />
+
         {/* LIKE オーバーレイインジケータ */}
         <Animated.View
           style={[styles.overlayIndicator, styles.likeIndicator, { opacity: likeOpacity }]}
@@ -266,6 +278,10 @@ const styles = StyleSheet.create({
   errorSubText: {
     color: THEME.colors.textMuted,
     fontSize: 12,
+  },
+  colorOverlay: {
+    ...StyleSheet.absoluteFill,
+    zIndex: 5,
   },
   overlayIndicator: {
     position: 'absolute',

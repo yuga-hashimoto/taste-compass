@@ -11,10 +11,12 @@ import {
   Dimensions,
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { Image } from 'expo-image';
 import { THEME } from '../src/theme/theme';
 import { AdSlot } from '../src/components/ad/AdSlot';
 import { useI18n } from '../src/i18n';
 import { Feather } from '@expo/vector-icons';
+import { getDiagnosisImages } from '../src/services/imageService';
 
 const { width: SCREEN_W } = Dimensions.get('window');
 
@@ -45,6 +47,17 @@ export default function HomeScreen() {
         Animated.timing(glowAnim, { toValue: 0, duration: 2000, useNativeDriver: false }),
       ])
     ).start();
+
+    // 診断用画像の事前プリロード
+    (async () => {
+      try {
+        const loadedImages = await getDiagnosisImages('all', 30);
+        const urls = loadedImages.map((img) => img.image_url);
+        Image.prefetch(urls);
+      } catch (err) {
+        console.warn('Failed to prefetch images on Home:', err);
+      }
+    })();
   }, []);
 
   return (
@@ -184,7 +197,7 @@ const styles = StyleSheet.create({
     width: 340,
     height: 340,
     borderRadius: 170,
-    backgroundColor: 'rgba(255,77,109,0.06)',
+    backgroundColor: 'rgba(175,82,57,0.04)',
     ...Platform.select({ web: { filter: 'blur(80px)' } }),
   },
   bgBlob2: {
@@ -194,7 +207,7 @@ const styles = StyleSheet.create({
     width: 280,
     height: 280,
     borderRadius: 140,
-    backgroundColor: 'rgba(192,132,252,0.05)',
+    backgroundColor: 'rgba(79,107,88,0.04)',
     ...Platform.select({ web: { filter: 'blur(80px)' } }),
   },
 
@@ -209,9 +222,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: THEME.radius.full,
-    backgroundColor: 'rgba(255,77,109,0.10)',
+    backgroundColor: 'rgba(175,82,57,0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(255,77,109,0.25)',
+    borderColor: 'rgba(175,82,57,0.20)',
   },
   badgeText: {
     color: THEME.colors.primary,
@@ -244,7 +257,7 @@ const styles = StyleSheet.create({
     maxWidth: 340,
     marginBottom: 32,
     ...Platform.select({
-      web: { filter: 'drop-shadow(0 0 24px rgba(255,77,109,0.35))' },
+      web: { filter: 'drop-shadow(0 0 16px rgba(175,82,57,0.15))' },
     }),
   },
   ctaButton: {
@@ -257,7 +270,7 @@ const styles = StyleSheet.create({
     gap: 10,
     ...Platform.select({
       web: {
-        backgroundImage: 'linear-gradient(135deg, #FF4D6D 0%, #FF8C42 100%)',
+        backgroundColor: THEME.colors.primary,
         cursor: 'pointer',
         transition: 'opacity 0.15s ease',
       },

@@ -166,9 +166,9 @@ const styles = StyleSheet.create({
     color: THEME.colors.textMuted,
   },
   scoreBadge: {
-    backgroundColor: 'rgba(147, 51, 234, 0.08)',
+    backgroundColor: 'rgba(79, 107, 88, 0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(147, 51, 234, 0.25)',
+    borderColor: 'rgba(79, 107, 88, 0.25)',
     borderRadius: 12,
     paddingHorizontal: 8,
     paddingVertical: 2,
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 32,
     ...Platform.select({
       web: {
-        backgroundImage: `linear-gradient(90deg, ${THEME.colors.primaryGradient[0]} 0%, ${THEME.colors.primaryGradient[1]} 100%)`,
+        backgroundColor: THEME.colors.primary,
         cursor: 'pointer',
       },
     }),

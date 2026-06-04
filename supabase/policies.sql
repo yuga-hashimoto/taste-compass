@@ -115,3 +115,21 @@ CREATE POLICY admin_all_app_events ON public.app_events
   TO service_role
   USING (true)
   WITH CHECK (true);
+
+
+-- 7. image_country_stats テーブルのポリシー
+-- RLSを有効化
+ALTER TABLE public.image_country_stats ENABLE ROW LEVEL SECURITY;
+
+-- 誰でも（匿名ユーザーでも）国別の統計データを閲覧可能にする
+CREATE POLICY select_image_country_stats ON public.image_country_stats
+  FOR SELECT
+  TO anon, authenticated
+  USING (true);
+
+-- 管理者のみ全操作可能にする (service_role)
+CREATE POLICY admin_all_image_country_stats ON public.image_country_stats
+  FOR ALL
+  TO service_role
+  USING (true)
+  WITH CHECK (true);

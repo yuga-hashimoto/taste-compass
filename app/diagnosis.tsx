@@ -6,6 +6,7 @@ import { Image } from 'expo-image';
 import { useDiagnosisStore } from '../src/stores/useDiagnosisStore';
 import { THEME } from '../src/theme/theme';
 import { getDiagnosisImages } from '../src/services/imageService';
+import { getMergedImageStats } from '../src/services/imageStatsService';
 import { saveVote } from '../src/services/voteService';
 import {
   updateSessionProgress,
@@ -51,8 +52,9 @@ export default function DiagnosisScreen() {
           total_votes: finalVotes.length,
         });
 
-        // スコア計算
-        const result = calculateDiagnosisResult(finalVotes, currentImages);
+        // 統計データを取得してスコア計算
+        const imageStats = await getMergedImageStats();
+        const result = calculateDiagnosisResult(finalVotes, currentImages, imageStats);
 
         // 結果を保存
         await saveDiagnosisResult(anonymousUserId!, currentSessionId!, result);

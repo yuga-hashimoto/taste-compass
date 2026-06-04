@@ -24,7 +24,7 @@ export const createSession = async (payload: SessionPayload): Promise<boolean> =
       });
 
       if (error) {
-        console.error('Supabase createSession error:', error.message);
+        console.warn('Supabase createSession skipped (local fallback mode):', error.message);
         return false;
       }
     }
@@ -50,7 +50,7 @@ export const updateSessionProgress = async (
         .eq('id', sessionId);
 
       if (error) {
-        console.error('Supabase updateSessionProgress error:', error.message);
+        console.warn('Supabase updateSessionProgress skipped (local fallback mode):', error.message);
         return false;
       }
     }
@@ -76,7 +76,7 @@ export const completeSession = async (sessionId: string): Promise<boolean> => {
         .eq('id', sessionId);
 
       if (error) {
-        console.error('Supabase completeSession error:', error.message);
+        console.warn('Supabase completeSession skipped (local fallback mode):', error.message);
         return false;
       }
     }

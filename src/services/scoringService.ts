@@ -347,18 +347,52 @@ export const calculateDiagnosisResult = (
   let compatibilityScore = 50;
   if (votes.length > 0) {
     let total = 0, count = 0;
+    let hasRealData = false;
+
+    // 実データ（他のユーザーによる総投票数が1票以上のもの）が1つでもあるかチェック
     likedImages.forEach((img) => {
       const stat = imageStats?.[img.id];
-      const rate = stat?.like_rate ?? img.like_rate ?? img.popularity_score ?? 50;
-      total += rate;
-      count++;
+      if (stat && stat.total > 0) {
+        hasRealData = true;
+      }
     });
     skippedImages.forEach((img) => {
       const stat = imageStats?.[img.id];
-      const rate = stat?.like_rate ?? img.like_rate ?? img.popularity_score ?? 50;
-      total += 100 - rate; // スキップした画像は「世間がスキップする割合」との一致
-      count++;
+      if (stat && stat.total > 0) {
+        hasRealData = true;
+      }
     });
+
+    if (hasRealData) {
+      // 実データがある場合、実データが存在する画像のみを集計対象にする（フォールバックを排除）
+      likedImages.forEach((img) => {
+        const stat = imageStats?.[img.id];
+        if (stat && stat.total > 0) {
+          total += stat.like_rate;
+          count++;
+        }
+      });
+      skippedImages.forEach((img) => {
+        const stat = imageStats?.[img.id];
+        if (stat && stat.total > 0) {
+          total += 100 - stat.like_rate;
+          count++;
+        }
+      });
+    } else {
+      // 実データが1件もない場合は、初期の仮スコアでフォールバック
+      likedImages.forEach((img) => {
+        const rate = img.like_rate ?? img.popularity_score ?? 50;
+        total += rate;
+        count++;
+      });
+      skippedImages.forEach((img) => {
+        const rate = img.like_rate ?? img.popularity_score ?? 50;
+        total += 100 - rate; // スキップした画像は「世間がスキップする割合」との一致
+        count++;
+      });
+    }
+
     if (count > 0) compatibilityScore = clamp(total / count);
   }
 

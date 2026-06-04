@@ -1,5 +1,5 @@
 // setup.tsx - 診断設定画面（モダンリデザイン版）
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import {
   StyleSheet, Text, View, Pressable, ScrollView, Platform, Animated,
 } from 'react-native';
@@ -27,8 +27,8 @@ export default function SetupScreen() {
   const [selectedCount, setSelectedCount] = useState(30);
   const selectedTheme = 'all';
 
-  const fadeAnim  = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(24)).current;
+  const fadeAnim  = useMemo(() => new Animated.Value(0), []);
+  const slideAnim = useMemo(() => new Animated.Value(24), []);
 
   useEffect(() => {
     Animated.parallel([
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     borderRadius: 150,
-    backgroundColor: 'rgba(192,132,252,0.05)',
+    backgroundColor: 'rgba(79,107,88,0.04)',
     ...Platform.select({ web: { filter: 'blur(60px)' } }),
   },
 
@@ -209,9 +209,9 @@ const styles = StyleSheet.create({
   },
   countCardActive: {
     borderColor: THEME.colors.primary,
-    backgroundColor: 'rgba(255,77,109,0.06)',
+    backgroundColor: 'rgba(175,82,57,0.06)',
     ...Platform.select({
-      web: { boxShadow: '0 0 0 1px rgba(255,77,109,0.4)' },
+      web: { boxShadow: '0 0 0 1px rgba(175,82,57,0.3)' },
     }),
   },
   recBadge: {
@@ -239,7 +239,7 @@ const styles = StyleSheet.create({
     fontSize: 10,
     color: THEME.colors.textMuted,
   },
-  countSubActive: { color: 'rgba(255,77,109,0.7)' },
+  countSubActive: { color: 'rgba(175,82,57,0.7)' },
 
   // ─── テーマ ───
   themeGrid: {
@@ -262,9 +262,9 @@ const styles = StyleSheet.create({
   },
   themeChipActive: {
     borderColor: THEME.colors.primary,
-    backgroundColor: 'rgba(255,77,109,0.08)',
+    backgroundColor: 'rgba(175,82,57,0.08)',
     ...Platform.select({
-      web: { boxShadow: '0 0 0 1px rgba(255,77,109,0.3)' },
+      web: { boxShadow: '0 0 0 1px rgba(175,82,57,0.2)' },
     }),
   },
   themeEmoji: { display: 'none' },
@@ -305,10 +305,10 @@ const styles = StyleSheet.create({
     gap: 10,
     ...Platform.select({
       web: {
-        backgroundImage: 'linear-gradient(135deg, #FF4D6D 0%, #FF8C42 100%)',
+        backgroundColor: THEME.colors.primary,
         cursor: 'pointer',
         transition: 'opacity 0.15s ease',
-        boxShadow: '0 0 24px rgba(255,77,109,0.3)',
+        boxShadow: '0 8px 24px rgba(175,82,57,0.12)',
       },
       default: { backgroundColor: THEME.colors.primary },
     }),

@@ -1,11 +1,11 @@
 // result/[sessionId].tsx - 診断結果画面（モダンリデザイン版）
 // 世間スコア・国別比較・体型傾向・レアリティ・メーターを全表示
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import {
   StyleSheet, Text, View, Pressable, ScrollView,
   Platform, Share, Animated,
 } from 'react-native';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter, Stack } from 'expo-router';
 import { useDiagnosisStore } from '../../src/stores/useDiagnosisStore';
 import { THEME } from '../../src/theme/theme';
 import { getDiagnosisResultBySession } from '../../src/services/resultService';
@@ -85,7 +85,7 @@ function ScoreCircle({ score, label }: { score: number; label: string }) {
   }, [score]);
 
   const getColor = () => {
-    if (score >= 70) return '#34D399';
+    if (score >= 70) return '#3E7B5E';
     if (score >= 40) return THEME.colors.primary;
     return THEME.colors.accent;
   };
@@ -189,8 +189,8 @@ export default function ResultScreen() {
 
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<any>(null);
-  const fadeAnim  = useRef(new Animated.Value(0)).current;
-  const slideAnim = useRef(new Animated.Value(30)).current;
+  const fadeAnim  = useMemo(() => new Animated.Value(0), []);
+  const slideAnim = useMemo(() => new Animated.Value(30), []);
 
   useEffect(() => {
     (async () => {
@@ -270,6 +270,13 @@ export default function ResultScreen() {
       contentContainerStyle={styles.container}
       showsVerticalScrollIndicator={false}
     >
+      {/* ─── 動的メタデータ（SEO・Webタイトル） ─── */}
+      <Stack.Screen
+        options={{
+          title: result ? `${result.preference_type} | Taste Compass` : '診断結果',
+        }}
+      />
+
       <View style={styles.bgBlob} pointerEvents="none" />
 
       {/* ─── ヒーロー：タイプ名 + スコア ─── */}
@@ -455,7 +462,7 @@ const styles = StyleSheet.create({
     width: 260,
     height: 260,
     borderRadius: 130,
-    backgroundColor: 'rgba(255,77,109,0.05)',
+    backgroundColor: 'rgba(79,107,88,0.04)',
     ...Platform.select({ web: { filter: 'blur(70px)' } }),
   },
   fullCenter: {
@@ -470,7 +477,7 @@ const styles = StyleSheet.create({
     height: 36,
     borderRadius: 18,
     borderWidth: 3,
-    borderColor: 'rgba(255,77,109,0.15)',
+    borderColor: 'rgba(175,82,57,0.15)',
     borderTopColor: THEME.colors.primary,
     ...Platform.select({
       web: {
@@ -544,10 +551,10 @@ const styles = StyleSheet.create({
   rarityCard: {
     width: '100%',
     maxWidth: 480,
-    backgroundColor: 'rgba(255,77,109,0.06)',
+    backgroundColor: 'rgba(175,82,57,0.06)',
     borderRadius: THEME.radius.md,
     borderWidth: 1,
-    borderColor: 'rgba(255,77,109,0.20)',
+    borderColor: 'rgba(175,82,57,0.20)',
     paddingHorizontal: 18,
     paddingVertical: 14,
     gap: 4,
@@ -591,11 +598,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
-    backgroundColor: 'rgba(255,77,109,0.06)',
+    backgroundColor: 'rgba(175,82,57,0.06)',
     borderRadius: THEME.radius.sm,
     padding: 12,
     borderWidth: 1,
-    borderColor: 'rgba(255,77,109,0.15)',
+    borderColor: 'rgba(175,82,57,0.15)',
   },
   topCountryFlag: { fontSize: 32 },
   topCountryCaption: { fontSize: 10, color: THEME.colors.textMuted },
@@ -633,9 +640,9 @@ const styles = StyleSheet.create({
   tag: {
     paddingHorizontal: 12,
     paddingVertical: 6,
-    backgroundColor: 'rgba(192,132,252,0.08)',
+    backgroundColor: 'rgba(79,107,88,0.08)',
     borderWidth: 1,
-    borderColor: 'rgba(192,132,252,0.20)',
+    borderColor: 'rgba(79,107,88,0.20)',
     borderRadius: THEME.radius.full,
   },
   tagText: { fontSize: 12, color: THEME.colors.accent, fontWeight: '600' },
@@ -665,7 +672,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...Platform.select({
       web: {
-        backgroundImage: 'linear-gradient(135deg, #FF4D6D 0%, #FF8C42 100%)',
+        backgroundColor: THEME.colors.primary,
         cursor: 'pointer',
       },
       default: { backgroundColor: THEME.colors.primary },

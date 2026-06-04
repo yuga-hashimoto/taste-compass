@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 import { getPlatform } from '../lib/platform';
 import { ENV } from '../lib/env';
 import { incrementImageStat } from './imageStatsService';
+import { toDeterministicUUID } from '../lib/uuid';
 import { getCurrentLang } from '../i18n';
 
 export interface VotePayload {
@@ -26,7 +27,7 @@ export const saveVote = async (payload: VotePayload): Promise<boolean> => {
     if (!ENV.IS_MOCK) {
       const countryCode = getCurrentLang();
       const { error } = await supabase.rpc('increment_image_vote', {
-        p_image_id: payload.image_id,
+        p_image_id: toDeterministicUUID(payload.image_id),
         p_country_code: countryCode,
         p_vote_type: payload.vote_type,
       });

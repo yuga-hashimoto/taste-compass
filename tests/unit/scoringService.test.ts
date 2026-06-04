@@ -143,5 +143,51 @@ describe('Scoring Service tests', () => {
       expect(result.summary_json.top_tags).toContain('ナチュラル');
       expect(result.summary_json.focus_type).toBe('face'); // 「黒髪」「笑顔」などの顔指標タグによる判定
     });
+
+    it('should calculate score correctly when all votes are "like"', () => {
+      const votes: VoteData[] = [
+        { image_id: 'img1', vote_type: 'like' },
+        { image_id: 'img2', vote_type: 'like' },
+        { image_id: 'img3', vote_type: 'like' },
+      ];
+      // (60 + 40 + 80) / 3 = 60
+      const result = calculateDiagnosisResult(votes, mockImages);
+      expect(result.compatibility_score).toBe(60);
+    });
+
+    it('should calculate score correctly when all votes are "skip"', () => {
+      const votes: VoteData[] = [
+        { image_id: 'img1', vote_type: 'skip' }, // 100 - 60 = 40
+        { image_id: 'img2', vote_type: 'skip' }, // 100 - 40 = 60
+        { image_id: 'img3', vote_type: 'skip' }, // 100 - 80 = 20
+      ];
+      // (40 + 60 + 20) / 3 = 40
+      const result = calculateDiagnosisResult(votes, mockImages);
+      expect(result.compatibility_score).toBe(40);
+    });
+
+    it('should handle empty votes and return default score 50', () => {
+      const votes: VoteData[] = [];
+      const result = calculateDiagnosisResult(votes, mockImages);
+      expect(result.compatibility_score).toBe(50);
+    });
+
+    it('should prioritize real imageStats data over default scores', () => {
+      const votes: VoteData[] = [
+        { image_id: 'img1', vote_type: 'like' },
+        { image_id: 'img2', vote_type: 'like' },
+      ];
+      // img1のみ実データ（likes=20, skips=10, total=30, like_rate=67%）があり、img2は実データがない（total=0）場合をシミュレート
+      const mockImageStats = {
+        img1: { likes: 20, skips: 10, total: 30, like_rate: 67, last_updated: '2026-06-04T00:00:00.000Z' },
+        img2: { likes: 0, skips: 0, total: 0, like_rate: 50, last_updated: '' },
+      };
+
+      const result = calculateDiagnosisResult(votes, mockImages, mockImageStats);
+      
+      // img1は実データがあり、img2は実データ（total=0）がないため、img1のみが集計対象（フォールバックが排除される）
+      // よって一致度は67%になる
+      expect(result.compatibility_score).toBe(67);
+    });
   });
 });

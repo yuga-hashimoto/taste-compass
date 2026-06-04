@@ -86,7 +86,7 @@ export default function ContactScreen() {
   if (success) {
     return (
       <View style={styles.successContainer}>
-        <Feather name="check-circle" size={64} color="#34D399" style={styles.successIcon} />
+        <Feather name="check-circle" size={64} color="#3E7B5E" style={styles.successIcon} />
         <Text style={styles.successTitle}>{t.contact.successTitle}</Text>
         <Text style={styles.successDesc}>{t.contact.successDesc}</Text>
         <Pressable style={styles.backButton} onPress={() => router.replace('/')}>
@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
   },
   activeTypeItem: {
     borderColor: THEME.colors.primary,
-    backgroundColor: 'rgba(224, 64, 251, 0.02)',
+    backgroundColor: 'rgba(175,82,57,0.02)',
   },
   typeInfo: {
     flex: 1,
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     ...Platform.select({
       web: {
-        backgroundImage: `linear-gradient(90deg, ${THEME.colors.primaryGradient[0]} 0%, ${THEME.colors.primaryGradient[1]} 100%)`,
+        backgroundColor: THEME.colors.primary,
         cursor: 'pointer',
       },
     }),

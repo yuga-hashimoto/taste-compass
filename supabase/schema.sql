@@ -98,3 +98,6 @@ CREATE INDEX IF NOT EXISTS idx_votes_session_id ON public.votes(session_id);
 CREATE INDEX IF NOT EXISTS idx_votes_anonymous_user_id ON public.votes(anonymous_user_id);
 CREATE INDEX IF NOT EXISTS idx_results_anonymous_user_id ON public.results(anonymous_user_id);
 CREATE INDEX IF NOT EXISTS idx_sessions_anonymous_user_id ON public.diagnosis_sessions(anonymous_user_id);
+CREATE INDEX IF NOT EXISTS idx_votes_image_id ON public.votes(image_id);
+CREATE INDEX IF NOT EXISTS idx_results_session_id ON public.results(session_id);
+CREATE INDEX IF NOT EXISTS idx_reports_image_id ON public.reports(image_id);

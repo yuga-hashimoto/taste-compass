@@ -61,7 +61,7 @@ export const saveDiagnosisResult = async (
       const { data, error } = await supabase.from('results').insert(resultData).select().single();
 
       if (error) {
-        console.error('Supabase saveResult error:', error.message);
+        console.warn('Supabase saveResult skipped (local fallback mode):', error.message);
       } else if (data) {
         savedItem = data as DiagnosisResultItem;
       }
@@ -225,7 +225,7 @@ export const deleteUserHistory = async (anonymousUserId: string): Promise<boolea
         .eq('anonymous_user_id', anonymousUserId);
 
       if (resultErr || sessionErr || voteErr) {
-        console.error('Error clearing data on Supabase:', { resultErr, sessionErr, voteErr });
+        console.warn('Error clearing data on Supabase (local cleared):', { resultErr, sessionErr, voteErr });
         return false;
       }
     }
